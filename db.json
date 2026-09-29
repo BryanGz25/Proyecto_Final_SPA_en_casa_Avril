@@ -1,0 +1,213 @@
+{
+  "usuarios": [
+    {
+      "id": 1,
+      "usuario": "admin",
+      "clave": "admin123",
+      "rol": "admin",
+      "nombre": "Administrador Avrill",
+      "correo": "admin@avrill.com",
+      "telefono": "62848105",
+      "direccion": "San José, Costa Rica",
+      "token": null
+    },
+    {
+      "id": 2,
+      "usuario": "prueba",
+      "clave": "prueba123",
+      "rol": "cliente",
+      "nombre": "Cliente Avrill",
+      "correo": "cliente@avrill.com",
+      "telefono": "60123456",
+      "direccion": "Escazú, San José, Costa Rica",
+      "token": null
+    },
+    {
+      "usuario": "Ale",
+      "clave": "1234",
+      "nombre": "Alexa Zarate",
+      "correo": "alexa@gmail.com",
+      "telefono": "60606060",
+      "rol": "cliente",
+      "id": 3,
+      "token": null
+    },
+    {
+      "usuario": "Victor",
+      "clave": "1234",
+      "nombre": "Victor Madrigal",
+      "correo": "vicmadrigal@gmail.com",
+      "telefono": "780707070",
+      "rol": "cliente",
+      "id": 4,
+      "token": null
+    },
+    {
+      "usuario": "j",
+      "clave": "1",
+      "nombre": "j",
+      "correo": "j@gmail.com",
+      "telefono": "2",
+      "rol": "admin",
+      "id": 5,
+      "token": "NDJpczR0anRzaHYubXU3Y3lyZDkuWVRLQkJhYUE"
+    },
+    {
+      "usuario": "0",
+      "clave": "0",
+      "nombre": "oo",
+      "correo": "bryangomezfwd@gmail.com",
+      "telefono": "2",
+      "rol": "cliente",
+      "id": 6,
+      "token": null
+    }
+  ],
+  "productos": [
+    {
+      "id": 1,
+      "nombre": "Jabón Botánico Nutritivo",
+      "categoria": "jabones",
+      "detalle": "Glicerina vegetal con romero, lavanda y caléndula para pieles sensibles.",
+      "precio": 3500,
+      "disponible": true,
+      "etiqueta": "Edición botánica",
+      "imagen": "https://lh3.googleusercontent.com/aida/AEtjO1WBXP4WT3LJ2FMzP52uZ92cp1SZVeuScIgaJcmCUlcxv4YxJqld6k8NbpRwylyZneFlxL-YVY7ke3AflMseTXoSKKLg85r67VBK5db5K40qUQ-fLugVn85E9uZVsmJ92RjiArtFE8kU7Ml2Ft1soCK6AAYmEjSqGOGEKJ3dVcA41NAlW6VGCRwEz0MoBR_TM1U00MKHXCLJDX08YaPWRssnQIw4OPgtlDzPvXA_ffFTj6flDonsMjp_ePMl"
+    },
+    {
+      "id": 2,
+      "nombre": "Sales de Baño & Relax",
+      "categoria": "sales",
+      "detalle": "Sales de epsom y manzanilla para descanso muscular y rituales relajantes.",
+      "precio": 4800,
+      "disponible": true,
+      "etiqueta": "Relajación pura",
+      "imagen": "https://lh3.googleusercontent.com/aida/AEtjO1W3n-xsIhXp-1bzKCES4mnlyhCsV5S69RBPH_pGpTC60y7RAcmlHgzVEp0lmEJsIT4uvmPC_8V_mbZ3nA489JmwXh_yjV6u69X70nRwRbhfznV6SP18U7oPdeZflZvlDkYsNebNKym9nkmNHVSczyw6qoXvBq_wV_daPBZqXR0PRRc73flIkFfwY01J4jXm15bq25sQcnBY67DggDV5sB-UGcm3CbUOV4dkC4auOGxBU32hIeAdpLpRpJ4"
+    },
+    {
+      "id": 3,
+      "nombre": "Body Splash Floral & Cítrico",
+      "categoria": "splash",
+      "detalle": "Bruma ligera con flor de naranjo para refrescar la piel durante el día.",
+      "precio": 5200,
+      "disponible": true,
+      "etiqueta": "Aromaterapia",
+      "imagen": "https://lh3.googleusercontent.com/aida-public/AB6AXuDQcCr5nip8FspjPpcCDM13IWbjWpkUf3xuj1ENj6GYzicH12BFXrV0Gy4AgAsnRWMKKFUAFVa5Z_S8MvM_jUeDO4KB9SxaCmqR5PfZMF521lmwbYF5SG3KuQqmpc2W4G9vNj9_gwkBtoL7aihedBpb3nAntoJgd4QDnSd1XT94jiPaJLcC6CloGJ23ZGk60pb0SxQbLDZvZ85B0eLsQDsof-RpsxHr13Ng8cGS73Dcisd7KgTsMrIGjQ"
+    },
+    {
+      "id": 4,
+      "nombre": "Jabones Temáticos & Regalos",
+      "categoria": "decorativos",
+      "detalle": "Diseños artesanales para bodas, regalos corporativos y celebraciones.",
+      "precio": 4000,
+      "disponible": false,
+      "etiqueta": "Celebraciones",
+      "imagen": "https://lh3.googleusercontent.com/aida-public/AB6AXuBISCj7EhN-NpRbtEUmp_Q3-wf6Qfcp8Q4Ip-dQDk0SgG2yXu8F42kusb6lykAhm4gdgu-5wmBH48pShPwAcC6rtCToFATjDCRjYWQlRCPX1DsDZtOZfJIC-lMPAIZeSb6aIhrnhOpLmFyiVJykyhN6C5isp7Xeic-8mnmo_mw4HRgcqQYKIGqeMj8aQnxnaeOEE_LXUWhhIxSlMy3vHCvEqYwHeSFeLX1Z7Zl3CbRWgcpKegSjeKqbWA"
+    },
+    {
+      "nombre": "Agua de coconut",
+      "categoria": "jabones",
+      "detalle": "agua de coco",
+      "precio": 1000,
+      "disponible": true,
+      "etiqueta": "Nuevo",
+      "imagen": "https://azalagourmet.com/cdn/shop/files/ChatGPTImage18ago2026_09_46_55.png?v=1787039278&width=480",
+      "id": 5
+    }
+  ],
+  "pedidos": [
+    {
+      "id": 999,
+      "numeroFactura": "PF-2026-00099",
+      "fecha": "2026-09-28T10:00:00Z",
+      "cliente": {
+        "nombre": "Ana Mora",
+        "correo": "ana.mora@example.com",
+        "telefono": "88888888",
+        "direccion": "San José, Costa Rica",
+        "identificacion": "1-2345-6789"
+      },
+      "productos": [
+        {
+          "id": 1,
+          "nombre": "Jabón Botánico Nutritivo",
+          "cantidad": 2,
+          "precio": 3500
+        },
+        {
+          "id": 3,
+          "nombre": "Body Splash Floral & Cítrico",
+          "cantidad": 1,
+          "precio": 5200
+        }
+      ],
+      "total": 12200,
+      "estado": "nuevo",
+      "factura": {
+        "numero": "PF-2026-00099",
+        "total": 12200,
+        "lineas": [
+          {
+            "nombre": "Jabón Botánico Nutritivo",
+            "cantidad": 2,
+            "precio": 3500
+          },
+          {
+            "nombre": "Body Splash Floral & Cítrico",
+            "cantidad": 1,
+            "precio": 5200
+          }
+        ]
+      }
+    },
+    {
+      "id": 1001,
+      "usuario": "prueba",
+      "cliente": {
+        "nombre": "Cliente de prueba",
+        "correo": "cliente.prueba@example.com",
+        "telefono": "88881234",
+        "direccion": "Escazú, San José, Costa Rica",
+        "identificacion": "1-2345-6789",
+        "coordenadas": null
+      },
+      "productos": [
+        {
+          "id": 2,
+          "nombre": "Sales de Baño & Relax",
+          "cantidad": 2,
+          "precio": 4800
+        }
+      ],
+      "total": 9600,
+      "estado": "pendiente",
+      "fecha": "2026-09-28T12:00:00.000Z",
+      "factura": {
+        "numero": "PF-2026-00100",
+        "moneda": "CRC",
+        "porcentajeIva": 13,
+        "fechaEmision": "2026-09-28T12:00:00.000Z",
+        "receptor": {
+          "nombre": "Cliente de prueba",
+          "identificacion": "1-2345-6789",
+          "correo": "cliente.prueba@example.com",
+          "telefono": "88881234",
+          "direccion": "Escazú, San José, Costa Rica",
+          "coordenadas": null
+        },
+        "lineas": [
+          {
+            "codigo": "2",
+            "descripcion": "Sales de Baño & Relax",
+            "cantidad": 2,
+            "precioUnitario": 4800,
+            "monto": 9600
+          }
+        ],
+        "subtotal": 8494.69,
+        "iva": 1105.31,
+        "total": 9600
+      }
+    }
+  ]
+}

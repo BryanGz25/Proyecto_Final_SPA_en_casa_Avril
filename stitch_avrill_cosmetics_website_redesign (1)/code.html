@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>
+  @layer base {
+    html, body { margin: 0; padding: 0; }
+    body { overscroll-behavior: none; }
+    main > :first-child { margin-top: 0 !important; }
+    main > :last-child { margin-bottom: 0 !important; }
+  }
+  ::-webkit-scrollbar { display: none; }
+  @keyframes floatSlow {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-7px); }
+  }
+  .animate-float {
+    animation: floatSlow 3.5s ease-in-out infinite;
+  }
+  @keyframes ripplePulse {
+    0% { transform: scale(0.95); opacity: 0.8; }
+    50% { transform: scale(1.18); opacity: 0; }
+    100% { transform: scale(0.95); opacity: 0; }
+  }
+  .animate-pulse-ring {
+    animation: ripplePulse 2.4s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+  }
+</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"secondary-container":"#fdba9d","sand-warm":"#D4A373","surface-container-lowest":"#ffffff","on-tertiary-container":"#c3d3bd","on-secondary-container":"#794831","inverse-primary":"#b7ccb9","outline-variant":"#c3c8c1","text-muted":"#6E7570","surface-container-low":"#f1f4f0","secondary-fixed":"#ffdbcc","primary-container":"#4a5d4e","on-primary-fixed-variant":"#394b3d","surface-bright":"#f7faf5","on-secondary-fixed-variant":"#693b25","surface-container":"#ecefea","tertiary-fixed":"#d7e7d1","on-primary-fixed":"#0e1f13","secondary-fixed-dim":"#fab79a","surface-subtle":"#FAF6F0","on-error-container":"#93000a","border-delicate":"#E8E2D8","on-background":"#191c1a","background":"#f7faf5","surface-canvas":"#FDFBF7","inverse-on-surface":"#eff2ed","on-secondary-fixed":"#341102","outline":"#737872","surface-card":"#FFFFFF","surface-variant":"#e0e3df","secondary":"#84523a","surface-container-high":"#e6e9e4","primary-fixed":"#d3e8d5","error":"#ba1a1a","inverse-surface":"#2d312e","on-tertiary":"#ffffff","on-surface-variant":"#434843","surface-tint":"#506354","on-error":"#ffffff","tertiary":"#364434","surface-dim":"#d8dbd6","tertiary-container":"#4d5c4b","tertiary-fixed-dim":"#bbcbb6","on-tertiary-fixed":"#111f11","on-surface":"#191c1a","error-container":"#ffdad6","surface-container-highest":"#e0e3df","on-tertiary-fixed-variant":"#3c4b3a","primary":"#334537","on-primary":"#ffffff","on-primary-container":"#c0d5c2","primary-fixed-dim":"#b7ccb9","on-secondary":"#ffffff","surface":"#f7faf5"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"space-lg":"1.75rem","space-xl":"3rem",gutter:"1.5rem","space-xs":"0.25rem","gutter-mobile":"1rem","space-sm":"0.5rem",margin:"3rem","margin-mobile":"1.25rem","space-md":"1rem"},fontFamily:{"display-lg":["Playfair Display"],"display-lg-mobile":["Playfair Display"],"title-lg":["Playfair Display"],"label-md":["Plus Jakarta Sans"],"title-md":["Plus Jakarta Sans"],"body-sm":["Plus Jakarta Sans"],"headline-lg-mobile":["Playfair Display"],"label-caps":["Plus Jakarta Sans"],"body-lg":["Plus Jakarta Sans"],"body-md":["Plus Jakarta Sans"],"headline-lg":["Playfair Display"],"headline-md":["Playfair Display"]},fontSize:{"display-lg":["56px",{lineHeight:"64px",letterSpacing:"-0.02em",fontWeight:"400"}],"display-lg-mobile":["38px",{lineHeight:"46px",letterSpacing:"-0.01em",fontWeight:"400"}],"title-lg":["20px",{lineHeight:"28px",fontWeight:"600"}],"label-md":["14px",{lineHeight:"20px",fontWeight:"500"}],"title-md":["16px",{lineHeight:"24px",fontWeight:"600"}],"body-sm":["13px",{lineHeight:"20px",fontWeight:"400"}],"headline-lg-mobile":["28px",{lineHeight:"36px",fontWeight:"500"}],"label-caps":["11px",{lineHeight:"16px",letterSpacing:"0.12em",fontWeight:"600"}],"body-lg":["18px",{lineHeight:"28px",fontWeight:"400"}],"body-md":["15px",{lineHeight:"24px",fontWeight:"400"}],"headline-lg":["36px",{lineHeight:"44px",fontWeight:"500"}],"headline-md":["26px",{lineHeight:"34px",fontWeight:"500"}]}}}}</script></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased relative selection:bg-primary-container selection:text-surface"><header class="fixed top-0 w-full z-40 bg-surface/90 backdrop-blur-xl transition-all duration-300" id="main-header"><div class="bg-surface-subtle text-on-surface-variant py-1.5 px-gutter text-center border-b border-border-delicate flex items-center justify-center gap-2"><span class="font-label-caps text-label-caps uppercase tracking-widest text-primary">Envíos a toda Costa Rica vía Correos de Costa Rica • Fórmulas 100% Botánicas • Hecho a Mano</span></div><div class="h-20 max-w-7xl mx-auto px-gutter flex items-center justify-between gap-space-md"><a class="flex items-center gap-space-md flex-shrink-0 cursor-pointer" href="#"><img alt="Logo de Avrill Cosmética Artesanal con tres burbujas/esferas botánicas orgánicas y tipografía caligráfica sofisticada y limpia. Brand logo. - Primary color: #4a5d4e
+- Font: playfairDisplay
+- Mode: light
+- Roundness: rounded-md
+" class="h-8 w-auto object-contain transition-transform hover:scale-105 duration-300" src="https://lh3.googleusercontent.com/aida/AEtjO1UeZjek37a5eouqrzfa3ZBNU1JJ6V7hAfHMwYx7cecMhOHEDn_mdG8JGXDfA_OipZB_hOMfzN39YUhHuViFVT7MsZ2y9ACLAZFNthg-PtKPmfgVBcSuSp1YOg4iXhdfLkLDO4qX6B7BFudMTRkr-UeisaSOtBHSCFuje_mpr_j8fWOwqoMcHYPFCQ1gk2oVdvf2ow8eQeIQ8MktTsBAKAZSKgwQbr8E-pQMwCq5bqAFfPVRgyFaRo4zXdxR"/><div class="flex flex-col"><span class="font-title-lg text-title-lg text-primary tracking-tight leading-none">Avrill</span><span class="font-label-caps text-label-caps text-secondary uppercase tracking-widest leading-none mt-1">Cosmética Artesanal</span></div></a><nav class="hidden lg:flex items-center gap-space-md"><a class="transition-colors bg-primary-container text-on-primary-container font-semibold rounded-lg px-3 py-1.5" href="#">Inicio</a><a class="text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors px-3 py-1.5" href="#catalogo">Catálogo Botánico</a><a class="text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors px-3 py-1.5" href="#historia">Nuestra Historia</a><a class="text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors px-3 py-1.5" href="#taller">Taller &amp; Contacto</a></nav><div class="flex items-center gap-space-sm"><a class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-subtle text-primary border border-border-delicate hover:bg-surface-container transition-all hover:scale-105" href="https://wa.me/50662848105?text=Hola%20Avrill%20Cosmética,%20deseo%20consultar%20sobre%20sus%20productos" rel="noopener noreferrer" target="_blank"><svg class="w-4 h-4 text-emerald-600 fill-current" viewbox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.586-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.062-2.146-.538-1.728-.715-2.85-2.483-2.936-2.599-.086-.115-.694-.925-.694-1.763 0-.838.438-1.25.594-1.42.156-.17.34-.213.454-.213.113 0 .227.001.326.006.104.005.244-.04.382.29.144.346.49 1.196.533 1.282.043.086.071.187.014.301-.057.114-.086.185-.171.284-.086.099-.18.222-.258.298-.086.084-.176.176-.076.348.1.171.444.734.953 1.189.654.584 1.206.765 1.378.851.172.086.273.072.373-.043.101-.115.433-.504.549-.677.114-.172.228-.143.385-.085.157.057.994.469 1.165.554.171.085.285.128.328.199.043.072.043.418-.101.823z"></path></svg><span class="font-label-caps text-label-caps tracking-wider uppercase">WhatsApp</span></a><button aria-label="Buscar" class="w-9 h-9 rounded-lg flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" onclick="showToast('Buscador botánico listo. ¿Qué fórmula buscas?')" type="button"><span class="material-symbols-outlined text-[20px]">search</span></button><button aria-label="Favoritos" class="w-9 h-9 rounded-lg flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors relative" onclick="toggleFavorites(this)" type="button"><span class="material-symbols-outlined text-[20px] transition-colors" id="fav-icon">favorite_border</span></button><button aria-label="Bolsa de compra" class="relative w-9 h-9 rounded-lg flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" onclick="openCartModal()" type="button"><span class="material-symbols-outlined text-[20px]">shopping_bag</span><span class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-secondary text-[11px] font-bold text-white flex items-center justify-center scale-90" id="cart-counter">1</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center ml-1 cursor-pointer hover:bg-tertiary transition-colors" onclick="showToast('Perfil de cliente Avrill Conectado')"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-28 bg-surface"><div class="flex flex-col w-full">
+<!-- HERO SECTION WITH IN-CANVAS PHOTOGRAPHIC ATMOSPHERE -->
+<section class="relative w-full min-h-[640px] lg:h-[720px] flex items-center overflow-hidden -mt-28 pt-28">
+<!-- Background Image Scrim using supplied photography -->
+<div class="absolute inset-0 w-full h-full bg-cover bg-center" data-alt="Luminous rustic apothecary table bathed in warm Costa Rican morning sunlight, adorned with amber glass dropper bottles, handmade natural botanical soap blocks, bunches of dried wild lavender and fresh eucalyptus on linen tablecloth with tranquil warm earth and sage tones" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA32JPou2uLcp-HoW1femqcAEInGrYMTND7CaMiufEPsQVw3WN5mTwxw3QVBgOOH4CBSwC1hHRlA4QsQUVxsXJ47jIJuPJeVvgGEtGayK9t-xJPyou9gHtOuuuUkHGxOrZ_pNSFkLRcsMtIG1LKKLo4A-dpMcH6lVroLrAfn7LWlpZCmNr8zZWjnK2f2srCHXI2Jw0GQZnnPmImR-iQn4CA-d0bbX2TT0-aBd6K17GBNKI5xG57LVKBUw')">
+<div class="absolute inset-0 bg-gradient-to-r from-surface-canvas/95 via-surface-canvas/85 to-surface-canvas/40 backdrop-blur-[2px]"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-surface-canvas/30"></div>
+</div>
+<div class="relative z-10 max-w-7xl mx-auto px-gutter w-full py-space-xl grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-center">
+<div class="lg:col-span-7 flex flex-col items-start gap-space-md">
+<!-- Botanical Overline Badge -->
+<div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-subtle/90 shadow-sm border border-border-delicate">
+<span class="w-2 h-2 rounded-full bg-secondary animate-ping"></span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest text-primary">Hecho a mano en Costa Rica • Ritual Botánico</span>
+</div>
+<!-- Headline -->
+<h1 class="font-display-lg text-display-lg text-primary tracking-tight leading-tight">
+          El arte del cuidado <span class="italic text-secondary">consciente</span> y natural de tu piel
+        </h1>
+<!-- Subtitle -->
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl leading-relaxed">
+          Jabones de glicerina realizados de forma artesanal con extractos puros de plantas, colorantes botánicos y aceites esenciales pensados para nutrir la salud, tersura y luminosidad de tu piel.
+        </p>
+<!-- CTA Actions -->
+<div class="flex flex-wrap items-center gap-space-md pt-space-xs">
+<a class="inline-flex items-center justify-center px-6 py-3.5 rounded-lg bg-primary-container text-surface hover:bg-tertiary-container transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 font-label-md text-label-md" href="#catalogo">
+<span>Explorar Catálogo</span>
+<span class="material-symbols-outlined ml-2 text-[18px]">arrow_downward</span>
+</a>
+<a class="inline-flex items-center justify-center px-6 py-3.5 rounded-lg bg-surface-card/90 text-primary hover:bg-surface-subtle transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5 border border-border-delicate font-label-md text-label-md" href="https://wa.me/50662848105?text=Hola%20Avrill%2C%20quisiera%20consultar%20sobre%20sus%20productos%20artesanales" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined mr-2 text-[20px] text-secondary">chat</span>
+<span>WhatsApp (+506 6284-8105)</span>
+</a>
+</div>
+<!-- Metric highlights -->
+<div class="flex items-center gap-space-lg pt-space-sm text-on-surface-variant">
+<div class="flex items-center gap-2 hover:text-primary transition-colors cursor-default">
+<span class="material-symbols-outlined text-secondary text-[20px]">local_shipping</span>
+<span class="font-body-sm text-body-sm">Correos de Costa Rica</span>
+</div>
+<div class="flex items-center gap-2 hover:text-primary transition-colors cursor-default">
+<span class="material-symbols-outlined text-primary text-[20px]">eco</span>
+<span class="font-body-sm text-body-sm">100% Biodegradable</span>
+</div>
+<div class="flex items-center gap-2 hover:text-primary transition-colors cursor-default">
+<span class="material-symbols-outlined text-sand-warm text-[20px]">verified</span>
+<span class="font-body-sm text-body-sm">Desamparados, SJO</span>
+</div>
+</div>
+</div>
+<!-- Floating Glass Card / Sensory Guarantee -->
+<div class="lg:col-span-5 flex justify-end">
+<div class="w-full max-w-md bg-surface-card/90 backdrop-blur-md rounded-xl p-space-lg shadow-xl relative overflow-hidden border border-border-delicate hover:shadow-2xl transition-all duration-300">
+<div class="flex items-center justify-between pb-space-sm">
+<span class="font-label-caps text-label-caps uppercase tracking-wider text-secondary">Apotecario Puro</span>
+<span class="material-symbols-outlined text-primary">spa</span>
+</div>
+<h3 class="font-title-lg text-title-lg text-primary mt-space-xs mb-space-sm">Garantía Botánica Avrill</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed mb-space-md">
+            Cada barra y loción se manufactura en micro-lotes en Desamparados, asegurando máxima concentración de bioactivos vegetales sin almacenamiento prolongado.
+          </p>
+<div class="grid grid-cols-2 gap-space-sm">
+<div class="p-space-sm rounded-lg bg-surface-subtle hover:bg-surface-container transition-colors">
+<span class="font-title-md text-title-md text-primary block">100%</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Glicerina Vegetal Pura</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-subtle hover:bg-surface-container transition-colors">
+<span class="font-title-md text-title-md text-secondary block">Extractos</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Infusiones herbales vivas</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-subtle hover:bg-surface-container transition-colors">
+<span class="font-title-md text-title-md text-primary block">0% Químicos</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Sin sulfatos ni parabenos</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-subtle hover:bg-surface-container transition-colors">
+<span class="font-title-md text-title-md text-secondary block">Envíos GAM</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Y a todo el país</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- PILLARS & BOTANICAL VIRTUES (INTERACTIVE ACCORDION & CARDS) -->
+<section class="w-full bg-surface-canvas py-space-xl">
+<div class="max-w-7xl mx-auto px-gutter">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md mb-space-xl">
+<div>
+<span class="font-label-caps text-label-caps uppercase tracking-widest text-secondary block mb-1">Pilares de Cuidado</span>
+<h2 class="font-headline-lg text-headline-lg text-primary">Propiedades de Nuestras Fórmulas</h2>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md">
+          Elaboramos mezclas sinérgicas que respetan el manto hidrolipídico, combinando sabiduría herbolaria y estética artesanal.
+        </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- Virtue 1 -->
+<div class="bg-surface-card p-space-lg rounded-xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-border-delicate flex flex-col group cursor-pointer" onclick="toggleVirtueDetail(this)">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-primary mb-space-md group-hover:bg-primary group-hover:text-surface transition-colors duration-300">
+<span class="material-symbols-outlined text-[26px]">water_drop</span>
+</div>
+<div class="flex items-center justify-between mb-2">
+<h3 class="font-title-md text-title-md text-on-surface group-hover:text-primary transition-colors">Humectación Profunda</h3>
+<span class="material-symbols-outlined text-text-muted text-[18px] group-hover:translate-x-1 transition-transform">expand_more</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            La glicerina de origen vegetal retiene de forma natural la humedad sobre la epidermis, dejando una textura elástica, aterciopelada y protegida durante el día.
+          </p>
+<div class="hidden text-xs text-primary mt-3 pt-2 border-t border-border-delicate virtue-detail">
+            ✨ Crea un escudo dérmico que reduce un 45% la pérdida de agua transepidérmica.
+          </div>
+</div>
+<!-- Virtue 2 -->
+<div class="bg-surface-card p-space-lg rounded-xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-border-delicate flex flex-col group cursor-pointer" onclick="toggleVirtueDetail(this)">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-secondary mb-space-md group-hover:bg-secondary group-hover:text-surface transition-colors duration-300">
+<span class="material-symbols-outlined text-[26px]">grain</span>
+</div>
+<div class="flex items-center justify-between mb-2">
+<h3 class="font-title-md text-title-md text-on-surface group-hover:text-secondary transition-colors">Exfoliación Suave</h3>
+<span class="material-symbols-outlined text-text-muted text-[18px] group-hover:translate-x-1 transition-transform">expand_more</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            Semillas seleccionadas y sales minerales que eliminan células muertas y retiran toxinas sin microplásticos ni sensación de tirantez o abrasión.
+          </p>
+<div class="hidden text-xs text-secondary mt-3 pt-2 border-t border-border-delicate virtue-detail">
+            🌿 Granos esféricos micronizados ideales para cutis sensible o rosácea.
+          </div>
+</div>
+<!-- Virtue 3 -->
+<div class="bg-surface-card p-space-lg rounded-xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-border-delicate flex flex-col group cursor-pointer" onclick="toggleVirtueDetail(this)">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-primary mb-space-md group-hover:bg-primary group-hover:text-surface transition-colors duration-300">
+<span class="material-symbols-outlined text-[26px]">flare</span>
+</div>
+<div class="flex items-center justify-between mb-2">
+<h3 class="font-title-md text-title-md text-on-surface group-hover:text-primary transition-colors">Tono &amp; Luminosidad</h3>
+<span class="material-symbols-outlined text-text-muted text-[18px] group-hover:translate-x-1 transition-transform">expand_more</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            Propiedades aclarantes sutiles derivadas de plantas medicinales y arcillas botánicas que reviven el brillo natural y unifican visualmente la tez.
+          </p>
+<div class="hidden text-xs text-primary mt-3 pt-2 border-t border-border-delicate virtue-detail">
+            🌸 Con infusión activa de caléndula bioactiva y cúrcuma silvestre.
+          </div>
+</div>
+<!-- Virtue 4 -->
+<div class="bg-surface-card p-space-lg rounded-xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-border-delicate flex flex-col group cursor-pointer" onclick="toggleVirtueDetail(this)">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-secondary mb-space-md group-hover:bg-secondary group-hover:text-surface transition-colors duration-300">
+<span class="material-symbols-outlined text-[26px]">local_florist</span>
+</div>
+<div class="flex items-center justify-between mb-2">
+<h3 class="font-title-md text-title-md text-on-surface group-hover:text-secondary transition-colors">Extractos Vivos</h3>
+<span class="material-symbols-outlined text-text-muted text-[18px] group-hover:translate-x-1 transition-transform">expand_more</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            Aceites esenciales puros de romero, caléndula y lavanda, conservando los principios fitoterapéuticos vivos en cada vertido en frío.
+          </p>
+<div class="hidden text-xs text-secondary mt-3 pt-2 border-t border-border-delicate virtue-detail">
+            💧 Cero fragancias sintéticas; 100% aromaterapia funcional real.
+          </div>
+</div>
+</div>
+</div>
+</section>
+<!-- FEATURED BOTANICAL CATALOG (WITH INTERACTIVE JAVASCRIPT FILTERS & ACTION CARDS) -->
+<section class="w-full bg-surface py-space-xl" id="catalogo">
+<div class="max-w-7xl mx-auto px-gutter">
+<!-- Section Header with Category Tabs -->
+<div class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-md mb-space-lg">
+<div>
+<span class="font-label-caps text-label-caps uppercase tracking-widest text-secondary block mb-1">Elaboración Artesanal</span>
+<h2 class="font-headline-lg text-headline-lg text-primary">Catálogo Botánico Seleccionado</h2>
+</div>
+<!-- Interactive Category Switcher -->
+<div class="flex flex-wrap items-center gap-2 bg-surface-container p-1.5 rounded-xl border border-border-delicate self-start shadow-inner">
+<button class="catalog-tab-btn px-4 py-2 rounded-lg font-label-md text-label-md bg-surface-card text-primary shadow-sm transition-all duration-200 cursor-pointer font-semibold" onclick="filterCatalog('all', this)" type="button">Todos</button>
+<button class="catalog-tab-btn px-4 py-2 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-all duration-200 cursor-pointer" onclick="filterCatalog('jabones', this)" type="button">Jabones</button>
+<button class="catalog-tab-btn px-4 py-2 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-all duration-200 cursor-pointer" onclick="filterCatalog('sales', this)" type="button">Sales de Baño</button>
+<button class="catalog-tab-btn px-4 py-2 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-all duration-200 cursor-pointer" onclick="filterCatalog('splash', this)" type="button">Body Splash</button>
+<button class="catalog-tab-btn px-4 py-2 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-all duration-200 cursor-pointer" onclick="filterCatalog('decorativos', this)" type="button">Temáticos</button>
+</div>
+</div>
+<!-- 4-Column Responsive Grid of Botanical Creations with Smooth Transitions -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md transition-all duration-500" id="catalog-grid">
+<!-- Product 1: Handcrafted Bar -->
+<article class="catalog-item bg-surface-card rounded-xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between border border-border-delicate group" data-category="jabones">
+<div class="relative w-full aspect-square bg-surface-subtle overflow-hidden">
+<img alt="Jabón Botánico Nutritivo Romero Lavanda Caléndula Avrill" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida/AEtjO1WBXP4WT3LJ2FMzP52uZ92cp1SZVeuScIgaJcmCUlcxv4YxJqld6k8NbpRwylyZneFlxL-YVY7ke3AflMseTXoSKKLg85r67VBK5db5K40qUQ-fLugVn85E9uZVsmJ92RjiArtFE8kU7Ml2Ft1soCK6AAYmEjSqGOGEKJ3dVcA41NAlW6VGCRwEz0MoBR_TM1U00MKHXCLJDX08YaPWRssnQIw4OPgtlDzPvXA_ffFTj6flDonsMjp_ePMl"/>
+<span class="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-surface-card/90 backdrop-blur-sm text-primary font-label-caps text-label-caps tracking-wider uppercase shadow-sm border border-border-delicate">Edición Botánica</span>
+</div>
+<div class="p-space-md flex flex-col flex-1">
+<div class="flex items-center gap-1 text-secondary mb-1">
+<span class="material-symbols-outlined text-[14px]">nest_eco_leaf</span>
+<span class="font-label-caps text-label-caps uppercase">Glicerina • Romero • Caléndula</span>
+</div>
+<h3 class="font-title-md text-title-md text-primary mb-1 group-hover:text-secondary transition-colors">Jabón Botánico Nutritivo</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mb-space-md">
+              Formulado con maceraciones florales para calmar pieles reactivas, humectar en profundidad y desinflamar la dermis.
+            </p>
+<div class="mt-auto pt-space-xs flex items-center justify-between">
+<div>
+<span class="font-label-caps text-label-caps text-text-muted block">Precio artesanal</span>
+<span class="font-title-lg text-title-lg text-primary">₡3,500</span>
+</div>
+<button class="p-2.5 rounded-lg bg-surface-subtle text-primary hover:bg-primary hover:text-on-primary transition-all duration-200 active:scale-95 shadow-sm" onclick="addToOrder('Jabón Botánico Nutritivo', '₡3,500')" title="Pedir por WhatsApp" type="button">
+<span class="material-symbols-outlined text-[20px]">shopping_bag</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Product 2: Bath Salts with Image 9 -->
+<article class="catalog-item bg-surface-card rounded-xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between border border-border-delicate group" data-category="sales">
+<div class="relative w-full aspect-square bg-surface-subtle overflow-hidden">
+<img alt="Sales de Baño y Manzanilla Avrill Cosmética" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida/AEtjO1W3n-xsIhXp-1bzKCES4mnlyhCsV5S69RBPH_pGpTC60y7RAcmlHgzVEp0lmEJsIT4uvmPC_8V_mbZ3nA489JmwXh_yjV6u69X70nRwRbhfznV6SP18U7oPdeZflZvlDkYsNebNKym9nkmNHVSczyw6qoXvBq_wV_daPBZqXR0PRRc73flIkFfwY01J4jXm15bq25sQcnBY67DggDV5sB-UGcm3CbUOV4dkC4auOGxBU32hIeAdpLpRpJ4"/>
+<span class="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-caps text-label-caps tracking-wider uppercase shadow-sm border border-secondary/20">Relajación Pura</span>
+</div>
+<div class="p-space-md flex flex-col flex-1">
+<div class="flex items-center gap-1 text-secondary mb-1">
+<span class="material-symbols-outlined text-[14px]">spa</span>
+<span class="font-label-caps text-label-caps uppercase">Sales de Epsom • Manzanilla</span>
+</div>
+<h3 class="font-title-md text-title-md text-primary mb-1 group-hover:text-secondary transition-colors">Sales de Baño &amp; Relax</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mb-space-md">
+              Desintoxicación y alivio muscular. Piel libre de pesadez, perfumada con aceites esenciales de lavanda francesa.
+            </p>
+<div class="mt-auto pt-space-xs flex items-center justify-between">
+<div>
+<span class="font-label-caps text-label-caps text-text-muted block">Frasco 500g</span>
+<span class="font-title-lg text-title-lg text-primary">₡4,800</span>
+</div>
+<button class="p-2.5 rounded-lg bg-surface-subtle text-primary hover:bg-primary hover:text-on-primary transition-all duration-200 active:scale-95 shadow-sm" onclick="addToOrder('Sales de Baño &amp; Relax (500g)', '₡4,800')" title="Pedir por WhatsApp" type="button">
+<span class="material-symbols-outlined text-[20px]">shopping_bag</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Product 3: Body Splash -->
+<article class="catalog-item bg-surface-card rounded-xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between border border-border-delicate group" data-category="splash">
+<div class="relative w-full aspect-square bg-surface-container overflow-hidden">
+<div class="w-full h-full bg-cover bg-center transform group-hover:scale-105 transition-transform duration-700" data-alt="Minimalist amber mist spray bottle with botanical floral body splash surrounded by fresh citrus slices and jasmine blossoms on soft beige stone background" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDQcCr5nip8FspjPpcCDM13IWbjWpkUf3xuj1ENj6GYzicH12BFXrV0Gy4AgAsnRWMKKFUAFVa5Z_S8MvM_jUeDO4KB9SxaCmqR5PfZMF521lmwbYF5SG3KuQqmpc2W4G9vNj9_gwkBtoL7aihedBpb3nAntoJgd4QDnSd1XT94jiPaJLcC6CloGJ23ZGk60pb0SxQbLDZvZ85B0eLsQDsof-RpsxHr13Ng8cGS73Dcisd7KgTsMrIGjQ')"></div>
+<span class="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-surface-card/90 backdrop-blur-sm text-secondary font-label-caps text-label-caps tracking-wider uppercase shadow-sm border border-border-delicate">Aromaterapia</span>
+</div>
+<div class="p-space-md flex flex-col flex-1">
+<div class="flex items-center gap-1 text-secondary mb-1">
+<span class="material-symbols-outlined text-[14px]">air</span>
+<span class="font-label-caps text-label-caps uppercase">Bruma Botánica • Flor de Naranjo</span>
+</div>
+<h3 class="font-title-md text-title-md text-primary mb-1 group-hover:text-secondary transition-colors">Body Splash Floral &amp; Cítrico</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mb-space-md">
+              Refresca tu personalidad y actitud. Bruma ligera que aromatiza e hidrata suavemente sin secar los tejidos dérmicos.
+            </p>
+<div class="mt-auto pt-space-xs flex items-center justify-between">
+<div>
+<span class="font-label-caps text-label-caps text-text-muted block">Frasco 250ml</span>
+<span class="font-title-lg text-title-lg text-primary">₡5,200</span>
+</div>
+<button class="p-2.5 rounded-lg bg-surface-subtle text-primary hover:bg-primary hover:text-on-primary transition-all duration-200 active:scale-95 shadow-sm" onclick="addToOrder('Body Splash Floral &amp; Cítrico', '₡5,200')" title="Pedir por WhatsApp" type="button">
+<span class="material-symbols-outlined text-[20px]">shopping_bag</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Product 4: Decorative / Special Occasions -->
+<article class="catalog-item bg-surface-card rounded-xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between border border-border-delicate group" data-category="decorativos">
+<div class="relative w-full aspect-square bg-surface-container overflow-hidden">
+<div class="w-full h-full bg-cover bg-center transform group-hover:scale-105 transition-transform duration-700" data-alt="Intricately carved artisanal themed glycerin soap shapes like delicate flowers and botanical leaves in soft pastel shades arranged in gift wrapping with dried botanicals" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBISCj7EhN-NpRbtEUmp_Q3-wf6Qfcp8Q4Ip-dQDk0SgG2yXu8F42kusb6lykAhm4gdgu-5wmBH48pShPwAcC6rtCToFATjDCRjYWQlRCPX1DsDZtOZfJIC-lMPAIZeSb6aIhrnhOpLmFyiVJykyhN6C5isp7Xeic-8mnmo_mw4HRgcqQYKIGqeMj8aQnxnaeOEE_LXUWhhIxSlMy3vHCvEqYwHeSFeLX1Z7Zl3CbRWgcpKegSjeKqbWA')"></div>
+<span class="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-primary-container text-on-primary-container font-label-caps text-label-caps tracking-wider uppercase shadow-sm">Celebraciones</span>
+</div>
+<div class="p-space-md flex flex-col flex-1">
+<div class="flex items-center gap-1 text-secondary mb-1">
+<span class="material-symbols-outlined text-[14px]">celebration</span>
+<span class="font-label-caps text-label-caps uppercase">Recuerdos • Eventos • Regalos</span>
+</div>
+<h3 class="font-title-md text-title-md text-primary mb-1 group-hover:text-secondary transition-colors">Jabones Temáticos &amp; Regalos</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mb-space-md">
+              Diseños artísticos para fechas especiales. Cuida de tu piel y agasaja a tus invitados con fórmulas nutritivas aromáticas.
+            </p>
+<div class="mt-auto pt-space-xs flex items-center justify-between">
+<div>
+<span class="font-label-caps text-label-caps text-text-muted block">Desde</span>
+<span class="font-title-lg text-title-lg text-primary">₡4,000</span>
+</div>
+<button class="p-2.5 rounded-lg bg-surface-subtle text-primary hover:bg-primary hover:text-on-primary transition-all duration-200 active:scale-95 shadow-sm" onclick="addToOrder('Jabones Temáticos &amp; Regalos', '₡4,000')" title="Pedir por WhatsApp" type="button">
+<span class="material-symbols-outlined text-[20px]">shopping_bag</span>
+</button>
+</div>
+</div>
+</article>
+</div>
+<!-- Custom Inquiries Banner -->
+<div class="mt-space-lg p-space-lg rounded-xl bg-surface-subtle flex flex-col sm:flex-row items-center justify-between gap-space-md border border-border-delicate shadow-sm hover:shadow-md transition-shadow">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-full bg-surface-card flex items-center justify-center text-secondary shadow-sm">
+<span class="material-symbols-outlined">auto_awesome</span>
+</div>
+<div>
+<h4 class="font-title-md text-title-md text-primary">¿Buscas un lote personalizado para boda, baby shower o regalo corporativo?</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Diseñamos aromas, etiquetas y formas a medida con empaques biodegradables.</p>
+</div>
+</div>
+<a class="px-5 py-2.5 rounded-lg bg-primary text-on-primary font-label-md text-label-md hover:bg-tertiary transition-all duration-200 hover:scale-105 shadow-sm flex-shrink-0" href="https://wa.me/50662848105?text=Hola%20Kimberly%2C%20me%20gustar%C3%ADa%20cotizar%20un%20pedido%20especial%20personalizado" rel="noopener noreferrer" target="_blank">
+          Cotizar Lote Personalizado
+        </a>
+</div>
+</div>
+</section>
+<!-- IMMERSIVE EDITORIAL STORY SECTION -->
+<section class="relative w-full py-space-xl overflow-hidden" id="historia">
+<!-- Atmospheric artisan photography background -->
+<div class="absolute inset-0 w-full h-full bg-cover bg-center" data-alt="Serene rustic workshop table with mortar and pestle, bundles of dried lavender flowers, bowls of coarse sea salts, glass droppers and linen fabrics in soft warm morning artisan glow" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCKJPmZVfahTq45ipXu_RdV5iCsrh1TMIFZubLzUNURrpiXfwc-jPkgD_AgEC9cEo6oqtuHBUrdrd2ugApIhpzcFozCzJDWqGHUfdoepfSH1sKdSr9jywPNrlsJsVfl-DFh35QGGJgISDQ9DKKoeZnNiryfkIl_lou9no8R4IalDizQ3WPtfyIVySmYK6w2Lmh8de50s4zMeSvwiRK80TRH-wTWnGlqJoCqU1qSq8Rls5v7QfUG2aw2uw')">
+<div class="absolute inset-0 bg-primary/85 backdrop-blur-[1px]"></div>
+</div>
+<div class="relative z-10 max-w-7xl mx-auto px-gutter grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-center">
+<!-- Story Text Content -->
+<div class="lg:col-span-7 text-surface flex flex-col gap-space-md">
+<span class="font-label-caps text-label-caps uppercase tracking-widest text-secondary-container">Nuestra Historia &amp; Esencia</span>
+<h2 class="font-display-lg text-display-lg leading-tight tracking-tight text-surface">
+          Pasión por la Botánica Pura • <span class="italic text-secondary-container">Hecho con el Corazón</span>
+</h2>
+<blockquote class="font-title-lg text-title-lg italic text-surface-container font-light leading-relaxed pl-space-md border-l-2 border-secondary-container">
+          "Avrill nace del anhelo de reencontrarnos con la naturaleza en nuestra rutina más íntima. Cada jabón es batido, aromatizado y vertido a mano en Desamparados, respetando el descanso de los extractos y sin prisas industriales."
+        </blockquote>
+<p class="font-body-md text-body-md text-surface-container-high leading-relaxed">
+          Detrás de cada pieza se encuentra la dedicación de <strong>Kimberly Gómez Jiménez</strong>, artesana cosmética costarricense convencida de que la salud dérmica no requiere sintéticos agresivos. Seleccionamos únicamente glicerina vegetal pura de grado cosmético, aceites esenciales prensados en frío y botánicos cultivados localmente.
+        </p>
+<!-- Guarantee Seals in Story -->
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-space-md pt-space-sm">
+<div class="flex flex-col">
+<span class="font-title-lg text-title-lg text-secondary-container">100%</span>
+<span class="font-body-sm text-body-sm text-surface-container">Ingredientes Limpios</span>
+</div>
+<div class="flex flex-col">
+<span class="font-title-lg text-title-lg text-secondary-container">0% Crueldad</span>
+<span class="font-body-sm text-body-sm text-surface-container">Libre de Testeo Animal</span>
+</div>
+<div class="flex flex-col">
+<span class="font-title-lg text-title-lg text-secondary-container">Lotes</span>
+<span class="font-body-sm text-body-sm text-surface-container">Siempre Frescos</span>
+</div>
+<div class="flex flex-col">
+<span class="font-title-lg text-title-lg text-secondary-container">CR</span>
+<span class="font-body-sm text-body-sm text-surface-container">Orgullo Desamparadeño</span>
+</div>
+</div>
+</div>
+<!-- Workshop Profile Box -->
+<div class="lg:col-span-5">
+<div class="bg-surface-card/95 backdrop-blur rounded-xl p-space-lg shadow-2xl text-on-surface border border-border-delicate">
+<div class="flex items-center gap-space-md mb-space-md">
+<div class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center text-primary text-2xl font-display-lg border-2 border-secondary-container">
+              KG
+            </div>
+<div>
+<h3 class="font-title-md text-title-md text-primary">Kimberly Gómez Jiménez</h3>
+<p class="font-label-caps text-label-caps uppercase text-secondary">Fundadora y Artesana Formuladora</p>
+<span class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[16px] text-primary">pin_drop</span> Desamparados, San José
+              </span>
+</div>
+</div>
+<div class="space-y-space-sm pt-space-xs border-t border-border-delicate">
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-secondary text-[20px] mt-0.5">check_circle</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant"><strong>Glicerina Humectante:</strong> Formulación que crea una barrera emoliente natural.</p>
+</div>
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-secondary text-[20px] mt-0.5">check_circle</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant"><strong>Terapéutica Aclaradora:</strong> Extractos que ayudan a homogeneizar manchas superficiales.</p>
+</div>
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-secondary text-[20px] mt-0.5">check_circle</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant"><strong>Diseños Festivos:</strong> Creaciones personalizadas para ocasiones memorables.</p>
+</div>
+</div>
+<div class="mt-space-md pt-space-sm">
+<a class="w-full flex items-center justify-center gap-2 py-3 rounded-lg bg-primary-container text-surface hover:bg-tertiary-container transition-all hover:shadow-lg font-label-md text-label-md" href="https://wa.me/50662848105?text=Hola%20Kimberly%2C%20quisiera%20conversar%20sobre%20sus%20formulaciones%20artesanales" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+<span>Hablar con la Artesana</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ATELIER, CONTACT & ORDER DESK -->
+<section class="w-full bg-surface-canvas py-space-xl" id="taller">
+<div class="max-w-7xl mx-auto px-gutter">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl">
+<!-- Contact details & Map Card -->
+<div class="lg:col-span-6 flex flex-col justify-between">
+<div>
+<span class="font-label-caps text-label-caps uppercase tracking-widest text-secondary block mb-1">Encuéntranos en San José</span>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-space-md">Taller &amp; Atelier Avrill</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-lg leading-relaxed">
+              Atendemos pedidos a toda Costa Rica mediante Correos de Costa Rica y brindamos atención cercana en nuestro punto de Desamparados para retiros programados y consultas directas.
+            </p>
+<div class="space-y-space-md mb-space-lg">
+<div class="flex items-start gap-space-sm p-space-sm rounded-lg bg-surface-card shadow-sm border border-border-delicate hover:shadow-md transition-shadow">
+<span class="material-symbols-outlined text-primary text-[24px] mt-0.5">location_on</span>
+<div>
+<h4 class="font-title-md text-title-md text-on-surface">Dirección en Desamparados</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+                    Costa Rica, San José, Desamparados centro, 75 metros sur de la Clínica Marcial Fallas.
+                  </p>
+</div>
+</div>
+<div class="flex items-start gap-space-sm p-space-sm rounded-lg bg-surface-card shadow-sm border border-border-delicate hover:shadow-md transition-shadow">
+<span class="material-symbols-outlined text-secondary text-[24px] mt-0.5">call</span>
+<div>
+<h4 class="font-title-md text-title-md text-on-surface">Atención Directa &amp; Pedidos</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                    Teléfono &amp; WhatsApp: <strong class="text-primary font-semibold">+506 6284-8105</strong>
+</p>
+<p class="font-body-sm text-body-sm text-text-muted">Respuesta ágil todos los días de 8:00 AM a 7:00 PM</p>
+</div>
+</div>
+<div class="flex items-start gap-space-sm p-space-sm rounded-lg bg-surface-card shadow-sm border border-border-delicate hover:shadow-md transition-shadow">
+<span class="material-symbols-outlined text-primary text-[24px] mt-0.5">local_shipping</span>
+<div>
+<h4 class="font-title-md text-title-md text-on-surface">Despachos Nacionales</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+                    Entrega rápida en GAM (24-48 horas) y todo Costa Rica por Correos de Costa Rica con código de rastreo.
+                  </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Static Map Location View -->
+<div class="w-full h-52 bg-cover bg-center rounded-xl shadow-sm relative overflow-hidden border border-border-delicate group cursor-pointer" data-location="Clínica Marcial Fallas, Desamparados, San José, Costa Rica" onclick="window.open('https://maps.google.com/?q=Cl%C3%ADnica+Marcial+Fallas+Desamparados', '_blank')" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAcf6rYO_JQEfEfnwUKjxL2J93Mp7ST8DYNPeHdEz9Cq6tzvnBN5gfDrLRTZo8NPnlr6rdjBK34PMulfl1ihW04R1txHYtVLajAaX4iH1YH-9H2OIREDzq57q0g2KLtnAEYKve-BNCS0Vyu2wsWShno1BIzLKd_EF8Hjve8Tce0EMHkwLNgH_yAojCUOiw5HUGKPKS8DjPECiITp28USbCRuiMNUEzMGoXbgUtX_nVzv1caoTYG8fftZQ')">
+<div class="absolute inset-0 bg-primary/20 group-hover:bg-primary/10 transition-colors"></div>
+<div class="absolute bottom-3 left-3 bg-surface-card/90 backdrop-blur-sm px-3 py-1.5 rounded-md text-primary font-label-caps text-label-caps uppercase flex items-center gap-1.5 shadow-sm border border-border-delicate">
+<span class="material-symbols-outlined text-[16px] text-secondary">place</span> Desamparados Centro, Costa Rica (Ver en Google Maps)
+            </div>
+</div>
+</div>
+<!-- Quick Order Form Card -->
+<div class="lg:col-span-6">
+<div class="bg-surface-card rounded-xl p-space-lg shadow-md border border-border-delicate flex flex-col justify-between h-full">
+<div>
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-caps text-label-caps uppercase tracking-wider text-secondary">Cotización Rápida</span>
+<span class="material-symbols-outlined text-text-muted">receipt_long</span>
+</div>
+<h3 class="font-title-lg text-title-lg text-primary mb-space-xs">Solicitud Botánica Personalizada</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md">
+                Envía tus preferencias y te contactaremos de inmediato por WhatsApp con disponibilidad, tiempos de curado y costos de envío.
+              </p>
+<form class="space-y-space-sm" id="order-form" onsubmit="handleOrderSubmit(event)">
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1" for="client-name">Nombre Completo</label>
+<input class="w-full bg-surface-subtle border border-border-delicate rounded-lg px-4 py-2.5 font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40 transition-all" id="client-name" placeholder="Ej. Mariana Valverde" required="" type="text"/>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm">
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1" for="client-phone">Teléfono o WhatsApp</label>
+<input class="w-full bg-surface-subtle border border-border-delicate rounded-lg px-4 py-2.5 font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40 transition-all" id="client-phone" placeholder="8888-8888" required="" type="tel"/>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1" for="client-skin">Tipo de Piel / Necesidad</label>
+<select class="w-full bg-surface-subtle border border-border-delicate rounded-lg px-4 py-2.5 font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40 transition-all cursor-pointer" id="client-skin">
+<option value="Seca y delicada">Piel Seca y delicada</option>
+<option value="Grasa o mixta">Piel Grasa / Con tendencia acneica</option>
+<option value="Manchas superficiales">Aclarado suave / Manchas</option>
+<option value="Relajación muscular">Estrés / Sales terapéuticas</option>
+<option value="Evento o regalo">Regalos / Recuerdos para eventos</option>
+</select>
+</div>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1" for="product-interest">Productos de Interés</label>
+<select class="w-full bg-surface-subtle border border-border-delicate rounded-lg px-4 py-2.5 font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40 transition-all cursor-pointer" id="product-interest">
+<option value="Jabones Artesanales Nutritivos">Jabones de Glicerina Humectantes • ₡3,500</option>
+<option value="Sales de Baño 500g">Sales de Baño &amp; Manzanilla • ₡4,800</option>
+<option value="Body Splash Aromaterapia">Body Splash Floral &amp; Cítrico • ₡5,200</option>
+<option value="Set de Jabones Temáticos">Jabones Decorativos Temáticos • Desde ₡4,000</option>
+<option value="Combo Completo Cuidado">Combo Rutina Completa Botánica</option>
+</select>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1" for="client-location">Cantón / Provincia de Envío</label>
+<input class="w-full bg-surface-subtle border border-border-delicate rounded-lg px-4 py-2.5 font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40 transition-all" id="client-location" placeholder="Ej. Heredia centro / San Pedro / Desamparados" type="text"/>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1" for="client-message">Nota adicional o consulta</label>
+<textarea class="w-full bg-surface-subtle border border-border-delicate rounded-lg px-4 py-2.5 font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40 transition-all" id="client-message" placeholder="¿Tienes alguna preferencia en aromas o alergia a algún botánico?" rows="2"></textarea>
+</div>
+<div class="pt-space-xs">
+<button class="w-full py-3 px-6 rounded-lg bg-primary-container text-surface hover:bg-tertiary-container transition-all hover:shadow-lg active:scale-98 font-label-md text-label-md flex items-center justify-center gap-2 cursor-pointer" type="submit">
+<span class="material-symbols-outlined text-[18px]">send</span>
+<span>Enviar Pedido Directo a WhatsApp</span>
+</button>
+<p class="text-center font-label-caps text-label-caps uppercase text-text-muted mt-2">
+                    Sin intermediarios • Contacto directo con Kimberly Gómez
+                  </p>
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div></main><footer class="w-full bg-surface-container-low border-t border-border-delicate pt-space-xl pb-space-lg"><div class="max-w-7xl mx-auto px-gutter grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-xl"><div class="flex flex-col gap-space-sm"><span class="font-title-lg text-title-lg text-primary">Avrill</span><span class="font-label-caps text-label-caps text-secondary uppercase tracking-widest">Apotecario Natural</span><p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed mt-space-xs">Formulaciones botánicas elaboradas a mano en pequeños lotes, honrando la biodiversidad y la sabiduría de la tierra costarricense.</p><div class="flex items-center gap-space-xs text-secondary mt-space-sm"><span class="material-symbols-outlined text-[18px]">spa</span><span class="font-label-caps text-label-caps uppercase">Cruelty-Free • Prensado en Frío</span></div></div><div class="flex flex-col gap-space-sm"><span class="font-title-md text-title-md text-on-surface">Taller &amp; Atelier</span><p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">Desamparados, San José, Costa Rica.<br/>De la Clínica Marcial Fallas 75m Sur.<br/>Atención presencial y retiros programados.</p><div class="flex flex-col gap-1 mt-space-xs"><span class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-primary">schedule</span> Lun - Sáb: 8:00 AM - 7:00 PM</span><span class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-primary">mail</span> contacto@avrillcr.com</span></div></div><div class="flex flex-col gap-space-sm"><span class="font-title-md text-title-md text-on-surface">Explorar</span><div class="flex flex-col gap-2"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#catalogo">Jabones Terapéuticos en Barra</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#catalogo">Óleos &amp; Elixires Botánicos</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#catalogo">Sales de Baño &amp; Exfoliantes</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#catalogo">Cuidado Capilar Natural</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#taller">Políticas de Envío &amp; Devolución</a></div></div><div class="flex flex-col gap-space-sm"><span class="font-title-md text-title-md text-on-surface">El Boletín del Boticario</span><p class="font-body-sm text-body-sm text-on-surface-variant">Recibe notas estacionales sobre herbolaria, lanzamientos exclusivos de lotes reducidos y rituales botánicos.</p><form class="flex flex-col gap-2 mt-space-xs" onsubmit="event.preventDefault(); showToast('¡Gracias por unirte al Ritual Botánico Avrill!'); this.reset();"><input class="bg-surface-subtle border border-border-delicate rounded-lg px-4 py-2 font-body-sm text-body-sm text-on-surface focus:outline-none focus:ring-1 focus:ring-primary" placeholder="tu.correo@ejemplo.com" required="" type="email"/><button class="bg-primary text-on-primary font-label-md text-label-md py-2 px-4 rounded-lg hover:bg-tertiary transition-colors" type="submit">Suscribirme al Ritual</button></form></div></div><div class="max-w-7xl mx-auto px-gutter mt-space-xl pt-space-md border-t border-border-delicate flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left"><span class="font-body-sm text-body-sm text-on-surface-variant">© 2024 Avrill Cosmética Artesanal. Hecho conscientemente en Costa Rica.</span><div class="flex items-center gap-space-md"><span class="font-label-caps text-label-caps uppercase text-on-surface-variant">Garantía de Pureza Botánica</span><span class="text-border-delicate">•</span><span class="font-label-caps text-label-caps uppercase text-on-surface-variant">Sin Sulfatos ni Parabenos</span></div></div></footer>
+<!-- FLOATING WHATSAPP BUTTON (FAB) & EXPANDING PILL -->
+<aside class="fixed bottom-6 right-6 z-50 flex items-center group">
+<!-- Expandable tooltip badge -->
+<a class="hidden sm:flex items-center gap-2 mr-3 px-4 py-2.5 rounded-full bg-surface-card/95 backdrop-blur-md text-primary font-label-md text-label-md shadow-lg border border-border-delicate opacity-90 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all duration-300 pointer-events-auto hover:bg-surface-subtle" href="https://wa.me/50662848105?text=Hola%20Avrill%20Cosmética,%20deseo%20consultar%20sobre%20sus%20productos" rel="noopener noreferrer" target="_blank">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+<span class="font-medium text-xs text-on-surface">Chatea con nosotros (+506 6284-8105)</span>
+</a>
+<!-- Circular Action Button with Floating Pulse -->
+<div class="relative animate-float">
+<!-- Glowing pulse ripple -->
+<div class="absolute -inset-1.5 rounded-full bg-emerald-500/30 animate-pulse-ring"></div>
+<a aria-label="Escríbenos directamente a WhatsApp" class="relative w-14 h-14 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white flex items-center justify-center shadow-2xl hover:shadow-[0_8px_25px_rgba(37,211,102,0.45)] transform hover:scale-110 active:scale-95 transition-all duration-300" href="https://wa.me/50662848105?text=Hola%20Avrill%20Cosmética,%20deseo%20consultar%20sobre%20sus%20productos" rel="noopener noreferrer" target="_blank">
+<!-- Official WhatsApp SVG Icon -->
+<svg class="w-7 h-7 fill-white" viewbox="0 0 24 24">
+<path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.586-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.062-2.146-.538-1.728-.715-2.85-2.483-2.936-2.599-.086-.115-.694-.925-.694-1.763 0-.838.438-1.25.594-1.42.156-.17.34-.213.454-.213.113 0 .227.001.326.006.104.005.244-.04.382.29.144.346.49 1.196.533 1.282.043.086.071.187.014.301-.057.114-.086.185-.171.284-.086.099-.18.222-.258.298-.086.084-.176.176-.076.348.1.171.444.734.953 1.189.654.584 1.206.765 1.378.851.172.086.273.072.373-.043.101-.115.433-.504.549-.677.114-.172.228-.143.385-.085.157.057.994.469 1.165.554.171.085.285.128.328.199.043.072.043.418-.101.823z"></path>
+<path d="M12 2C6.477 2 2 6.477 2 12c0 1.891.523 3.662 1.434 5.178L2 22l4.98-1.393A9.957 9.957 0 0 0 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18.167a8.125 8.125 0 0 1-4.242-1.187l-.304-.183-2.96.827.842-2.883-.2-.317A8.138 8.138 0 0 1 3.833 12c0-4.503 3.664-8.167 8.167-8.167 4.503 0 8.167 3.664 8.167 8.167 0 4.503-3.664 8.167-8.167 8.167z"></path>
+</svg>
+<span class="sr-only">Contactar por WhatsApp</span>
+</a>
+</div>
+</aside>
+<!-- INTERACTIVE TOAST NOTIFICATION -->
+<div class="fixed bottom-24 right-6 z-50 bg-primary text-surface px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 border border-border-delicate transform translate-y-20 opacity-0 pointer-events-none transition-all duration-300" id="toast-notification">
+<span class="material-symbols-outlined text-secondary-fixed text-[22px]">check_circle</span>
+<span class="font-body-sm text-body-sm" id="toast-message">Producto agregado a tu consulta botánica.</span>
+</div>
+<!-- INTERACTIVE CART MODAL -->
+<div class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm hidden items-center justify-center p-4 transition-opacity" id="cart-modal">
+<div class="bg-surface-card rounded-2xl max-w-md w-full p-space-lg shadow-2xl border border-border-delicate relative animate-in fade-in zoom-in-95 duration-200">
+<button class="absolute top-4 right-4 text-text-muted hover:text-on-surface" onclick="closeCartModal()" type="button">
+<span class="material-symbols-outlined">close</span>
+</button>
+<div class="flex items-center gap-2 mb-space-sm text-primary">
+<span class="material-symbols-outlined text-[26px]">shopping_bag</span>
+<h3 class="font-title-lg text-title-lg">Bolsa de Consulta</h3>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md">
+      Estos son los artículos seleccionados en tu sesión para cotización directa:
+    </p>
+<div class="space-y-space-sm max-h-56 overflow-y-auto mb-space-md pr-1" id="cart-items-list">
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-subtle">
+<div>
+<h4 class="font-label-md text-label-md text-primary font-semibold">Jabón Botánico Nutritivo</h4>
+<span class="text-xs text-text-muted">Romero • Lavanda • Caléndula</span>
+</div>
+<span class="font-title-md text-title-md text-secondary">₡3,500</span>
+</div>
+</div>
+<div class="flex flex-col gap-2 pt-2 border-t border-border-delicate">
+<button class="w-full py-3 rounded-lg bg-[#25D366] hover:bg-[#20ba59] text-white font-label-md text-label-md flex items-center justify-center gap-2 shadow-md transition-all active:scale-98" onclick="checkoutWhatsApp()" type="button">
+<svg class="w-5 h-5 fill-white" viewbox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.586-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.062-2.146-.538-1.728-.715-2.85-2.483-2.936-2.599-.086-.115-.694-.925-.694-1.763 0-.838.438-1.25.594-1.42.156-.17.34-.213.454-.213.113 0 .227.001.326.006.104.005.244-.04.382.29.144.346.49 1.196.533 1.282.043.086.071.187.014.301-.057.114-.086.185-.171.284-.086.099-.18.222-.258.298-.086.084-.176.176-.076.348.1.171.444.734.953 1.189.654.584 1.206.765 1.378.851.172.086.273.072.373-.043.101-.115.433-.504.549-.677.114-.172.228-.143.385-.085.157.057.994.469 1.165.554.171.085.285.128.328.199.043.072.043.418-.101.823z"></path></svg>
+<span>Confirmar y Enviar Pedido por WhatsApp</span>
+</button>
+<button class="w-full py-2.5 rounded-lg bg-surface-subtle text-on-surface-variant font-label-md text-label-md hover:bg-surface-container transition-colors" onclick="closeCartModal()" type="button">Seguir explorando</button>
+</div>
+</div>
+</div>
+<!-- JAVASCRIPT LOGIC -->
+<script>
+  // Scroll Header Effect
+  window.addEventListener('scroll', () => {
+    const header = document.getElementById('main-header');
+    if (window.scrollY > 40) {
+      header.classList.add('shadow-md', 'bg-surface/95');
+    } else {
+      header.classList.remove('shadow-md');
+    }
+  });
+
+  // Category Filter with Animation
+  function filterCatalog(category, buttonElement) {
+    const buttons = document.querySelectorAll('.catalog-tab-btn');
+    buttons.forEach(btn => {
+      btn.classList.remove('bg-surface-card', 'text-primary', 'shadow-sm', 'font-semibold');
+      btn.classList.add('text-on-surface-variant');
+    });
+    buttonElement.classList.add('bg-surface-card', 'text-primary', 'shadow-sm', 'font-semibold');
+    buttonElement.classList.remove('text-on-surface-variant');
+
+    const items = document.querySelectorAll('.catalog-item');
+    items.forEach(item => {
+      const itemCategory = item.getAttribute('data-category');
+      if (category === 'all' || itemCategory === category) {
+        item.classList.remove('hidden');
+        setTimeout(() => {
+          item.style.opacity = '1';
+          item.style.transform = 'scale(1)';
+        }, 30);
+      } else {
+        item.style.opacity = '0';
+        item.style.transform = 'scale(0.96)';
+        setTimeout(() => {
+          item.classList.add('hidden');
+        }, 200);
+      }
+    });
+  }
+
+  // Toast Functionality
+  let toastTimer;
+  function showToast(message) {
+    const toast = document.getElementById('toast-notification');
+    const toastMsg = document.getElementById('toast-message');
+    toastMsg.innerText = message;
+    toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+    toast.classList.add('translate-y-0', 'opacity-100');
+
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+      toast.classList.remove('translate-y-0', 'opacity-100');
+      toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+    }, 3200);
+  }
+
+  // Cart & Order Interaction
+  let cart = [
+    { title: 'Jabón Botánico Nutritivo', price: '₡3,500' }
+  ];
+
+  function addToOrder(productName, price) {
+    cart.push({ title: productName, price: price });
+    const counter = document.getElementById('cart-counter');
+    counter.innerText = cart.length;
+    counter.classList.add('scale-125');
+    setTimeout(() => counter.classList.remove('scale-125'), 300);
+    showToast(`Agregado: ${productName}`);
+  }
+
+  function openCartModal() {
+    const modal = document.getElementById('cart-modal');
+    const list = document.getElementById('cart-items-list');
+    list.innerHTML = '';
+    
+    if(cart.length === 0) {
+      list.innerHTML = '<p class="text-sm text-on-surface-variant text-center py-4">No hay productos seleccionados aún.</p>';
+    } else {
+      cart.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'flex items-center justify-between p-3 rounded-lg bg-surface-subtle border border-border-delicate';
+        div.innerHTML = `
+          <div>
+            <h4 class="font-label-md text-label-md text-primary font-semibold">${item.title}</h4>
+            <span class="text-xs text-text-muted">Fórmula Botánica Artesanal</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="font-title-md text-title-md text-secondary">${item.price}</span>
+            <button onclick="removeFromCart(${index})" class="text-text-muted hover:text-red-500 text-xs ml-1" title="Eliminar">✕</button>
+          </div>
+        `;
+        list.appendChild(div);
+      });
+    }
+
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+  }
+
+  function removeFromCart(index) {
+    cart.splice(index, 1);
+    document.getElementById('cart-counter').innerText = cart.length;
+    openCartModal();
+  }
+
+  function closeCartModal() {
+    const modal = document.getElementById('cart-modal');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+  }
+
+  function checkoutWhatsApp() {
+    if(cart.length === 0) {
+      showToast('Selecciona al menos una fórmula en el catálogo.');
+      return;
+    }
+    const itemsText = cart.map(i => `- ${i.title} (${i.price})`).join('%0A');
+    const waText = `¡Hola Kimberly de Avrill Cosmética! Quisiera encargar los siguientes productos de mi bolsa:%0A%0A${itemsText}%0A%0A¿Me confirmas disponibilidad y costo de envío?`;
+    window.open(`https://wa.me/50662848105?text=${waText}`, '_blank');
+    closeCartModal();
+  }
+
+  // Favorite toggle microinteraction
+  function toggleFavorites(btn) {
+    const icon = document.getElementById('fav-icon');
+    if (icon.innerText === 'favorite_border') {
+      icon.innerText = 'favorite';
+      icon.classList.add('text-secondary');
+      showToast('Guardado en tus favoritos botánicos');
+    } else {
+      icon.innerText = 'favorite_border';
+      icon.classList.remove('text-secondary');
+      showToast('Eliminado de favoritos');
+    }
+  }
+
+  // Virtue cards interactive expandable details
+  function toggleVirtueDetail(card) {
+    const detail = card.querySelector('.virtue-detail');
+    if (detail) {
+      detail.classList.toggle('hidden');
+    }
+  }
+
+  // Contact / Order Form Handling with Instant WhatsApp redirect
+  function handleOrderSubmit(event) {
+    event.preventDefault();
+    const name = document.getElementById('client-name').value;
+    const phone = document.getElementById('client-phone').value;
+    const skin = document.getElementById('client-skin').value;
+    const product = document.getElementById('product-interest').value;
+    const location = document.getElementById('client-location').value;
+    const message = document.getElementById('client-message').value;
+
+    let waText = `¡Hola Kimberly de Avrill Cosmética! Mi nombre es ${name}.%0A` +
+                 `Estoy interesada(o) en: ${product}.%0A` +
+                 `Mi tipo de piel o necesidad: ${skin}.%0A` +
+                 `Mi cantón / ubicación: ${location || 'San José'}.%0A` +
+                 `Mi teléfono de contacto: ${phone}.`;
+
+    if (message.trim().length > 0) {
+      waText += `%0ANota adicional: ${message}`;
+    }
+
+    showToast('Redirigiendo a WhatsApp directo con Kimberly...');
+    setTimeout(() => {
+      window.open(`https://wa.me/50662848105?text=${waText}`, '_blank');
+    }, 400);
+  }
+</script>
+</body></html>
