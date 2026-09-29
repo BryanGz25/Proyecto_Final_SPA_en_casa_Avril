@@ -8228,6 +8228,101 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       "imagen": "https://azalagourmet.com/cdn/shop/files/ChatGPTImage18ago2026_09_46_55.png?v=1787039278&width=480",
       "id": 5
     }
+  ],
+  "pedidos": [
+    {
+      "id": 999,
+      "numeroFactura": "PF-2026-00099",
+      "fecha": "2026-09-28T10:00:00Z",
+      "cliente": {
+        "nombre": "Ana Mora",
+        "correo": "ana.mora@example.com",
+        "telefono": "88888888",
+        "direccion": "San JosÃ©, Costa Rica",
+        "identificacion": "1-2345-6789"
+      },
+      "productos": [
+        {
+          "id": 1,
+          "nombre": "JabÃ³n BotÃ¡nico Nutritivo",
+          "cantidad": 2,
+          "precio": 3500
+        },
+        {
+          "id": 3,
+          "nombre": "Body Splash Floral & CÃ­trico",
+          "cantidad": 1,
+          "precio": 5200
+        }
+      ],
+      "total": 12200,
+      "estado": "nuevo",
+      "factura": {
+        "numero": "PF-2026-00099",
+        "total": 12200,
+        "lineas": [
+          {
+            "nombre": "JabÃ³n BotÃ¡nico Nutritivo",
+            "cantidad": 2,
+            "precio": 3500
+          },
+          {
+            "nombre": "Body Splash Floral & CÃ­trico",
+            "cantidad": 1,
+            "precio": 5200
+          }
+        ]
+      }
+    },
+    {
+      "id": 1001,
+      "usuario": "prueba",
+      "cliente": {
+        "nombre": "Cliente de prueba",
+        "correo": "cliente.prueba@example.com",
+        "telefono": "88881234",
+        "direccion": "EscazÃº, San JosÃ©, Costa Rica",
+        "identificacion": "1-2345-6789",
+        "coordenadas": null
+      },
+      "productos": [
+        {
+          "id": 2,
+          "nombre": "Sales de BaÃ±o & Relax",
+          "cantidad": 2,
+          "precio": 4800
+        }
+      ],
+      "total": 9600,
+      "estado": "pendiente",
+      "fecha": "2026-09-28T12:00:00.000Z",
+      "factura": {
+        "numero": "PF-2026-00100",
+        "moneda": "CRC",
+        "porcentajeIva": 13,
+        "fechaEmision": "2026-09-28T12:00:00.000Z",
+        "receptor": {
+          "nombre": "Cliente de prueba",
+          "identificacion": "1-2345-6789",
+          "correo": "cliente.prueba@example.com",
+          "telefono": "88881234",
+          "direccion": "EscazÃº, San JosÃ©, Costa Rica",
+          "coordenadas": null
+        },
+        "lineas": [
+          {
+            "codigo": "2",
+            "descripcion": "Sales de BaÃ±o & Relax",
+            "cantidad": 2,
+            "precioUnitario": 4800,
+            "monto": 9600
+          }
+        ],
+        "subtotal": 8494.69,
+        "iva": 1105.31,
+        "total": 9600
+      }
+    }
   ]
 }
 
