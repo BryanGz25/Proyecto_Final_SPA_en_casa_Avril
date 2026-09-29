@@ -1,7 +1,19 @@
+import { useEffect, useState } from "react";
 import { useAppContext } from "../routes/Routing";
+import {
+  FiSun,
+  FiMoon,
+  FiZoomIn,
+  FiShoppingCart,
+  FiUser,
+  FiLogOut,
+  FiLogIn,
+} from "react-icons/fi";
+import { FaWhatsapp } from "react-icons/fa";
 
+// Importación de logo compatible con la estructura de archivos
+import logoAvrill from "../img/logo-avrill.jpeg.svg";
 const numeroWhatsApp = "50662848105";
-
 const enlaceWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(
   "Hola Avrill Cosmética, deseo consultar sobre sus productos artesanales"
 )}`;
@@ -13,19 +25,31 @@ export default function Encabezado() {
     carrito,
     navigate,
     cerrarSesion,
+    modoOscuro,
+    toggleModoOscuro,
+    tamanoTexto,
+    cambiarTamanoTexto,
   } = useAppContext();
 
-  const claseActiva = (ruta) =>
-    rutaActual === ruta ? "activo" : "";
+  const [desplazado, setDesplazado] = useState(false);
 
-  const rutaCuenta =
-    usuarioActivo?.rol === "admin" ? "/dashboard" : "/usuario";
+  useEffect(() => {
+    const manejarDesplazamiento = () => {
+      setDesplazado(window.scrollY > 60);
+    };
+
+    window.addEventListener("scroll", manejarDesplazamiento, { passive: true });
+    manejarDesplazamiento();
+
+    return () => window.removeEventListener("scroll", manejarDesplazamiento);
+  }, []);
+
+  const claseActiva = (ruta) => (rutaActual === ruta ? "activo" : "");
+  const rutaCuenta = usuarioActivo?.rol === "admin" ? "/dashboard" : "/usuario";
 
   const irAlTaller = () => {
     const desplazar = () =>
-      document
-        .getElementById("taller")
-        ?.scrollIntoView({ behavior: "smooth" });
+      document.getElementById("taller")?.scrollIntoView({ behavior: "smooth" });
 
     if (rutaActual !== "/") {
       navigate("/");
@@ -35,154 +59,216 @@ export default function Encabezado() {
     }
   };
 
+  const alternarZoomTexto = () => {
+    if (tamanoTexto === "normal") cambiarTamanoTexto("grande");
+    else if (tamanoTexto === "grande") cambiarTamanoTexto("extra");
+    else cambiarTamanoTexto("normal");
+  };
+
   return (
-    <header className="encabezado">
-      <div className="topbar">
-        <p>
-          Envíos a toda Costa Rica vía Correos de Costa Rica · Fórmulas
-          100% botánicas · Hecho a mano
-        </p>
-      </div>
+    <>
+      <style>{`
+        .logo-avrill {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          background: transparent;
+          border: none;
+          padding: 0;
+          margin: 0;
+          cursor: pointer;
+          text-align: center;
+          min-width: 0;
+        }
 
-      <div className="encabezado-contenido">
-        <button
-          className="logo"
-          onClick={() => navigate("/")}
-          aria-label="Ir al inicio de Avrill"
-        >
-          <img
-            src="/logo-avrill.jpeg"
-            alt="Avrill un spa en casa"
-          />
-          <span className="wordmark">
-            <span className="wordmark-titulo">Avrill</span>
-            <span className="wordmark-sub">Cosmética Artesanal</span>
-          </span>
-        </button>
+        .logo-avrill .logo-avrill-img {
+          display: block;
+          width: auto;
+          height: clamp(50px, 7vw, 70px);
+          flex-shrink: 0;
+          max-width: 100%;
+          object-fit: contain;
+          border-radius: 10px;
+          user-select: none;
+        }
 
-        <nav className="navegacion">
-          <button
-            className={claseActiva("/")}
-            onClick={() => navigate("/")}
-          >
-            Inicio
-          </button>
+        .switch-modo-nav {
+          width: 46px;
+          height: 26px;
+          background-color: var(--arena);
+          border: 1px solid var(--borde);
+          border-radius: 999px;
+          padding: 2px;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          transition: background-color 0.3s ease;
+        }
 
-          <button
-            className={claseActiva("/catalogo")}
-            onClick={() => navigate("/catalogo")}
-          >
-            Catálogo
-          </button>
+        .switch-modo-nav.modo-activo {
+          background-color: var(--verde-oscuro);
+        }
 
-          <button onClick={irAlTaller}>Taller &amp; Contacto</button>
-        </nav>
+        .switch-circulo-nav {
+          width: 20px;
+          height: 20px;
+          background-color: var(--blanco);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: transform 0.3s ease;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+          color: var(--verde-oscuro);
+        }
 
-        <div className="encabezado-acciones">
-          <a
-            className="pill-whatsapp"
-            href={enlaceWhatsApp}
-            target="_blank"
-            rel="noreferrer"
-            aria-label="Escríbenos a WhatsApp"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              width="16"
-              height="16"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.586-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.062-2.146-.538-1.728-.715-2.85-2.483-2.936-2.599-.086-.115-.694-.925-.694-1.763 0-.838.438-1.25.594-1.42.156-.17.34-.213.454-.213.113 0 .227.001.326.006.104.005.244-.04.382.29.144.346.49 1.196.533 1.282.043.086.071.187.014.301-.057.114-.086.185-.171.284-.086.099-.18.222-.258.298-.086.084-.176.176-.076.348.1.171.444.734.953 1.189.654.584 1.206.765 1.378.851.172.086.273.072.373-.043.101-.115.433-.504.549-.677.114-.172.228-.143.385-.085.157.057.994.469 1.165.554.171.085.285.128.328.199.043.072.043.418-.101.823z" />
-            </svg>
-            WhatsApp
-          </a>
+        .switch-modo-nav.modo-activo .switch-circulo-nav {
+          transform: translateX(20px);
+          background-color: var(--crema);
+          color: #f1c40f;
+        }
 
-          <button
-            className="icono-accion boton-carrito"
-            onClick={() => navigate("/carrito")}
-            aria-label="Abrir el carrito"
-            title="Carrito"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              width="20"
-              height="20"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
-              <path d="M3 6h18" />
-              <path d="M16 10a4 4 0 0 1-8 0" />
-            </svg>
-            {carrito.length > 0 && (
-              <span className="contador-carrito">
-                {carrito.length}
-              </span>
-            )}
-          </button>
+        .btn-zoom-nav {
+          background: transparent;
+          border: 1px solid var(--borde);
+          border-radius: 8px;
+          padding: 6px 10px;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          cursor: pointer;
+          color: var(--verde-oscuro);
+          font-weight: 600;
+          font-size: 13px;
+          transition: background 0.2s ease;
+        }
 
-          {usuarioActivo ? (
-            <>
-              <button
-                className={`navegacion-cuenta ${claseActiva(
-                  rutaCuenta
-                )}`}
-                onClick={() => navigate(rutaCuenta)}
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  width="18"
-                  height="18"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                  <circle cx="12" cy="7" r="4" />
-                </svg>
-                {usuarioActivo.rol === "admin" ? "Dashboard" : "Mi cuenta"}
-              </button>
+        .btn-zoom-nav:hover {
+          background: rgba(74, 93, 78, 0.08);
+        }
+      `}</style>
 
-              <button
-                className="navegacion-cuenta navegacion-salir"
-                onClick={cerrarSesion}
-              >
-                Salir
-              </button>
-            </>
-          ) : (
-            <button
-              className={`navegacion-cuenta ${claseActiva("/login")}`}
-              onClick={() => navigate("/login")}
-            >
-              <svg
-                viewBox="0 0 24 24"
-                width="18"
-                height="18"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              >
-                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
-                <path d="M10 17l5-5-5-5" />
-                <path d="M15 12H3" />
-              </svg>
-              Iniciar sesión
-            </button>
-          )}
+      <header className="encabezado">
+        <div className={`topbar${desplazado ? " topbar-oculta" : ""}`}>
+          <p>
+            Envíos a toda Costa Rica vía Correos de Costa Rica · Fórmulas
+            100% botánicas · Hecho a mano
+          </p>
         </div>
-      </div>
-    </header>
+
+        <div className="encabezado-contenido">
+          <button
+            className="logo logo-avrill"
+            onClick={() => navigate("/")}
+            aria-label="Ir al inicio de Avrill"
+            type="button"
+          >
+            <img
+              src={logoAvrill}
+              alt="Avrill un spa en casa"
+              className="logo-avrill-img"
+            />
+          </button>
+
+          <nav className="navegacion">
+            <button
+              className={claseActiva("/")}
+              onClick={() => navigate("/")}
+            >
+              Inicio
+            </button>
+
+            <button
+              className={claseActiva("/catalogo")}
+              onClick={() => navigate("/catalogo")}
+            >
+              Catálogo
+            </button>
+
+            <button onClick={irAlTaller}>Taller &amp; Contacto</button>
+          </nav>
+
+          <div className="encabezado-acciones">
+            <button
+              type="button"
+              className={`switch-modo-nav ${modoOscuro ? "modo-activo" : ""}`}
+              onClick={toggleModoOscuro}
+              aria-label="Cambiar modo oscuro o claro"
+              title={modoOscuro ? "Cambiar a Modo Claro" : "Cambiar a Modo Oscuro"}
+            >
+              <span className="switch-circulo-nav">
+                {modoOscuro ? <FiMoon size={12} /> : <FiSun size={12} />}
+              </span>
+            </button>
+
+            <button
+              type="button"
+              className="btn-zoom-nav"
+              onClick={alternarZoomTexto}
+              aria-label="Ajustar tamaño de texto"
+              title={`Aumentar texto. Actual: ${tamanoTexto?.toUpperCase() || "NORMAL"}`}
+            >
+              <FiZoomIn size={15} />
+              <span>{tamanoTexto === "normal" ? "1x" : tamanoTexto === "grande" ? "1.2x" : "1.5x"}</span>
+            </button>
+
+            <a
+              className="pill-whatsapp"
+              href={enlaceWhatsApp}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Escríbenos a WhatsApp"
+            >
+              <FaWhatsapp size={16} />
+              WhatsApp
+            </a>
+
+            <button
+              className="icono-accion boton-carrito"
+              onClick={() => navigate("/carrito")}
+              aria-label="Abrir el carrito"
+              title="Carrito"
+            >
+              <FiShoppingCart size={19} />
+              {carrito.length > 0 && (
+                <span className="contador-carrito">
+                  {carrito.length}
+                </span>
+              )}
+            </button>
+
+            {usuarioActivo ? (
+              <>
+                <button
+                  className={`navegacion-cuenta ${claseActiva(
+                    rutaCuenta
+                  )}`}
+                  onClick={() => navigate(rutaCuenta)}
+                >
+                  <FiUser size={18} />
+                  {usuarioActivo.rol === "admin" ? "Dashboard" : "Mi cuenta"}
+                </button>
+
+                <button
+                  className="navegacion-cuenta navegacion-salir"
+                  onClick={cerrarSesion}
+                >
+                  <FiLogOut size={16} />
+                  Salir
+                </button>
+              </>
+            ) : (
+              <button
+                className={`navegacion-cuenta ${claseActiva("/login")}`}
+                onClick={() => navigate("/login")}
+              >
+                <FiLogIn size={18} />
+                Iniciar sesión
+              </button>
+            )}
+          </div>
+        </div>
+      </header>
+    </>
   );
 }

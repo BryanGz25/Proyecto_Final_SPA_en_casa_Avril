@@ -2,19 +2,20 @@ export const EMISOR = {
   nombre: "Avrill",
   cedula: "3-101-000000",
   nombreComercial: "Avrill · Un spa en casa",
-  telefono: "+506 6489 5991",
-  correo: "bryangomezfwd@gmail.com",
+  telefono: "+506 6284-8105",
+  correo: "contacto@avrillcr.com",
   direccion: "San José, Desamparados, Centro de Desamparados",
-  actividad:
-    "4723 - Venta al por menor de cosméticos y artículos de tocador",
+  actividad: "4723 - Venta al por menor de cosméticos y artículos de tocador",
   condicionVenta: "Contado",
-  medioPago: "Efectivo",
+  medioPago: "Efectivo / SINPE Móvil",
   plazoCredito: "0 días",
   porcentajeIva: 13,
   moneda: "CRC",
 };
 
-export const CORREO_FACTURA = "bryangomezfwd@gmail.com";
+export const CORREO_FACTURA = "contacto@avrillcr.com";
+
+export const N8N_WEBHOOK_URL = import.meta.env.VITE_N8N_WEBHOOK_URL || "";
 
 export const EMAILJS = {
   serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID || "",
@@ -23,8 +24,4 @@ export const EMAILJS = {
 };
 
 export const correoConfigurado = () =>
-  Boolean(
-    EMAILJS.serviceId &&
-      EMAILJS.templateId &&
-      EMAILJS.publicKey
-  );
+  Boolean(EMAILJS.serviceId && EMAILJS.templateId && EMAILJS.publicKey);

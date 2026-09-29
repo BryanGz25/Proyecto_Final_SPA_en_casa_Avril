@@ -1,48 +1,51 @@
-// Servicio de Inteligencia Artificial para el Asistente Botánico de Avrill (API Google Gemini)
-const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY || "";
-const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+export async function consultarAsistenteIA(mensajeUsuario, productos = []) {
+  const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
 
-const PROMPT_SISTEMA = `
-Eres la Asistente Virtual Botánica de "Avrill · Un spa en casa", una tienda costarricense de cosmética artesanal y aromaterapia.
-Tu objetivo es recomendar productos botánicos artesanales (jabones de glicerina, sales de baño de Epsom, body splash con aceites esenciales, jabones decorativos) basados en el tipo de piel o necesidad del usuario.
-Responde de manera amable, natural, breve y profesional en español.
-Nuestros precios están en Colones Costarricenses (CRC).
+  if (!apiKey) {
+    return responderFallback(mensajeUsuario);
+  }
+
+  const promptSistema = `
+Eres Avri, la boticaria virtual y asesora de cuidado de la piel de "Avrill · Un spa en casa".
+Tu objetivo es sugerir rutinas, responder dudas y recomendar productos del catálogo de Avrill en colones costarricenses (₡).
+Catálogo actual de productos: ${JSON.stringify(
+    productos.map((p) => ({ nombre: p.nombre, precio: p.precio, categoria: p.categoria }))
+  )}
+Sé siempre amable, concisa (máximo 3 oraciones), profesional y relajante.
 `;
 
-export async function consultarAsistenteIA(mensajeUsuario, historial = []) {
-  if (!GEMINI_API_KEY) {
-    // Respuesta de respaldo amigable en caso de no configurar la API Key en el archivo .env
-    return "¡Hola! Bienvenido a Avrill. Te sugiero probar nuestro Jabón Botánico de Lavanda para relajar e hidratar la piel, o nuestras Sales de Baño de Epsom para descanso muscular.";
-  }
-
   try {
-    const contents = [
-      { role: "user", parts: [{ text: PROMPT_SISTEMA }] },
-      ...historial.map((msg) => ({
-        role: msg.emisor === "usuario" ? "user" : "model",
-        parts: [{ text: msg.texto }],
-      })),
-      { role: "user", parts: [{ text: mensajeUsuario }] },
-    ];
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [
+            {
+              role: "user",
+              parts: [{ text: `${promptSistema}\n\nPregunta: ${mensajeUsuario}` }],
+            },
+          ],
+        }),
+      }
+    );
 
-    const respuesta = await fetch(API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ contents }),
-    });
-
-    if (!respuesta.ok) {
-      throw new Error(`Error en la API de IA: ${respuesta.status}`);
-    }
-
-    const datos = await respuesta.json();
-    const textoGenerado =
-      datos?.candidates?.[0]?.content?.parts?.[0]?.text ||
-      "Lo siento, no pude procesar tu solicitud en este momento. Por favor pregúntame de nuevo.";
-
-    return textoGenerado;
+    if (!response.ok) throw new Error("Error en la API de Gemini");
+    const data = await response.json();
+    return data.candidates[0].content.parts[0].text;
   } catch (error) {
-    console.error("Error al consultar la IA:", error);
-    return "En este momento tenemos una interrupción de conexión con la IA. Puedes consultarnos directamente por WhatsApp.";
+    return responderFallback(mensajeUsuario);
   }
+}
+
+function responderFallback(mensaje) {
+  const txt = mensaje.toLowerCase();
+  if (txt.includes("piel seca") || txt.includes("hidrat")) {
+    return "Para la piel seca te recomiendo nuestras **Sales de Baño Humectantes** y los **Jabones Artesanales de Glicerina**. ¡Le devolverán la suavidad y elasticidad a tu piel! 🌿";
+  }
+  if (txt.includes("precio") || txt.includes("costo") || txt.includes("cuanto")) {
+    return "Nuestros productos artesanales van desde los ₡2,500 hasta los ₡6,500 CRC. ¡Puedes ver los precios exactos en la pestaña de Catálogo!";
+  }
+  return "¡Hola! Soy Avri 🌿. Estoy aquí para recomendarte los mejores jabones artesanales, sales y productos de spa hechos a mano en Costa Rica. ¿En qué puedo ayudarte hoy?";
 }
