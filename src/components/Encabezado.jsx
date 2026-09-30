@@ -11,9 +11,10 @@ import {
 } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
 
-// Rutas estáticas servidas desde la carpeta /public
-const logoJpg = "/logo-avrill.jpeg";
-const logoSvg = "/LogoN.svg";
+// Referencia al logo guardado en la carpeta public
+const logoAvrillEspecial = "/logo-avrill.jpeg.svg";
+const logoRespaldoJpg = "/logo-avrill.jpeg";
+const logoRespaldoSvg = "/LogoN.svg";
 
 const numeroWhatsApp = "50662848105";
 const enlaceWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(
@@ -34,7 +35,7 @@ export default function Encabezado() {
   } = useAppContext();
 
   const [desplazado, setDesplazado] = useState(false);
-  const [logoActual, setLogoActual] = useState(logoJpg);
+  const [logoSrc, setLogoSrc] = useState(logoAvrillEspecial);
 
   useEffect(() => {
     const manejarDesplazamiento = () => {
@@ -68,9 +69,28 @@ export default function Encabezado() {
     else cambiarTamanoTexto("normal");
   };
 
+  const manejarErrorImagen = () => {
+    if (logoSrc === logoAvrillEspecial) {
+      setLogoSrc(logoRespaldoJpg);
+    } else if (logoSrc === logoRespaldoJpg) {
+      setLogoSrc(logoRespaldoSvg);
+    }
+  };
+
   return (
     <>
       <style>{`
+        /* Contenedor del Encabezado */
+        .encabezado-contenido {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 8px 28px;
+          gap: 20px;
+          max-width: 1280px;
+          margin: 0 auto;
+        }
+
         /* Botón Contenedor del Logo */
         .logo-avrill-btn {
           display: inline-flex;
@@ -78,36 +98,65 @@ export default function Encabezado() {
           justify-content: center;
           background: transparent;
           border: none;
-          padding: 0;
+          padding: 2px;
           margin: 0;
           cursor: pointer;
+          flex-shrink: 0;
         }
 
-        /* Dimensiones del Logo Agrandado y Responsive */
+        /* 🌟 LOGO AGRANDADO CON CONTRASTE DESTACADO */
         .logo-avrill-img {
           display: block;
           width: auto;
-          height: clamp(56px, 7.5vw, 86px);
-          max-height: 86px;
+          height: clamp(68px, 8.5vw, 95px); /* Aumento sustancial de presencia */
+          max-height: 95px;
           max-width: 100%;
           object-fit: contain;
+          /* Filtro de contraste sutil y sombra para separarlo del fondo */
+          filter: drop-shadow(0px 3px 6px rgba(51, 69, 55, 0.12)) contrast(1.05);
           transition: transform 0.25s ease, filter 0.3s ease;
           user-select: none;
         }
 
         .logo-avrill-btn:hover .logo-avrill-img {
-          transform: scale(1.04);
+          transform: scale(1.05);
+          filter: drop-shadow(0px 4px 10px rgba(51, 69, 55, 0.2)) contrast(1.08);
         }
 
-        /* Soporte para Modo Oscuro en el Logo */
+        /* Adaptación en Modo Oscuro */
         body.modo-oscuro .logo-avrill-img {
-          filter: drop-shadow(0px 2px 8px rgba(255, 255, 255, 0.2)) brightness(1.15);
+          filter: drop-shadow(0px 2px 10px rgba(255, 255, 255, 0.25)) brightness(1.18);
         }
 
-        /* Switch de Modo Oscuro */
+        /* Menú Navegación Central */
+        .navegacion {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        }
+
+        .navegacion button {
+          font-size: 0.95rem;
+          font-weight: 600;
+          padding: 8px 16px;
+          border-radius: 999px;
+          border: none;
+          background: transparent;
+          cursor: pointer;
+          transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        /* Acciones Derecha */
+        .encabezado-acciones {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+
+        /* Switch Modo Oscuro */
         .switch-modo-nav {
-          width: 46px;
-          height: 26px;
+          width: 44px;
+          height: 24px;
           background-color: var(--arena, #e2dacd);
           border: 1px solid var(--borde, #d4cbbe);
           border-radius: 999px;
@@ -123,8 +172,8 @@ export default function Encabezado() {
         }
 
         .switch-circulo-nav {
-          width: 20px;
-          height: 20px;
+          width: 18px;
+          height: 18px;
           background-color: #ffffff;
           border-radius: 50%;
           display: flex;
@@ -149,11 +198,11 @@ export default function Encabezado() {
           padding: 6px 10px;
           display: flex;
           align-items: center;
-          gap: 6px;
+          gap: 5px;
           cursor: pointer;
           color: var(--verde-oscuro, #334537);
           font-weight: 600;
-          font-size: 13px;
+          font-size: 0.85rem;
           transition: background 0.2s ease;
         }
 
@@ -165,9 +214,14 @@ export default function Encabezado() {
           color: var(--texto, #f2f5f3);
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 900px) {
+          .encabezado-contenido {
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 10px 16px;
+          }
           .logo-avrill-img {
-            height: clamp(48px, 11vw, 60px);
+            height: clamp(55px, 12vw, 75px);
           }
         }
       `}</style>
@@ -181,7 +235,7 @@ export default function Encabezado() {
         </div>
 
         <div className="encabezado-contenido">
-          {/* Logo con fallback automático */}
+          {/* Logo Agrandado y con Contraste */}
           <button
             className="logo-avrill-btn"
             onClick={() => navigate("/")}
@@ -189,14 +243,10 @@ export default function Encabezado() {
             type="button"
           >
             <img
-              src={logoActual}
+              src={logoSrc}
               alt="Avrill un spa en casa"
               className="logo-avrill-img"
-              onError={() => {
-                if (logoActual !== logoSvg) {
-                  setLogoActual(logoSvg);
-                }
-              }}
+              onError={manejarErrorImagen}
             />
           </button>
 
@@ -219,7 +269,7 @@ export default function Encabezado() {
           </nav>
 
           <div className="encabezado-acciones">
-            {/* Switch Modo Oscuro */}
+            {/* Control Modo Oscuro */}
             <button
               type="button"
               className={`switch-modo-nav ${modoOscuro ? "modo-activo" : ""}`}
@@ -228,7 +278,7 @@ export default function Encabezado() {
               title={modoOscuro ? "Cambiar a Modo Claro" : "Cambiar a Modo Oscuro"}
             >
               <span className="switch-circulo-nav">
-                {modoOscuro ? <FiMoon size={12} /> : <FiSun size={12} />}
+                {modoOscuro ? <FiMoon size={11} /> : <FiSun size={11} />}
               </span>
             </button>
 
@@ -240,7 +290,7 @@ export default function Encabezado() {
               aria-label="Ajustar tamaño de texto"
               title={`Aumentar texto. Actual: ${tamanoTexto?.toUpperCase() || "NORMAL"}`}
             >
-              <FiZoomIn size={15} />
+              <FiZoomIn size={14} />
               <span>{tamanoTexto === "normal" ? "1x" : tamanoTexto === "grande" ? "1.2x" : "1.5x"}</span>
             </button>
 

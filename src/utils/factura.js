@@ -88,7 +88,29 @@ const formatoFecha = (factura) =>
     minute: "2-digit",
   });
 
+const escaparHtml = (valor) =>
+  String(valor ?? "").replace(/[&<>"']/g, (caracter) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;",
+  })[caracter]);
+
+const sanearValoresHtml = (valor) => {
+  if (typeof valor === "string") return escaparHtml(valor);
+  if (Array.isArray(valor)) return valor.map(sanearValoresHtml);
+  if (valor && typeof valor === "object") {
+    return Object.fromEntries(
+      Object.entries(valor).map(([clave, contenido]) => [clave, sanearValoresHtml(contenido)])
+    );
+  }
+  return valor;
+};
+
 export function facturaHtml(factura) {
+  factura = sanearValoresHtml(factura);
+
   const filas = factura.lineas
     .map(
       (linea) => `
@@ -103,7 +125,7 @@ export function facturaHtml(factura) {
     .join("");
 
   const coordenadas = factura.receptor.coordenadas
-    ? `<p class="linea-pequena">Ubicación GPS: ${factura.receptor.coordenadas.lat}, ${factura.receptor.coordenadas.lng}</p>`
+    ? `<p class="linea-pequena">Ubicaci├│n GPS: ${factura.receptor.coordenadas.lat}, ${factura.receptor.coordenadas.lng}</p>`
     : "";
 
   return `<!doctype html>
@@ -184,7 +206,7 @@ export function facturaHtml(factura) {
     <div class="encabezado">
       <div class="marca">
         <h1>${factura.emisor.nombreComercial}</h1>
-        <small>Factura proforma · No es un comprobante electrónico</small>
+        <small>Factura proforma ┬À No es un comprobante electr├│nico</small>
       </div>
       <div class="numeros">
         <p><strong>Factura Proforma ${factura.numero}</strong></p>
@@ -196,20 +218,20 @@ export function facturaHtml(factura) {
       <div class="panel">
         <h2>Emisor</h2>
         <p><strong>${factura.emisor.nombre}</strong></p>
-        <p>Cédula: ${factura.emisor.cedula}</p>
+        <p>C├®dula: ${factura.emisor.cedula}</p>
         <p>Nombre comercial: ${factura.emisor.nombreComercial}</p>
-        <p>Teléfono: ${factura.emisor.telefono}</p>
+        <p>Tel├®fono: ${factura.emisor.telefono}</p>
         <p>Correo: ${factura.emisor.correo}</p>
-        <p>Dirección: ${factura.emisor.direccion}</p>
-        <p class="linea-pequena">Código de actividad económica: ${factura.emisor.actividad}</p>
+        <p>Direcci├│n: ${factura.emisor.direccion}</p>
+        <p class="linea-pequena">C├│digo de actividad econ├│mica: ${factura.emisor.actividad}</p>
       </div>
       <div class="panel">
         <h2>Receptor</h2>
         <p><strong>${factura.receptor.nombre}</strong></p>
-        <p>Identificación: ${factura.receptor.identificacion}</p>
+        <p>Identificaci├│n: ${factura.receptor.identificacion}</p>
         <p>Correo: ${factura.receptor.correo}</p>
-        <p>Teléfono: ${factura.receptor.telefono}</p>
-        <p>Dirección: ${factura.receptor.direccion}</p>
+        <p>Tel├®fono: ${factura.receptor.telefono}</p>
+        <p>Direcci├│n: ${factura.receptor.direccion}</p>
         ${coordenadas}
       </div>
     </div>
@@ -217,13 +239,13 @@ export function facturaHtml(factura) {
     <div class="grid">
       <div class="panel">
         <h2>Condiciones</h2>
-        <p>Condición de venta: ${factura.condicionVenta}</p>
+        <p>Condici├│n de venta: ${factura.condicionVenta}</p>
         <p>Medio de pago: ${factura.medioPago}</p>
-        <p>Plazo de crédito: ${factura.plazoCredito}</p>
+        <p>Plazo de cr├®dito: ${factura.plazoCredito}</p>
       </div>
       <div class="panel">
         <h2>Moneda</h2>
-        <p>Colón costarricense (CRC)</p>
+        <p>Col├│n costarricense (CRC)</p>
         <p>Impuesto incluido: IVA ${factura.porcentajeIva}%</p>
       </div>
     </div>
@@ -231,8 +253,8 @@ export function facturaHtml(factura) {
     <table>
       <thead>
         <tr>
-          <th>Código</th>
-          <th>Descripción</th>
+          <th>C├│digo</th>
+          <th>Descripci├│n</th>
           <th class="ta-c">Cant.</th>
           <th class="ta-r">Precio unit.</th>
           <th class="ta-r">Monto</th>
@@ -249,12 +271,12 @@ export function facturaHtml(factura) {
 
     <div class="nota">
       Documento sin validez fiscal ante el Ministerio de Hacienda de Costa Rica.
-      Corresponde a un presupuesto o factura proforma sujeto a modificación hasta la
-      confirmación del pedido. Los precios incluyen el IVA (${factura.porcentajeIva}%) de acuerdo
-      con la legislación tributaria vigente.
+      Corresponde a un presupuesto o factura proforma sujeto a modificaci├│n hasta la
+      confirmaci├│n del pedido. Los precios incluyen el IVA (${factura.porcentajeIva}%) de acuerdo
+      con la legislaci├│n tributaria vigente.
     </div>
 
-    <p class="pie">${factura.emisor.nombreComercial} · ${factura.emisor.direccion} · ${factura.emisor.telefono}</p>
+    <p class="pie">${factura.emisor.nombreComercial} ┬À ${factura.emisor.direccion} ┬À ${factura.emisor.telefono}</p>
   </body>
 </html>`;
 }

@@ -77,7 +77,7 @@ export default function Carrito() {
     setMensajeFactura("");
     setEnviando(true);
 
-    const pedido = crearPedido(formulario);
+    const pedido = await crearPedido(formulario);
 
     if (!pedido) {
       setEnviando(false);

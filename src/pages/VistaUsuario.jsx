@@ -9,6 +9,7 @@ export default function VistaUsuario() {
     usuarioActivo,
     pedidos,
     actualizarUsuario,
+    cambiarClave,
     navigate,
   } = useAppContext();
 
@@ -23,8 +24,9 @@ export default function VistaUsuario() {
     telefono: usuarioActivo?.telefono || "",
     direccion: usuarioActivo?.direccion || "",
     usuario: usuarioActivo?.usuario || "",
-    clave: usuarioActivo?.clave || "",
   });
+  const [claveActual, setClaveActual] = useState("");
+  const [claveNueva, setClaveNueva] = useState("");
 
   const misPedidos = pedidos.filter(
     (pedido) => pedido.usuario === usuarioActivo?.usuario
@@ -55,12 +57,24 @@ export default function VistaUsuario() {
     setError("");
 
     try {
-      await actualizarUsuario(usuarioActivo.id, perfil);
+      if (claveActual || claveNueva) {
+        if (!claveActual || !claveNueva) {
+          throw new Error("Completa la contraseña actual y la nueva para cambiarla.");
+        }
+        await cambiarClave(claveActual, claveNueva);
+        setClaveActual("");
+        setClaveNueva("");
+      }
+
+      await actualizarUsuario(usuarioActivo.id, {
+        nombre: perfil.nombre,
+        correo: perfil.correo,
+        telefono: perfil.telefono,
+        direccion: perfil.direccion,
+      });
       setMensaje("Tu perfil se actualizó correctamente.");
-    } catch {
-      setError(
-        "No se pudo actualizar el perfil. Inténtalo de nuevo."
-      );
+    } catch (errorActualizacion) {
+      setError(errorActualizacion.message || "No se pudo actualizar el perfil. Inténtalo de nuevo.");
     }
   };
 
@@ -204,17 +218,26 @@ export default function VistaUsuario() {
                   required
                 />
 
-                <label>Contraseña</label>
+                <label>Contraseña actual</label>
                 <input
                   type="password"
-                  value={perfil.clave}
-                  onChange={(event) =>
-                    setPerfil({
-                      ...perfil,
-                      clave: event.target.value,
-                    })
-                  }
-                  required
+                  autoComplete="current-password"
+                  value={claveActual}
+                  onChange={(event) => setClaveActual(event.target.value)}
+                  maxLength={72}
+                  required={Boolean(claveNueva)}
+                  placeholder="Déjala vacía para no cambiarla"
+                />
+
+                <label>Nueva contraseña</label>
+                <input
+                  type="password"
+                  autoComplete="new-password"
+                  value={claveNueva}
+                  onChange={(event) => setClaveNueva(event.target.value)}
+                  minLength={10}
+                  maxLength={72}
+                  required={Boolean(claveActual)}
                 />
 
                 <button className="btn-principal">

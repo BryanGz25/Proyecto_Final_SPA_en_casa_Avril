@@ -1,50 +1,40 @@
 const BASE = "/api";
+const TIEMPO_LIMITE = 10000;
 
 const peticion = async (ruta, opciones = {}) => {
   const respuesta = await fetch(`${BASE}${ruta}`, {
+    credentials: "include",
     headers: { "Content-Type": "application/json" },
     ...opciones,
+    signal: opciones.signal || AbortSignal.timeout(TIEMPO_LIMITE),
   });
 
+  const datos = await respuesta.json().catch(() => ({}));
   if (!respuesta.ok) {
-    throw new Error(
-      `No se pudo completar la peticion ${ruta}: ${respuesta.status}`
-    );
+    const error = new Error(datos.error || `Error del servidor: ${respuesta.status}`);
+    error.status = respuesta.status;
+    throw error;
   }
-
-  return respuesta.json();
+  return datos;
 };
 
 export const apiUsuarios = {
   listar: () => peticion("/usuarios"),
 
-  obtener: (id) => peticion(`/usuarios/${id}`),
+  obtener: (id) => peticion(`/usuarios/${encodeURIComponent(id)}`),
 
-  crear: (datos) =>
-    peticion("/usuarios", {
-      method: "POST",
-      body: JSON.stringify(datos),
+  actualizar: (id, cambios) =>
+    peticion(`/usuarios/${encodeURIComponent(id)}`, {
+      method: "PATCH",
+      body: JSON.stringify(cambios),
     }),
-
-  actualizar: async (id, datos) => {
-    const actual = await peticion(`/usuarios/${id}`);
-
-    return peticion(`/usuarios/${id}`, {
-      method: "PUT",
-      body: JSON.stringify({ ...actual, ...datos, id }),
-    });
-  },
 
   eliminar: (id) =>
-    peticion(`/usuarios/${id}`, {
-      method: "DELETE",
-    }),
+    peticion(`/usuarios/${encodeURIComponent(id)}`, { method: "DELETE" }),
 };
 
 export const apiProductos = {
   listar: () => peticion("/productos"),
-
-  obtener: (id) => peticion(`/productos/${id}`),
 
   crear: (datos) =>
     peticion("/productos", {
@@ -52,76 +42,58 @@ export const apiProductos = {
       body: JSON.stringify(datos),
     }),
 
-  actualizar: async (id, datos) => {
-    const actual = await peticion(`/productos/${id}`);
-
-    return peticion(`/productos/${id}`, {
-      method: "PUT",
-      body: JSON.stringify({ ...actual, ...datos, id }),
-    });
-  },
+  actualizar: (id, cambios) =>
+    peticion(`/productos/${encodeURIComponent(id)}`, {
+      method: "PATCH",
+      body: JSON.stringify(cambios),
+    }),
 
   eliminar: (id) =>
-    peticion(`/productos/${id}`, {
-      method: "DELETE",
+    peticion(`/productos/${encodeURIComponent(id)}`, { method: "DELETE" }),
+};
+
+export const apiPedidos = {
+  listar: () => peticion("/pedidos"),
+
+  crear: (pedido) =>
+    peticion("/pedidos", {
+      method: "POST",
+      body: JSON.stringify(pedido),
+    }),
+
+  actualizar: (id, cambios) =>
+    peticion(`/pedidos/${encodeURIComponent(id)}`, {
+      method: "PATCH",
+      body: JSON.stringify(cambios),
     }),
 };
 
-const generarToken = () => {
-  const azar = Math.random().toString(36).slice(2);
-  const tiempo = Date.now().toString(36);
-  const cadena = `${azar}.${tiempo}.${datosAleatorios(8)}`;
-
-  return btoa(cadena).replace(/=+$/, "");
-};
-
-const datosAleatorios = (cantidad) => {
-  const letras =
-    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-  let resultado = "";
-
-  for (let i = 0; i < cantidad; i += 1) {
-    resultado += letras[Math.floor(Math.random() * letras.length)];
-  }
-
-  return resultado;
-};
-
 export const apiSesion = {
-  iniciar: async (usuario) => {
-    const token = generarToken();
-    const actualizado = await apiUsuarios.actualizar(usuario.id, {
-      token,
-    });
+  iniciar: (credenciales) =>
+    peticion("/auth/login", {
+      method: "POST",
+      body: JSON.stringify(credenciales),
+    }),
 
-    return { usuario: actualizado, token };
-  },
+  registrar: (datos) =>
+    peticion("/auth/register", {
+      method: "POST",
+      body: JSON.stringify(datos),
+    }),
 
-  validar: async (token, id) => {
+  cambiarClave: (claveActual, claveNueva) =>
+    peticion("/auth/change-password", {
+      method: "POST",
+      body: JSON.stringify({ claveActual, claveNueva }),
+    }),
+
+  validar: async () => {
     try {
-      const usuario = await apiUsuarios.obtener(id);
-
-      if (usuario && usuario.token && usuario.token === token) {
-        return usuario;
-      }
+      return await peticion("/auth/session");
     } catch {
       return null;
     }
-
-    return null;
   },
 
-  cerrar: async (id) => {
-    try {
-      const usuario = await apiUsuarios.obtener(id);
-
-      if (usuario) {
-        await apiUsuarios.actualizar(id, { token: null });
-      }
-    } catch {
-      return null;
-    }
-
-    return null;
-  },
+  cerrar: () => peticion("/auth/logout", { method: "POST" }),
 };

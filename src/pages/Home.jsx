@@ -587,7 +587,7 @@ export default function Home() {
                 target="_blank"
                 rel="noreferrer"
               >
-                Hablar con la Artesana
+                Hablar con Kimberly
               </a>
             </aside>
           </div>
@@ -675,6 +675,7 @@ export default function Home() {
                   Nombre Completo
                   <input
                     type="text"
+                    maxLength={30}
                     value={formulario.nombre}
                     onChange={(event) =>
                       cambiarFormulario("nombre", event.target.value)
@@ -689,11 +690,17 @@ export default function Home() {
                     Teléfono o WhatsApp
                     <input
                       type="tel"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      maxLength={30}
                       value={formulario.telefono}
                       onChange={(event) =>
-                        cambiarFormulario("telefono", event.target.value)
+                        cambiarFormulario(
+                          "telefono",
+                          event.target.value.replace(/\D/g, "").slice(0, 30)
+                        )
                       }
-                      placeholder="8888-8888"
+                      placeholder="88888888"
                       required
                     />
                   </label>
@@ -730,6 +737,7 @@ export default function Home() {
                   Cantón / Provincia de Envío
                   <input
                     type="text"
+                    maxLength={100}
                     value={formulario.ubicacion}
                     onChange={(event) =>
                       cambiarFormulario("ubicacion", event.target.value)
@@ -742,6 +750,7 @@ export default function Home() {
                   Nota adicional o consulta
                   <textarea
                     rows="2"
+                    maxLength={300}
                     value={formulario.nota}
                     onChange={(event) =>
                       cambiarFormulario("nota", event.target.value)

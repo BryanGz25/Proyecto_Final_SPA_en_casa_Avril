@@ -454,7 +454,11 @@ import {
 } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
 
-const logoAvrill = "/logo-avrill.jpeg.svg";
+// Referencia al logo guardado en la carpeta public
+const logoAvrillEspecial = "/logo-avrill.jpeg.svg";
+const logoRespaldoJpg = "/logo-avrill.jpeg";
+const logoRespaldoSvg = "/LogoN.svg";
+
 const numeroWhatsApp = "50662848105";
 const enlaceWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(
   "Hola Avrill CosmÃ©tica, deseo consultar sobre sus productos artesanales"
@@ -474,6 +478,7 @@ export default function Encabezado() {
   } = useAppContext();
 
   const [desplazado, setDesplazado] = useState(false);
+  const [logoSrc, setLogoSrc] = useState(logoAvrillEspecial);
 
   useEffect(() => {
     const manejarDesplazamiento = () => {
@@ -507,51 +512,96 @@ export default function Encabezado() {
     else cambiarTamanoTexto("normal");
   };
 
+  const manejarErrorImagen = () => {
+    if (logoSrc === logoAvrillEspecial) {
+      setLogoSrc(logoRespaldoJpg);
+    } else if (logoSrc === logoRespaldoJpg) {
+      setLogoSrc(logoRespaldoSvg);
+    }
+  };
+
   return (
     <>
       <style>{`
-        .logo-avrill {
+        /* Contenedor del Encabezado */
+        .encabezado-contenido {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 8px 28px;
+          gap: 20px;
+          max-width: 1280px;
+          margin: 0 auto;
+        }
+
+        /* BotÃ³n Contenedor del Logo */
+        .logo-avrill-btn {
           display: inline-flex;
           align-items: center;
           justify-content: center;
           background: transparent;
           border: none;
-          padding: 0;
+          padding: 2px;
           margin: 0;
           cursor: pointer;
-          text-align: center;
-          min-width: 0;
+          flex-shrink: 0;
         }
 
-        .logo-avrill .logo-avrill-img {
+        /* ðŸŒŸ LOGO AGRANDADO CON CONTRASTE DESTACADO */
+        .logo-avrill-img {
           display: block;
           width: auto;
-          height: clamp(60px, 8vw, 85px);
-          flex-shrink: 0;
+          height: clamp(68px, 8.5vw, 95px); /* Aumento sustancial de presencia */
+          max-height: 95px;
           max-width: 100%;
           object-fit: contain;
-          border-radius: 10px;
+          /* Filtro de contraste sutil y sombra para separarlo del fondo */
+          filter: drop-shadow(0px 3px 6px rgba(51, 69, 55, 0.12)) contrast(1.05);
+          transition: transform 0.25s ease, filter 0.3s ease;
           user-select: none;
         }
 
-        .encabezado-contenido {
-          height: 76px;
+        .logo-avrill-btn:hover .logo-avrill-img {
+          transform: scale(1.05);
+          filter: drop-shadow(0px 4px 10px rgba(51, 69, 55, 0.2)) contrast(1.08);
+        }
+
+        /* AdaptaciÃ³n en Modo Oscuro */
+        body.modo-oscuro .logo-avrill-img {
+          filter: drop-shadow(0px 2px 10px rgba(255, 255, 255, 0.25)) brightness(1.18);
+        }
+
+        /* MenÃº NavegaciÃ³n Central */
+        .navegacion {
+          display: flex;
           align-items: center;
-          padding-top: 0;
-          padding-bottom: 0;
+          gap: 6px;
         }
 
-        @media (max-width: 767px) {
-          .encabezado-contenido {
-            height: 60px;
-          }
+        .navegacion button {
+          font-size: 0.95rem;
+          font-weight: 600;
+          padding: 8px 16px;
+          border-radius: 999px;
+          border: none;
+          background: transparent;
+          cursor: pointer;
+          transition: background 0.2s ease, color 0.2s ease;
         }
 
+        /* Acciones Derecha */
+        .encabezado-acciones {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+
+        /* Switch Modo Oscuro */
         .switch-modo-nav {
-          width: 46px;
-          height: 26px;
-          background-color: var(--arena, #e8e2d8);
-          border: 1px solid var(--borde, #e8e2d8);
+          width: 44px;
+          height: 24px;
+          background-color: var(--arena, #e2dacd);
+          border: 1px solid var(--borde, #d4cbbe);
           border-radius: 999px;
           padding: 2px;
           cursor: pointer;
@@ -565,9 +615,9 @@ export default function Encabezado() {
         }
 
         .switch-circulo-nav {
-          width: 20px;
-          height: 20px;
-          background-color: var(--blanco, #ffffff);
+          width: 18px;
+          height: 18px;
+          background-color: #ffffff;
           border-radius: 50%;
           display: flex;
           align-items: center;
@@ -579,22 +629,23 @@ export default function Encabezado() {
 
         .switch-modo-nav.modo-activo .switch-circulo-nav {
           transform: translateX(20px);
-          background-color: var(--crema, #fdfbf7);
+          background-color: #fdfbf7;
           color: #f1c40f;
         }
 
+        /* Control de Zoom */
         .btn-zoom-nav {
           background: transparent;
-          border: 1px solid var(--borde, #e8e2d8);
+          border: 1px solid var(--borde, #d4cbbe);
           border-radius: 8px;
           padding: 6px 10px;
           display: flex;
           align-items: center;
-          gap: 6px;
+          gap: 5px;
           cursor: pointer;
           color: var(--verde-oscuro, #334537);
           font-weight: 600;
-          font-size: calc(13px * var(--font-scale, 1));
+          font-size: 0.85rem;
           transition: background 0.2s ease;
         }
 
@@ -602,12 +653,19 @@ export default function Encabezado() {
           background: rgba(74, 93, 78, 0.08);
         }
 
-        /* RestricciÃ³n estricta de tamaÃ±o mÃ¡ximo para Ã­conos vectoriales de la Navbar */
-        .encabezado-acciones svg {
-          max-width: 24px !important;
-          max-height: 24px !important;
-          display: inline-block;
-          vertical-align: middle;
+        body.modo-oscuro .btn-zoom-nav {
+          color: var(--texto, #f2f5f3);
+        }
+
+        @media (max-width: 900px) {
+          .encabezado-contenido {
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 10px 16px;
+          }
+          .logo-avrill-img {
+            height: clamp(55px, 12vw, 75px);
+          }
         }
       `}</style>
 
@@ -620,20 +678,18 @@ export default function Encabezado() {
         </div>
 
         <div className="encabezado-contenido">
+          {/* Logo Agrandado y con Contraste */}
           <button
-            className="logo logo-avrill"
+            className="logo-avrill-btn"
             onClick={() => navigate("/")}
             aria-label="Ir al inicio de Avrill"
             type="button"
           >
             <img
-              src={logoAvrill}
+              src={logoSrc}
               alt="Avrill un spa en casa"
               className="logo-avrill-img"
-              onError={(event) => {
-                event.currentTarget.onerror = null;
-                event.currentTarget.src = "/logo-avrill.jpeg";
-              }}
+              onError={manejarErrorImagen}
             />
           </button>
 
@@ -656,6 +712,7 @@ export default function Encabezado() {
           </nav>
 
           <div className="encabezado-acciones">
+            {/* Control Modo Oscuro */}
             <button
               type="button"
               className={`switch-modo-nav ${modoOscuro ? "modo-activo" : ""}`}
@@ -664,27 +721,20 @@ export default function Encabezado() {
               title={modoOscuro ? "Cambiar a Modo Claro" : "Cambiar a Modo Oscuro"}
             >
               <span className="switch-circulo-nav">
-                {modoOscuro ? <FiMoon size={12} /> : <FiSun size={12} />}
+                {modoOscuro ? <FiMoon size={11} /> : <FiSun size={11} />}
               </span>
             </button>
 
+            {/* Control Zoom */}
             <button
               type="button"
               className="btn-zoom-nav"
               onClick={alternarZoomTexto}
               aria-label="Ajustar tamaÃ±o de texto"
-              title={`Aumentar texto. Actual: ${
-                tamanoTexto?.toUpperCase() || "NORMAL"
-              }`}
+              title={`Aumentar texto. Actual: ${tamanoTexto?.toUpperCase() || "NORMAL"}`}
             >
-              <FiZoomIn size={15} />
-              <span>
-                {tamanoTexto === "normal"
-                  ? "1x"
-                  : tamanoTexto === "grande"
-                  ? "1.25x"
-                  : "1.5x"}
-              </span>
+              <FiZoomIn size={14} />
+              <span>{tamanoTexto === "normal" ? "1x" : tamanoTexto === "grande" ? "1.2x" : "1.5x"}</span>
             </button>
 
             <a
@@ -706,14 +756,18 @@ export default function Encabezado() {
             >
               <FiShoppingCart size={19} />
               {carrito.length > 0 && (
-                <span className="contador-carrito">{carrito.length}</span>
+                <span className="contador-carrito">
+                  {carrito.length}
+                </span>
               )}
             </button>
 
             {usuarioActivo ? (
               <>
                 <button
-                  className={`navegacion-cuenta ${claseActiva(rutaCuenta)}`}
+                  className={`navegacion-cuenta ${claseActiva(
+                    rutaCuenta
+                  )}`}
                   onClick={() => navigate(rutaCuenta)}
                 >
                   <FiUser size={18} />
@@ -1153,10 +1207,10 @@ export default function Footer() {
 === FILE: C:\Users\FWD8D\OneDrive\Desktop\Estudio\Proyecto-final\src\components\LoginFormulario.jsx ===
 import { useState } from "react";
 import { useAppContext } from "../routes/Routing";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
 export default function LoginFormulario() {
   const {
-    usuarios,
     iniciarSesion,
     registrarUsuario,
     navigate,
@@ -1165,6 +1219,7 @@ export default function LoginFormulario() {
   const [modo, setModo] = useState("login");
   const [usuario, setUsuario] = useState("");
   const [clave, setClave] = useState("");
+  const [mostrarClave, setMostrarClave] = useState(false);
   const [error, setError] = useState("");
 
   const [datosNuevo, setDatosNuevo] = useState({
@@ -1182,34 +1237,21 @@ export default function LoginFormulario() {
     setCargando(true);
     setError("");
 
-    const encontrado = usuarios.find(
-      (item) =>
-        item.usuario === usuario && item.clave === clave
-    );
-
-    if (!encontrado) {
-      setError("Usuario o contraseÃ±a incorrectos.");
-      setCargando(false);
-      return;
-    }
-
     try {
-      const sesionCreada = await iniciarSesion(encontrado);
-
-      if (!sesionCreada) {
-        setError("No se pudo iniciar sesiÃ³n. IntÃ©ntalo de nuevo.");
-        setCargando(false);
-        return;
+      const usuarioAutenticado = await iniciarSesion({
+        usuario: usuario.trim(),
+        clave,
+      });
+      navigate(usuarioAutenticado.rol === "admin" ? "/dashboard" : "/usuario");
+    } catch (errorLogin) {
+      if (errorLogin.status === 401) {
+        setError("Usuario o contraseÃ±a incorrectos.");
+      } else if (errorLogin.status === 429) {
+        setError("Demasiados intentos. Espera unos minutos y vuelve a intentar.");
+      } else {
+        setError("No se pudo conectar con el servicio de acceso. IntÃ©ntalo de nuevo.");
       }
-
-      setCargando(false);
-      navigate(
-        encontrado.rol === "admin" ? "/dashboard" : "/usuario"
-      );
-    } catch {
-      setError(
-        "No se pudo conectar con el servidor de base de datos. Ejecuta 'npm run server' para poder iniciar sesiÃ³n."
-      );
+    } finally {
       setCargando(false);
     }
   };
@@ -1219,28 +1261,14 @@ export default function LoginFormulario() {
     setCargando(true);
     setError("");
 
-    const repetido = usuarios.find(
-      (item) =>
-        item.usuario === datosNuevo.usuario ||
-        item.correo === datosNuevo.correo
-    );
-
-    if (repetido) {
-      setError(
-        "Ese usuario o correo ya estÃ¡ registrado en la base de datos."
-      );
-      setCargando(false);
-      return;
-    }
-
     try {
       await registrarUsuario(datosNuevo);
-      setCargando(false);
       navigate("/usuario");
-    } catch {
-      setError(
-        "No se pudo conectar con el servidor de base de datos. Ejecuta 'npm run server' para poder registrarte."
-      );
+    } catch (errorRegistro) {
+      setError(errorRegistro.status === 409
+        ? "Ese usuario o correo ya estÃ¡ registrado."
+        : errorRegistro.message || "No se pudo completar el registro. IntÃ©ntalo de nuevo.");
+    } finally {
       setCargando(false);
     }
   };
@@ -1255,6 +1283,7 @@ export default function LoginFormulario() {
         <form className="formulario" onSubmit={enviarLogin}>
           <label>Usuario</label>
           <input
+            maxLength={40}
             value={usuario}
             onChange={(event) => setUsuario(event.target.value)}
             placeholder="Escribe tu usuario"
@@ -1262,13 +1291,26 @@ export default function LoginFormulario() {
           />
 
           <label>ContraseÃ±a</label>
-          <input
-            type="password"
-            value={clave}
-            onChange={(event) => setClave(event.target.value)}
-            placeholder="Escribe tu contraseÃ±a"
-            required
-          />
+          <div className="campo-contrasena">
+            <input
+              type={mostrarClave ? "text" : "password"}
+              maxLength={40}
+              value={clave}
+              onChange={(event) => setClave(event.target.value)}
+              placeholder="Escribe tu contraseÃ±a"
+              autoComplete="current-password"
+              required
+            />
+            <button
+              className="alternar-visibilidad-clave"
+              type="button"
+              aria-label={mostrarClave ? "Ocultar contraseÃ±a" : "Mostrar contraseÃ±a"}
+              aria-pressed={mostrarClave}
+              onClick={() => setMostrarClave((visible) => !visible)}
+            >
+              {mostrarClave ? <FiEyeOff aria-hidden="true" /> : <FiEye aria-hidden="true" />}
+            </button>
+          </div>
 
           {error && <p className="mensaje-error">{error}</p>}
 
@@ -1302,6 +1344,8 @@ export default function LoginFormulario() {
           <label>Usuario</label>
           <input
             value={datosNuevo.usuario}
+            minLength={3}
+            maxLength={40}
             onChange={(event) =>
               cambiarNuevo("usuario", event.target.value)
             }
@@ -1313,6 +1357,8 @@ export default function LoginFormulario() {
           <input
             type="password"
             value={datosNuevo.clave}
+            minLength={10}
+            maxLength={72}
             onChange={(event) =>
               cambiarNuevo("clave", event.target.value)
             }
@@ -2067,7 +2113,7 @@ export default function Carrito() {
     setMensajeFactura("");
     setEnviando(true);
 
-    const pedido = crearPedido(formulario);
+    const pedido = await crearPedido(formulario);
 
     if (!pedido) {
       setEnviando(false);
@@ -3312,7 +3358,7 @@ export default function Home() {
                 target="_blank"
                 rel="noreferrer"
               >
-                Hablar con la Artesana
+                Hablar con Kimberly
               </a>
             </aside>
           </div>
@@ -3400,6 +3446,7 @@ export default function Home() {
                   Nombre Completo
                   <input
                     type="text"
+                    maxLength={30}
                     value={formulario.nombre}
                     onChange={(event) =>
                       cambiarFormulario("nombre", event.target.value)
@@ -3414,11 +3461,17 @@ export default function Home() {
                     TelÃ©fono o WhatsApp
                     <input
                       type="tel"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      maxLength={30}
                       value={formulario.telefono}
                       onChange={(event) =>
-                        cambiarFormulario("telefono", event.target.value)
+                        cambiarFormulario(
+                          "telefono",
+                          event.target.value.replace(/\D/g, "").slice(0, 30)
+                        )
                       }
-                      placeholder="8888-8888"
+                      placeholder="88888888"
                       required
                     />
                   </label>
@@ -3455,6 +3508,7 @@ export default function Home() {
                   CantÃ³n / Provincia de EnvÃ­o
                   <input
                     type="text"
+                    maxLength={100}
                     value={formulario.ubicacion}
                     onChange={(event) =>
                       cambiarFormulario("ubicacion", event.target.value)
@@ -3467,6 +3521,7 @@ export default function Home() {
                   Nota adicional o consulta
                   <textarea
                     rows="2"
+                    maxLength={300}
                     value={formulario.nota}
                     onChange={(event) =>
                       cambiarFormulario("nota", event.target.value)
@@ -3535,6 +3590,7 @@ export default function VistaUsuario() {
     usuarioActivo,
     pedidos,
     actualizarUsuario,
+    cambiarClave,
     navigate,
   } = useAppContext();
 
@@ -3549,8 +3605,9 @@ export default function VistaUsuario() {
     telefono: usuarioActivo?.telefono || "",
     direccion: usuarioActivo?.direccion || "",
     usuario: usuarioActivo?.usuario || "",
-    clave: usuarioActivo?.clave || "",
   });
+  const [claveActual, setClaveActual] = useState("");
+  const [claveNueva, setClaveNueva] = useState("");
 
   const misPedidos = pedidos.filter(
     (pedido) => pedido.usuario === usuarioActivo?.usuario
@@ -3581,12 +3638,24 @@ export default function VistaUsuario() {
     setError("");
 
     try {
-      await actualizarUsuario(usuarioActivo.id, perfil);
+      if (claveActual || claveNueva) {
+        if (!claveActual || !claveNueva) {
+          throw new Error("Completa la contraseÃ±a actual y la nueva para cambiarla.");
+        }
+        await cambiarClave(claveActual, claveNueva);
+        setClaveActual("");
+        setClaveNueva("");
+      }
+
+      await actualizarUsuario(usuarioActivo.id, {
+        nombre: perfil.nombre,
+        correo: perfil.correo,
+        telefono: perfil.telefono,
+        direccion: perfil.direccion,
+      });
       setMensaje("Tu perfil se actualizÃ³ correctamente.");
-    } catch {
-      setError(
-        "No se pudo actualizar el perfil. IntÃ©ntalo de nuevo."
-      );
+    } catch (errorActualizacion) {
+      setError(errorActualizacion.message || "No se pudo actualizar el perfil. IntÃ©ntalo de nuevo.");
     }
   };
 
@@ -3730,17 +3799,26 @@ export default function VistaUsuario() {
                   required
                 />
 
-                <label>ContraseÃ±a</label>
+                <label>ContraseÃ±a actual</label>
                 <input
                   type="password"
-                  value={perfil.clave}
-                  onChange={(event) =>
-                    setPerfil({
-                      ...perfil,
-                      clave: event.target.value,
-                    })
-                  }
-                  required
+                  autoComplete="current-password"
+                  value={claveActual}
+                  onChange={(event) => setClaveActual(event.target.value)}
+                  maxLength={72}
+                  required={Boolean(claveNueva)}
+                  placeholder="DÃ©jala vacÃ­a para no cambiarla"
+                />
+
+                <label>Nueva contraseÃ±a</label>
+                <input
+                  type="password"
+                  autoComplete="new-password"
+                  value={claveNueva}
+                  onChange={(event) => setClaveNueva(event.target.value)}
+                  minLength={10}
+                  maxLength={72}
+                  required={Boolean(claveActual)}
                 />
 
                 <button className="btn-principal">
@@ -3764,200 +3842,86 @@ export default function VistaUsuario() {
 
 
 === FILE: C:\Users\FWD8D\OneDrive\Desktop\Estudio\Proyecto-final\src\routes\PrivateRoutes.jsx ===
-import { useEffect, useRef, useState } from "react";
-import { useAppContext } from "./Routing";
+import { useEffect, useEffectEvent, useState } from "react";
+import { useAppContext } from "./Routing"; // Importa el contexto desde la misma carpeta
 import { apiSesion } from "../services/api";
-import {
-  NOMBRE_COOKIE_TOKEN,
-  NOMBRE_COOKIE_USUARIO,
-  leerCookie,
-} from "../services/cookies";
 
-const TIEMPO_INACTIVIDAD = 2 * 60 * 1000;
-
-const EVENTOS_ACTIVIDAD = [
-  "mousemove",
-  "mousedown",
-  "keydown",
-  "scroll",
-  "click",
-  "touchstart",
-];
-
-export default function PrivateRoutes({
-  children,
-  soloAdmin = false,
-}) {
-  const {
-    rutaActual,
-    usuarioActivo,
-    restaurarSesion,
-    cerrarSesion,
-  } = useAppContext();
-
-  const [permitido, setPermitido] = useState(false);
+export default function PrivateRoutes({ children, soloAdmin = false }) {
+  const { usuarioActivo, cerrarSesion, navigate, rutaActual } = useAppContext();
   const [validando, setValidando] = useState(true);
-  const temporizador = useRef(null);
-  const idUsuario = usuarioActivo?.id;
-  const cerrarSesionRef = useRef(cerrarSesion);
+  const [permitido, setPermitido] = useState(false);
 
-  useEffect(() => {
-    cerrarSesionRef.current = cerrarSesion;
-  }, [cerrarSesion]);
+  const verificarAcceso = useEffectEvent(async (estaCancelado) => {
+    try {
+      const sesion = await apiSesion.validar();
+      if (estaCancelado()) return;
 
-  useEffect(() => {
-    let activo = true;
-
-    const validarSesion = async () => {
-      try {
-        const token = leerCookie(NOMBRE_COOKIE_TOKEN);
-        const idSesion = leerCookie(NOMBRE_COOKIE_USUARIO);
-
-        if (!token || !idSesion || !idUsuario) {
-          cerrarSesion();
-          return;
-        }
-
-        const usuarioValidado = await apiSesion.validar(token, idSesion);
-
-        if (!usuarioValidado) {
-          cerrarSesion();
-          return;
-        }
-
-        if (soloAdmin && usuarioValidado.rol !== "admin") {
-          cerrarSesion();
-          return;
-        }
-
-        if (!activo) return;
-
-        const usuarioLimpio = { ...usuarioValidado };
-        delete usuarioLimpio.token;
-
-        restaurarSesion(usuarioLimpio);
-        setPermitido(true);
-        setValidando(false);
-      } catch {
+      const usuarioVerificado = sesion?.usuario;
+      if (!usuarioVerificado || String(usuarioVerificado.id) !== String(usuarioActivo?.id)) {
+        setPermitido(false);
         cerrarSesion();
+        navigate("/login");
+      } else if (soloAdmin && usuarioVerificado.rol !== "admin") {
+        setPermitido(false);
+        navigate("/");
+      } else {
+        setPermitido(true);
       }
-    };
-
-    validarSesion();
-
-    return () => {
-      activo = false;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [rutaActual, idUsuario]);
+    } catch {
+      if (!estaCancelado()) {
+        setPermitido(false);
+        navigate("/login");
+      }
+    } finally {
+      if (!estaCancelado()) setValidando(false);
+    }
+  });
 
   useEffect(() => {
-    if (!permitido) return undefined;
-
-    const cerrarPorInactividad = () => {
-      localStorage.removeItem("avrill_ultima_actividad");
-      cerrarSesionRef.current();
-    };
-
-    const reiniciarTemporizador = () => {
-      localStorage.setItem(
-        "avrill_ultima_actividad",
-        Date.now().toString()
-      );
-
-      clearTimeout(temporizador.current);
-      temporizador.current = setTimeout(
-        cerrarPorInactividad,
-        TIEMPO_INACTIVIDAD
-      );
-    };
-
-    const manejarActividad = () => reiniciarTemporizador();
-
-    EVENTOS_ACTIVIDAD.forEach((evento) =>
-      window.addEventListener(evento, manejarActividad)
-    );
-
-    reiniciarTemporizador();
-
+    let cancelado = false;
+    queueMicrotask(() => {
+      if (!cancelado) verificarAcceso(() => cancelado);
+    });
     return () => {
-      clearTimeout(temporizador.current);
-      EVENTOS_ACTIVIDAD.forEach((evento) =>
-        window.removeEventListener(evento, manejarActividad)
-      );
+      cancelado = true;
     };
-  }, [permitido]);
+  }, [rutaActual, usuarioActivo?.id, soloAdmin]);
 
-  if (validando || !permitido) {
+  if (validando) {
     return (
       <main className="pagina paginas-cargando">
-        <p>Validando sesion, espera un momento...</p>
+        <p>Validando sesiÃ³n, espera un momento...</p>
       </main>
     );
   }
 
-  return <>{children}</>;
+  return permitido ? <>{children}</> : null;
 }
 
 
 === FILE: C:\Users\FWD8D\OneDrive\Desktop\Estudio\Proyecto-final\src\routes\Routing.jsx ===
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useEffect, useState } from "react";
 import { productosIniciales } from "../data/productos";
-
 import Home from "../pages/Home";
-import Login from "../pages/Login";
 import Catalogo from "../pages/Catalogo";
 import DetalleProducto from "../pages/DetalleProducto";
 import Carrito from "../pages/Carrito";
-import Dashboard from "../pages/Dashboard";
+import Login from "../pages/Login";
 import VistaUsuario from "../pages/VistaUsuario";
+import Dashboard from "../pages/Dashboard";
+import PrivateRoutes from "./PrivateRoutes"; // ðŸ‘ˆ ImportaciÃ³n correcta desde la misma carpeta /routes/
 import WhatsAppFlotante from "../components/WhatsAppFlotante";
 import AsistenteIA from "../components/AsistenteIA";
 import NotificacionBienvenida from "../components/NotificacionBienvenida";
-import PrivateRoutes from "../routes/PrivateRoutes";
-import { apiUsuarios, apiSesion, apiProductos } from "../services/api";
+import { apiPedidos, apiProductos, apiSesion, apiUsuarios } from "../services/api";
 import { construirFactura } from "../utils/factura";
 import {
-  NOMBRE_COOKIE_TOKEN,
-  NOMBRE_COOKIE_USUARIO,
-  borrarCookie,
-  escribirCookie,
-  leerCookie,
-} from "../services/cookies";
-
-const usuariosIniciales = [
-  {
-    id: 1,
-    usuario: "admin",
-    clave: "admin123",
-    rol: "admin",
-    nombre: "Administrador Avrill",
-    correo: "admin@avrill.com",
-    telefono: "62848105",
-    direccion: "San JosÃ©, Costa Rica",
-  },
-  {
-    id: 2,
-    usuario: "prueba",
-    clave: "prueba123",
-    rol: "cliente",
-    nombre: "Cliente Avrill",
-    correo: "cliente@avrill.com",
-    telefono: "60123456",
-    direccion: "EscazÃº, San JosÃ©, Costa Rica",
-  },
-];
+  obtenerCarritoStorage,
+  guardarCarritoStorage,
+} from "../utils/storage";
 
 const NavegacionContexto = createContext(null);
-
-const leerStorage = (clave, valorInicial) => {
-  try {
-    const guardado = localStorage.getItem(clave);
-    return guardado ? JSON.parse(guardado) : valorInicial;
-  } catch {
-    return valorInicial;
-  }
-};
 
 export function useAppContext() {
   return useContext(NavegacionContexto);
@@ -3970,293 +3934,310 @@ export function useNavigate() {
 
 export default function Routing() {
   const [rutaActual, setRutaActual] = useState(window.location.pathname || "/");
-  const [usuarioActivo, setUsuarioActivo] = useState(() => leerStorage("avrill_usuario", null));
-  const [productos, setProductos] = useState(() => leerStorage("avrill_productos", productosIniciales));
-  const [carrito, setCarrito] = useState(() => leerStorage("avrill_carrito", []));
-  const [pedidos, setPedidos] = useState(() => leerStorage("avrill_pedidos", []));
-  const [usuarios, setUsuarios] = useState(usuariosIniciales);
+  const [productos, setProductos] = useState(productosIniciales);
+  const [pedidos, setPedidos] = useState([]);
+  const [usuarios, setUsuarios] = useState([]);
+  const [carrito, setCarrito] = useState(obtenerCarritoStorage());
+  const [usuarioActivo, setUsuarioActivo] = useState(null);
+  const [cargandoInicial, setCargandoInicial] = useState(true);
   const [bienvenidaNombre, setBienvenidaNombre] = useState(null);
 
-  // Estados de Accesibilidad
-  const [modoOscuro, setModoOscuro] = useState(() => leerStorage("avrill_modo_oscuro", false));
-  const [tamanoTexto, setTamanoTexto] = useState(() => leerStorage("avrill_tamano_texto", "normal"));
+  // Accesibilidad y Modo Oscuro
+  const [modoOscuro, setModoOscuro] = useState(() => {
+    return localStorage.getItem("avrill_modo_oscuro") === "true";
+  });
+  const [tamanoTexto, setTamanoTexto] = useState(() => {
+    return localStorage.getItem("avrill_tamano_texto") || "normal";
+  });
 
   useEffect(() => {
-    let activo = true;
-    apiUsuarios.listar().then((lista) => {
-      if (activo && Array.isArray(lista) && lista.length > 0) setUsuarios(lista);
-    }).catch(() => {});
-
-    apiProductos.listar().then((lista) => {
-      if (activo && Array.isArray(lista)) setProductos(lista);
-    }).catch(() => {});
-
-    return () => { activo = false; };
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("avrill_usuario", JSON.stringify(usuarioActivo));
-  }, [usuarioActivo]);
-
-  useEffect(() => {
-    localStorage.setItem("avrill_productos", JSON.stringify(productos));
-  }, [productos]);
-
-  useEffect(() => {
-    localStorage.setItem("avrill_carrito", JSON.stringify(carrito));
-  }, [carrito]);
-
-  useEffect(() => {
-    localStorage.setItem("avrill_pedidos", JSON.stringify(pedidos));
-  }, [pedidos]);
-
-  useEffect(() => {
-    localStorage.setItem("avrill_modo_oscuro", JSON.stringify(modoOscuro));
-    document.body.classList.toggle("modo-oscuro", modoOscuro);
+    if (modoOscuro) {
+      document.body.classList.add("modo-oscuro");
+    } else {
+      document.body.classList.remove("modo-oscuro");
+    }
+    localStorage.setItem("avrill_modo_oscuro", modoOscuro);
   }, [modoOscuro]);
 
   useEffect(() => {
     const html = document.documentElement;
     html.classList.remove("txt-normal", "txt-grande", "txt-extra");
-
-    if (tamanoTexto === "grande") {
-      html.classList.add("txt-grande");
-    } else if (tamanoTexto === "extra") {
-      html.classList.add("txt-extra");
-    } else {
-      html.classList.add("txt-normal");
-    }
-
-    localStorage.setItem("avrill_tamano_texto", JSON.stringify(tamanoTexto));
+    html.classList.add(`txt-${tamanoTexto}`);
+    localStorage.setItem("avrill_tamano_texto", tamanoTexto);
   }, [tamanoTexto]);
 
-  useEffect(() => {
-    const escucharNavegacion = () => setRutaActual(window.location.pathname);
-    window.addEventListener("popstate", escucharNavegacion);
-    return () => window.removeEventListener("popstate", escucharNavegacion);
-  }, []);
+  const toggleModoOscuro = () => setModoOscuro((prev) => !prev);
+  const cambiarTamanoTexto = (tamano) => setTamanoTexto(tamano);
 
+  // NavegaciÃ³n SPA
   const navigate = (ruta) => {
-    if (ruta === rutaActual) return;
     window.history.pushState({}, "", ruta);
     setRutaActual(ruta);
+    window.scrollTo(0, 0);
   };
 
-  const crearSesionConToken = async (usuario) => {
-    const { usuario: conToken, token } = await apiSesion.iniciar(usuario);
-    escribirCookie(NOMBRE_COOKIE_TOKEN, token);
-    escribirCookie(NOMBRE_COOKIE_USUARIO, String(conToken.id));
-    localStorage.setItem("avrill_ultima_actividad", Date.now().toString());
+  useEffect(() => {
+    const manejarPopState = () => setRutaActual(window.location.pathname);
+    window.addEventListener("popstate", manejarPopState);
+    return () => window.removeEventListener("popstate", manejarPopState);
+  }, []);
 
-    const usuarioLimpio = { ...conToken };
-    delete usuarioLimpio.token;
-    setUsuarioActivo(usuarioLimpio);
-    return usuarioLimpio;
-  };
+  useEffect(() => {
+    guardarCarritoStorage(carrito);
+  }, [carrito]);
 
-  const iniciarSesion = async (usuario) => crearSesionConToken(usuario);
-  const restaurarSesion = (usuario) => setUsuarioActivo(usuario);
+  useEffect(() => {
+    let activo = true;
+    const cargarDatosIniciales = async () => {
+      try {
+        const [listaProductos, sesion] = await Promise.all([
+          apiProductos.listar(),
+          apiSesion.validar(),
+        ]);
+        if (!activo) return;
 
-  const cerrarSesion = async () => {
-    const idCookie = leerCookie(NOMBRE_COOKIE_USUARIO);
-    const id = usuarioActivo?.id || (idCookie ? Number(idCookie) : null);
-    if (id) await apiSesion.cerrar(id);
+        if (Array.isArray(listaProductos)) setProductos(listaProductos);
+        const usuario = sesion?.usuario || null;
+        setUsuarioActivo(usuario);
 
-    borrarCookie(NOMBRE_COOKIE_TOKEN);
-    borrarCookie(NOMBRE_COOKIE_USUARIO);
-    localStorage.removeItem("avrill_ultima_actividad");
-    setUsuarioActivo(null);
-    navigate("/login");
+        if (usuario) {
+          const [listaPedidos, listaUsuarios] = await Promise.all([
+            apiPedidos.listar().catch(() => []),
+            usuario.rol === "admin" ? apiUsuarios.listar().catch(() => []) : [],
+          ]);
+          if (!activo) return;
+          setPedidos(Array.isArray(listaPedidos) ? listaPedidos : []);
+          setUsuarios(Array.isArray(listaUsuarios) ? listaUsuarios : []);
+        }
+      } catch {
+        if (activo) {
+          setUsuarioActivo(null);
+          setPedidos([]);
+          setUsuarios([]);
+        }
+      } finally {
+        if (activo) setCargandoInicial(false);
+      }
+    };
+
+    cargarDatosIniciales();
+    return () => {
+      activo = false;
+    };
+  }, []);
+
+  const iniciarSesion = async (credenciales) => {
+    const respuesta = await apiSesion.iniciar(credenciales);
+    const usuario = respuesta.usuario;
+    setUsuarioActivo(usuario);
+
+    const [listaPedidos, listaUsuarios] = await Promise.all([
+      apiPedidos.listar().catch(() => []),
+      usuario.rol === "admin" ? apiUsuarios.listar().catch(() => []) : [],
+    ]);
+    setPedidos(Array.isArray(listaPedidos) ? listaPedidos : []);
+    setUsuarios(Array.isArray(listaUsuarios) ? listaUsuarios : []);
+    return usuario;
   };
 
   const registrarUsuario = async (datos) => {
-    const creado = await apiUsuarios.crear({ ...datos, rol: "cliente" });
-    setUsuarios((actuales) => [...actuales, creado]);
-    const usuarioSesion = await crearSesionConToken(creado);
-    setBienvenidaNombre(usuarioSesion.nombre);
-    return usuarioSesion;
+    const respuesta = await apiSesion.registrar(datos);
+    setUsuarioActivo(respuesta.usuario);
+    setPedidos([]);
+    return respuesta.usuario;
   };
 
-  const actualizarUsuario = async (id, datos) => {
-    const actualizado = await apiUsuarios.actualizar(id, datos);
-    setUsuarios((actuales) => actuales.map((u) => (u.id === id ? actualizado : u)));
-    if (usuarioActivo?.id === id) setUsuarioActivo(actualizado);
+  const cambiarClave = async (claveActual, claveNueva) => {
+    const respuesta = await apiSesion.cambiarClave(claveActual, claveNueva);
+    setUsuarioActivo(respuesta.usuario);
+    return respuesta.usuario;
+  };
+
+  const cerrarSesion = () => {
+    setUsuarioActivo(null);
+    setPedidos([]);
+    setUsuarios([]);
+    navigate("/login");
+    apiSesion.cerrar().catch(() => {});
+  };
+
+  const actualizarUsuario = async (id, cambios) => {
+    const actualizado = await apiUsuarios.actualizar(id, cambios);
+    setUsuarios((actuales) => actuales.map((usuario) =>
+      String(usuario.id) === String(id) ? actualizado : usuario
+    ));
+    if (String(usuarioActivo?.id) === String(id)) setUsuarioActivo(actualizado);
     return actualizado;
   };
 
   const eliminarUsuario = async (id) => {
     await apiUsuarios.eliminar(id);
-    setUsuarios((actuales) => actuales.filter((u) => u.id !== id));
-    if (usuarioActivo?.id === id) setUsuarioActivo(null);
+    setUsuarios((actuales) => actuales.filter((usuario) => String(usuario.id) !== String(id)));
   };
 
-  const agregarAlCarrito = (producto) => {
-    if (!producto.disponible) return;
-    setCarrito((actual) => {
-      const existente = actual.find((item) => item.id === producto.id);
-      if (existente) {
-        return actual.map((item) =>
-          item.id === producto.id ? { ...item, cantidad: item.cantidad + 1 } : item
-        );
-      }
-      return [...actual, { ...producto, cantidad: 1 }];
-    });
+  const agregarProducto = async (producto) => {
+    const creado = await apiProductos.crear(producto);
+    setProductos((actuales) => [...actuales, creado]);
+    return creado;
   };
 
-  const cambiarCantidad = (id, cantidad) => {
-    if (cantidad <= 0) {
-      eliminarDelCarrito(id);
-      return;
-    }
-    setCarrito((actual) =>
-      actual.map((item) => (item.id === id ? { ...item, cantidad } : item))
-    );
+  const actualizarProducto = async (id, cambios) => {
+    const actualizado = await apiProductos.actualizar(id, cambios);
+    setProductos((actuales) => actuales.map((producto) =>
+      String(producto.id) === String(id) ? actualizado : producto
+    ));
+    return actualizado;
   };
 
-  const eliminarDelCarrito = (id) => {
-    setCarrito((actual) => actual.filter((item) => item.id !== id));
+  const eliminarProducto = async (id) => {
+    await apiProductos.eliminar(id);
+    setProductos((actuales) => actuales.filter((producto) => String(producto.id) !== String(id)));
   };
 
-  const vaciarCarrito = () => setCarrito([]);
+  const actualizarEstadoPedido = async (id, estado) => {
+    const actualizado = await apiPedidos.actualizar(id, { estado });
+    setPedidos((actuales) => actuales.map((pedido) =>
+      String(pedido.id) === String(id) ? actualizado : pedido
+    ));
+  };
 
-  const totalCarrito = carrito.reduce(
-    (total, producto) => total + producto.precio * producto.cantidad,
-    0
-  );
-
-  const crearPedido = (datosEntrega) => {
+  const crearPedido = async (datosEntrega) => {
     if (!usuarioActivo || carrito.length === 0) return null;
 
     const id = Date.now();
     const fecha = new Date().toISOString();
     const numero = `PF-${new Date().getFullYear()}-${String(pedidos.length + 1).padStart(4, "0")}`;
-
     const cliente = {
       nombre: datosEntrega?.nombre || usuarioActivo.nombre,
       correo: datosEntrega?.correo || usuarioActivo.correo || "",
       telefono: datosEntrega?.telefono || usuarioActivo.telefono || "",
       direccion: datosEntrega?.direccion || usuarioActivo.direccion || "",
-      identificacion: datosEntrega?.identificacion || usuarioActivo.identificacion || "",
-      coordenadas:
-        datosEntrega?.lat != null && datosEntrega?.lng != null
-          ? { lat: datosEntrega.lat, lng: datosEntrega.lng }
-          : null,
+      identificacion: datosEntrega?.identificacion || "",
+      coordenadas: datosEntrega?.lat != null && datosEntrega?.lng != null
+        ? { lat: datosEntrega.lat, lng: datosEntrega.lng }
+        : null,
     };
-
-    const pedidoBase = {
+    const pedido = {
       id,
-      usuario: usuarioActivo.usuario,
       cliente,
       productos: carrito,
-      total: totalCarrito,
-      estado: "pendiente",
       fecha,
       factura: construirFactura({ id, numero, fecha, cliente, productos: carrito }),
     };
 
-    setPedidos((actuales) => [...actuales, pedidoBase]);
-    vaciarCarrito();
-    return pedidoBase;
+    const creado = await apiPedidos.crear(pedido);
+    const pedidoConFactura = {
+      ...creado,
+      factura: construirFactura(creado),
+    };
+    setPedidos((actuales) => [...actuales, pedidoConFactura]);
+    setCarrito([]);
+    return pedidoConFactura;
   };
 
-  const actualizarEstadoPedido = (id, estado) => {
-    setPedidos((actuales) =>
-      actuales.map((pedido) => (pedido.id === id ? { ...pedido, estado } : pedido))
-    );
-  };
-
-  const agregarProducto = async (producto) => {
-    try {
-      const creado = await apiProductos.crear(producto);
-      setProductos((actuales) => [...actuales, creado]);
-      return creado;
-    } catch {
-      const creado = { ...producto, id: Date.now() };
-      setProductos((actuales) => [...actuales, creado]);
-      return creado;
+  const cambiarCantidad = (id, cantidad) => {
+    if (cantidad <= 0) {
+      setCarrito((actual) => actual.filter((producto) => producto.id !== id));
+      return;
     }
+    setCarrito((actual) => actual.map((producto) =>
+      producto.id === id ? { ...producto, cantidad } : producto
+    ));
   };
 
-  const actualizarProducto = async (id, cambios) => {
-    try {
-      const actualizado = await apiProductos.actualizar(id, cambios);
-      setProductos((actuales) => actuales.map((p) => (p.id === id ? actualizado : p)));
-      return actualizado;
-    } catch {
-      setProductos((actuales) =>
-        actuales.map((p) => (p.id === id ? { ...p, ...cambios } : p))
-      );
-      return null;
-    }
+  const eliminarDelCarrito = (id) => {
+    setCarrito((actual) => actual.filter((producto) => producto.id !== id));
   };
 
-  const eliminarProducto = async (id) => {
-    try {
-      await apiProductos.eliminar(id);
-    } catch {
-      // Ignorar error de red si json-server no responde
-    }
-    setProductos((actuales) => actuales.filter((p) => p.id !== id));
-  };
+  const totalCarrito = carrito.reduce(
+    (total, producto) => total + Number(producto.precio) * producto.cantidad,
+    0
+  );
 
-  const toggleModoOscuro = () => setModoOscuro((prev) => !prev);
-  const cambiarTamanoTexto = (tamano) => setTamanoTexto(tamano);
+  const vaciarCarrito = () => setCarrito([]);
+
+  /*
+   * Los datos de sesiÃ³n los controla el servidor mediante cookie HttpOnly.
+   * El estado de usuario en React es solo para renderizado, nunca autorizaciÃ³n.
+   */
+
+  const agregarAlCarrito = (producto, cantidad = 1) => {
+    setCarrito((prev) => {
+      const existe = prev.find((item) => item.id === producto.id);
+      if (existe) {
+        return prev.map((item) =>
+          item.id === producto.id
+            ? { ...item, cantidad: item.cantidad + cantidad }
+            : item
+        );
+      }
+      return [...prev, { ...producto, cantidad }];
+    });
+  };
 
   const contexto = {
     rutaActual,
-    usuarioActivo,
-    usuarios,
-    productos,
-    carrito,
-    pedidos,
-    totalCarrito,
-    modoOscuro,
-    tamanoTexto,
-    toggleModoOscuro,
-    cambiarTamanoTexto,
     navigate,
-    iniciarSesion,
-    cerrarSesion,
-    restaurarSesion,
-    registrarUsuario,
-    actualizarUsuario,
-    eliminarUsuario,
+    productos,
+    setProductos,
+    carrito,
+    setCarrito,
     agregarAlCarrito,
     cambiarCantidad,
     eliminarDelCarrito,
     vaciarCarrito,
-    crearPedido,
-    actualizarEstadoPedido,
+    totalCarrito,
+    usuarioActivo,
+    iniciarSesion,
+    registrarUsuario,
+    cambiarClave,
+    cerrarSesion,
+    pedidos,
+    usuarios,
+    actualizarUsuario,
+    eliminarUsuario,
     agregarProducto,
     actualizarProducto,
     eliminarProducto,
+    actualizarEstadoPedido,
+    crearPedido,
+    modoOscuro,
+    toggleModoOscuro,
+    tamanoTexto,
+    cambiarTamanoTexto,
   };
 
-  let pagina;
-  if (rutaActual === "/") pagina = <Home />;
-  else if (rutaActual === "/login") pagina = <Login />;
-  else if (rutaActual === "/catalogo") pagina = <Catalogo />;
+  if (cargandoInicial) {
+    return (
+      <main className="pagina paginas-cargando">
+        <p>Cargando aplicaciÃ³n...</p>
+      </main>
+    );
+  }
+
+  let pagina = <Home />;
+  if (rutaActual === "/catalogo") pagina = <Catalogo />;
   else if (rutaActual.startsWith("/producto/")) pagina = <DetalleProducto />;
   else if (rutaActual === "/carrito") pagina = <Carrito />;
-  else if (rutaActual === "/dashboard")
-    pagina = (
-      <PrivateRoutes soloAdmin>
-        <Dashboard />
-      </PrivateRoutes>
-    );
+  else if (rutaActual === "/login") pagina = <Login />;
   else if (rutaActual === "/usuario")
     pagina = (
       <PrivateRoutes>
         <VistaUsuario />
       </PrivateRoutes>
     );
-  else pagina = <Home />;
+  else if (rutaActual === "/dashboard")
+    pagina = (
+      <PrivateRoutes soloAdmin>
+        <Dashboard />
+      </PrivateRoutes>
+    );
 
   return (
     <NavegacionContexto.Provider value={contexto}>
       {pagina}
       <WhatsAppFlotante />
-      <AsistenteIA />
+      <AsistenteIA productos={productos} />
       {bienvenidaNombre && (
         <NotificacionBienvenida
           nombre={bienvenidaNombre}
@@ -4270,52 +4251,42 @@ export default function Routing() {
 
 === FILE: C:\Users\FWD8D\OneDrive\Desktop\Estudio\Proyecto-final\src\services\api.js ===
 const BASE = "/api";
+const TIEMPO_LIMITE = 10000;
 
 const peticion = async (ruta, opciones = {}) => {
   const respuesta = await fetch(`${BASE}${ruta}`, {
+    credentials: "include",
     headers: { "Content-Type": "application/json" },
     ...opciones,
+    signal: opciones.signal || AbortSignal.timeout(TIEMPO_LIMITE),
   });
 
+  const datos = await respuesta.json().catch(() => ({}));
   if (!respuesta.ok) {
-    throw new Error(
-      `No se pudo completar la peticion ${ruta}: ${respuesta.status}`
-    );
+    const error = new Error(datos.error || `Error del servidor: ${respuesta.status}`);
+    error.status = respuesta.status;
+    throw error;
   }
-
-  return respuesta.json();
+  return datos;
 };
 
 export const apiUsuarios = {
   listar: () => peticion("/usuarios"),
 
-  obtener: (id) => peticion(`/usuarios/${id}`),
+  obtener: (id) => peticion(`/usuarios/${encodeURIComponent(id)}`),
 
-  crear: (datos) =>
-    peticion("/usuarios", {
-      method: "POST",
-      body: JSON.stringify(datos),
+  actualizar: (id, cambios) =>
+    peticion(`/usuarios/${encodeURIComponent(id)}`, {
+      method: "PATCH",
+      body: JSON.stringify(cambios),
     }),
-
-  actualizar: async (id, datos) => {
-    const actual = await peticion(`/usuarios/${id}`);
-
-    return peticion(`/usuarios/${id}`, {
-      method: "PUT",
-      body: JSON.stringify({ ...actual, ...datos, id }),
-    });
-  },
 
   eliminar: (id) =>
-    peticion(`/usuarios/${id}`, {
-      method: "DELETE",
-    }),
+    peticion(`/usuarios/${encodeURIComponent(id)}`, { method: "DELETE" }),
 };
 
 export const apiProductos = {
   listar: () => peticion("/productos"),
-
-  obtener: (id) => peticion(`/productos/${id}`),
 
   crear: (datos) =>
     peticion("/productos", {
@@ -4323,78 +4294,60 @@ export const apiProductos = {
       body: JSON.stringify(datos),
     }),
 
-  actualizar: async (id, datos) => {
-    const actual = await peticion(`/productos/${id}`);
-
-    return peticion(`/productos/${id}`, {
-      method: "PUT",
-      body: JSON.stringify({ ...actual, ...datos, id }),
-    });
-  },
+  actualizar: (id, cambios) =>
+    peticion(`/productos/${encodeURIComponent(id)}`, {
+      method: "PATCH",
+      body: JSON.stringify(cambios),
+    }),
 
   eliminar: (id) =>
-    peticion(`/productos/${id}`, {
-      method: "DELETE",
+    peticion(`/productos/${encodeURIComponent(id)}`, { method: "DELETE" }),
+};
+
+export const apiPedidos = {
+  listar: () => peticion("/pedidos"),
+
+  crear: (pedido) =>
+    peticion("/pedidos", {
+      method: "POST",
+      body: JSON.stringify(pedido),
+    }),
+
+  actualizar: (id, cambios) =>
+    peticion(`/pedidos/${encodeURIComponent(id)}`, {
+      method: "PATCH",
+      body: JSON.stringify(cambios),
     }),
 };
 
-const generarToken = () => {
-  const azar = Math.random().toString(36).slice(2);
-  const tiempo = Date.now().toString(36);
-  const cadena = `${azar}.${tiempo}.${datosAleatorios(8)}`;
-
-  return btoa(cadena).replace(/=+$/, "");
-};
-
-const datosAleatorios = (cantidad) => {
-  const letras =
-    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-  let resultado = "";
-
-  for (let i = 0; i < cantidad; i += 1) {
-    resultado += letras[Math.floor(Math.random() * letras.length)];
-  }
-
-  return resultado;
-};
-
 export const apiSesion = {
-  iniciar: async (usuario) => {
-    const token = generarToken();
-    const actualizado = await apiUsuarios.actualizar(usuario.id, {
-      token,
-    });
+  iniciar: (credenciales) =>
+    peticion("/auth/login", {
+      method: "POST",
+      body: JSON.stringify(credenciales),
+    }),
 
-    return { usuario: actualizado, token };
-  },
+  registrar: (datos) =>
+    peticion("/auth/register", {
+      method: "POST",
+      body: JSON.stringify(datos),
+    }),
 
-  validar: async (token, id) => {
+  cambiarClave: (claveActual, claveNueva) =>
+    peticion("/auth/change-password", {
+      method: "POST",
+      body: JSON.stringify({ claveActual, claveNueva }),
+    }),
+
+  validar: async () => {
     try {
-      const usuario = await apiUsuarios.obtener(id);
-
-      if (usuario && usuario.token && usuario.token === token) {
-        return usuario;
-      }
+      return await peticion("/auth/session");
     } catch {
       return null;
     }
-
-    return null;
   },
 
-  cerrar: async (id) => {
-    try {
-      const usuario = await apiUsuarios.obtener(id);
-
-      if (usuario) {
-        await apiUsuarios.actualizar(id, { token: null });
-      }
-    } catch {
-      return null;
-    }
-
-    return null;
-  },
+  cerrar: () => peticion("/auth/logout", { method: "POST" }),
 };
 
 
@@ -5326,6 +5279,36 @@ button:disabled {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.campo-contrasena {
+  position: relative;
+  width: 100%;
+}
+
+.campo-contrasena input {
+  padding-right: 48px;
+}
+
+.alternar-visibilidad-clave {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  color: var(--muted);
+  display: inline-flex;
+  height: 40px;
+  justify-content: center;
+  padding: 0;
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+}
+
+.alternar-visibilidad-clave svg {
+  height: 18px;
+  width: 18px;
 }
 
 .formulario input, .editor-producto input, .editor-producto select, .pedidos-lista select {
@@ -6969,10 +6952,176 @@ html.txt-extra {
 .ia-cargando { font-size: calc(12px * var(--font-scale, 1)) !important; }
 .ia-bar-minimizada > span { font-size: calc(13.5px * var(--font-scale, 1)) !important; }
 
+/* ============================================================
+   ACCESIBILIDAD, ZOOM RESPONSIVE Y MODO OSCURO GLOBAL
+   ============================================================ */
+
+/* Escala de Zoom Accesible y Responsive en toda la pÃ¡gina */
+html {
+  transition: font-size 0.25s ease;
+}
+
+html.txt-normal {
+  font-size: 100%; /* 16px por defecto */
+}
+
+html.txt-grande {
+  font-size: 112.5%; /* Aumento a 18px proporcional */
+}
+
+html.txt-extra {
+  font-size: 125%; /* Aumento a 20px proporcional */
+}
+
+@media (max-width: 600px) {
+  html.txt-grande {
+    font-size: 106.25%;
+  }
+  html.txt-extra {
+    font-size: 115%;
+  }
+}
+
+/* Modo Oscuro Variable CSS */
+body.modo-oscuro {
+  --crema: #1a1d1a;
+  --crema-suave: #242825;
+  --arena: #343a35;
+  --texto: #f2f5f3;
+  --texto-suave: #c0c7c2;
+  --muted: #a0a8a2;
+  --verde-oscuro: #85a38a;
+  --blanco: #232724;
+  --borde: #3a423c;
+  background-color: var(--crema);
+  color: var(--texto);
+}
+
+body.modo-oscuro .encabezado,
+body.modo-oscuro .producto-card,
+body.modo-oscuro .cartilla-formulario,
+body.modo-oscuro .panel-vacio,
+body.modo-oscuro .factura-modal,
+body.modo-oscuro .asistente-ia-modal,
+body.modo-oscuro .pilar-card,
+body.modo-oscuro .info-card,
+body.modo-oscuro .carrito-lista,
+body.modo-oscuro .resumen-carrito,
+body.modo-oscuro .pedido-card,
+body.modo-oscuro .editor-producto,
+body.modo-oscuro .metricas article,
+body.modo-oscuro .panel-grafico-contenedor {
+  background-color: var(--blanco);
+  color: var(--texto);
+  border-color: var(--borde);
+}
+/* ============================================================
+   ACCESIBILIDAD Y MODO OSCURO GLOBAL (RESPONSIVE)
+   ============================================================ */
+
+/* 1. Zoom de Texto Responsive para Toda la PÃ¡gina */
+html {
+  transition: font-size 0.25s ease;
+}
+
+html.txt-normal {
+  font-size: 100%;
+}
+
+html.txt-grande {
+  font-size: 112.5%;
+}
+
+html.txt-extra {
+  font-size: 125%;
+}
+
+@media (max-width: 600px) {
+  html.txt-grande {
+    font-size: 106.25%;
+  }
+  html.txt-extra {
+    font-size: 115%;
+  }
+}
+
+/* 2. Variables y Estilos de Modo Oscuro */
+body.modo-oscuro {
+  --crema: #1a1d1a;
+  --crema-suave: #242825;
+  --arena: #343a35;
+  --texto: #f2f5f3;
+  --texto-suave: #c0c7c2;
+  --muted: #a0a8a2;
+  --verde-oscuro: #85a38a;
+  --blanco: #232724;
+  --borde: #3a423c;
+  background-color: var(--crema);
+  color: var(--texto);
+}
+
+body.modo-oscuro .encabezado,
+body.modo-oscuro .producto-card,
+body.modo-oscuro .cartilla-formulario,
+body.modo-oscuro .panel-vacio,
+body.modo-oscuro .factura-modal,
+body.modo-oscuro .asistente-ia-modal,
+body.modo-oscuro .pilar-card,
+body.modo-oscuro .info-card,
+body.modo-oscuro .carrito-lista,
+body.modo-oscuro .resumen-carrito,
+body.modo-oscuro .pedido-card,
+body.modo-oscuro .editor-producto,
+body.modo-oscuro .metricas article,
+body.modo-oscuro .panel-grafico-contenedor {
+  background-color: var(--blanco);
+  color: var(--texto);
+  border-color: var(--borde);
+}
+/* ============================================================
+   SOLUCIÃ“N PARPADEO DE NAVBAR EN SCROLL
+   ============================================================ */
+
+/* 1. Mantener posiciÃ³n fija limpia */
+.encabezado {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: var(--crema, #fdfbf7);
+  transition: background-color 0.3s ease;
+}
+
+/* 2. Evitar contracciÃ³n del flujo aÃ±adiendo un margen compensatorio en el main */
+main,
+.pagina,
+.login-contenedor,
+.catalogo-contenedor,
+.carrito-contenedor,
+.dashboard-contenedor,
+.usuario-contenedor {
+  padding-top: 140px !important; /* Compensa la altura total inicial del navbar */
+  min-height: 100vh;
+}
+
+/* 3. TransiciÃ³n suave de la topbar sin afectar el cÃ¡lculo del scroll */
+.topbar {
+  max-height: 40px;
+  opacity: 1;
+  overflow: hidden;
+  transition: max-height 0.3s ease, opacity 0.2s ease;
+}
+
+.topbar.topbar-oculta {
+  max-height: 0;
+  opacity: 0;
+}
+
 
 === FILE: C:\Users\FWD8D\OneDrive\Desktop\Estudio\Proyecto-final\src\test\factura.test.js ===
 import { describe, expect, test } from 'vitest';
-import { calcularTotalesFactura } from '../utils/factura';
+import { calcularTotalesFactura, construirFactura, facturaHtml } from '../utils/factura';
 
 describe('Factura', () => {
   test('calcula subtotal, iva y total correctamente', () => {
@@ -6994,6 +7143,26 @@ describe('Factura', () => {
     expect(resultado.subtotal).toBe(0);
     expect(resultado.iva).toBe(0);
     expect(resultado.total).toBe(0);
+  });
+
+  test('escapa HTML proporcionado en los datos de la factura', () => {
+    const factura = construirFactura({
+      id: 12,
+      fecha: '2026-09-30T12:00:00.000Z',
+      cliente: {
+        nombre: '<img src=x onerror=alert(1)>',
+        correo: 'cliente@example.com',
+      },
+      productos: [
+        { id: 1, nombre: '<script>alert(1)</script>', precio: 1000, cantidad: 1 },
+      ],
+    });
+
+    const html = facturaHtml(factura);
+
+    expect(html).toContain('&lt;img src=x onerror=alert(1)&gt;');
+    expect(html).toContain('&lt;script&gt;alert(1)&lt;/script&gt;');
+    expect(html).not.toContain('<script>alert(1)</script>');
   });
 });
 
@@ -7089,7 +7258,29 @@ const formatoFecha = (factura) =>
     minute: "2-digit",
   });
 
+const escaparHtml = (valor) =>
+  String(valor ?? "").replace(/[&<>"']/g, (caracter) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;",
+  })[caracter]);
+
+const sanearValoresHtml = (valor) => {
+  if (typeof valor === "string") return escaparHtml(valor);
+  if (Array.isArray(valor)) return valor.map(sanearValoresHtml);
+  if (valor && typeof valor === "object") {
+    return Object.fromEntries(
+      Object.entries(valor).map(([clave, contenido]) => [clave, sanearValoresHtml(contenido)])
+    );
+  }
+  return valor;
+};
+
 export function facturaHtml(factura) {
+  factura = sanearValoresHtml(factura);
+
   const filas = factura.lineas
     .map(
       (linea) => `
@@ -7104,7 +7295,7 @@ export function facturaHtml(factura) {
     .join("");
 
   const coordenadas = factura.receptor.coordenadas
-    ? `<p class="linea-pequena">UbicaciÃ³n GPS: ${factura.receptor.coordenadas.lat}, ${factura.receptor.coordenadas.lng}</p>`
+    ? `<p class="linea-pequena">Ubicaciâ”œâ”‚n GPS: ${factura.receptor.coordenadas.lat}, ${factura.receptor.coordenadas.lng}</p>`
     : "";
 
   return `<!doctype html>
@@ -7185,7 +7376,7 @@ export function facturaHtml(factura) {
     <div class="encabezado">
       <div class="marca">
         <h1>${factura.emisor.nombreComercial}</h1>
-        <small>Factura proforma Â· No es un comprobante electrÃ³nico</small>
+        <small>Factura proforma â”¬Ã€ No es un comprobante electrâ”œâ”‚nico</small>
       </div>
       <div class="numeros">
         <p><strong>Factura Proforma ${factura.numero}</strong></p>
@@ -7197,20 +7388,20 @@ export function facturaHtml(factura) {
       <div class="panel">
         <h2>Emisor</h2>
         <p><strong>${factura.emisor.nombre}</strong></p>
-        <p>CÃ©dula: ${factura.emisor.cedula}</p>
+        <p>Câ”œÂ®dula: ${factura.emisor.cedula}</p>
         <p>Nombre comercial: ${factura.emisor.nombreComercial}</p>
-        <p>TelÃ©fono: ${factura.emisor.telefono}</p>
+        <p>Telâ”œÂ®fono: ${factura.emisor.telefono}</p>
         <p>Correo: ${factura.emisor.correo}</p>
-        <p>DirecciÃ³n: ${factura.emisor.direccion}</p>
-        <p class="linea-pequena">CÃ³digo de actividad econÃ³mica: ${factura.emisor.actividad}</p>
+        <p>Direcciâ”œâ”‚n: ${factura.emisor.direccion}</p>
+        <p class="linea-pequena">Câ”œâ”‚digo de actividad econâ”œâ”‚mica: ${factura.emisor.actividad}</p>
       </div>
       <div class="panel">
         <h2>Receptor</h2>
         <p><strong>${factura.receptor.nombre}</strong></p>
-        <p>IdentificaciÃ³n: ${factura.receptor.identificacion}</p>
+        <p>Identificaciâ”œâ”‚n: ${factura.receptor.identificacion}</p>
         <p>Correo: ${factura.receptor.correo}</p>
-        <p>TelÃ©fono: ${factura.receptor.telefono}</p>
-        <p>DirecciÃ³n: ${factura.receptor.direccion}</p>
+        <p>Telâ”œÂ®fono: ${factura.receptor.telefono}</p>
+        <p>Direcciâ”œâ”‚n: ${factura.receptor.direccion}</p>
         ${coordenadas}
       </div>
     </div>
@@ -7218,13 +7409,13 @@ export function facturaHtml(factura) {
     <div class="grid">
       <div class="panel">
         <h2>Condiciones</h2>
-        <p>CondiciÃ³n de venta: ${factura.condicionVenta}</p>
+        <p>Condiciâ”œâ”‚n de venta: ${factura.condicionVenta}</p>
         <p>Medio de pago: ${factura.medioPago}</p>
-        <p>Plazo de crÃ©dito: ${factura.plazoCredito}</p>
+        <p>Plazo de crâ”œÂ®dito: ${factura.plazoCredito}</p>
       </div>
       <div class="panel">
         <h2>Moneda</h2>
-        <p>ColÃ³n costarricense (CRC)</p>
+        <p>Colâ”œâ”‚n costarricense (CRC)</p>
         <p>Impuesto incluido: IVA ${factura.porcentajeIva}%</p>
       </div>
     </div>
@@ -7232,8 +7423,8 @@ export function facturaHtml(factura) {
     <table>
       <thead>
         <tr>
-          <th>CÃ³digo</th>
-          <th>DescripciÃ³n</th>
+          <th>Câ”œâ”‚digo</th>
+          <th>Descripciâ”œâ”‚n</th>
           <th class="ta-c">Cant.</th>
           <th class="ta-r">Precio unit.</th>
           <th class="ta-r">Monto</th>
@@ -7250,12 +7441,12 @@ export function facturaHtml(factura) {
 
     <div class="nota">
       Documento sin validez fiscal ante el Ministerio de Hacienda de Costa Rica.
-      Corresponde a un presupuesto o factura proforma sujeto a modificaciÃ³n hasta la
-      confirmaciÃ³n del pedido. Los precios incluyen el IVA (${factura.porcentajeIva}%) de acuerdo
-      con la legislaciÃ³n tributaria vigente.
+      Corresponde a un presupuesto o factura proforma sujeto a modificaciâ”œâ”‚n hasta la
+      confirmaciâ”œâ”‚n del pedido. Los precios incluyen el IVA (${factura.porcentajeIva}%) de acuerdo
+      con la legislaciâ”œâ”‚n tributaria vigente.
     </div>
 
-    <p class="pie">${factura.emisor.nombreComercial} Â· ${factura.emisor.direccion} Â· ${factura.emisor.telefono}</p>
+    <p class="pie">${factura.emisor.nombreComercial} â”¬Ã€ ${factura.emisor.direccion} â”¬Ã€ ${factura.emisor.telefono}</p>
   </body>
 </html>`;
 }
@@ -7272,6 +7463,48 @@ export function descargarFactura(factura) {
   oculto.click();
   oculto.remove();
   URL.revokeObjectURL(oculto.href);
+}
+
+
+=== FILE: C:\Users\FWD8D\OneDrive\Desktop\Estudio\Proyecto-final\src\utils\storage.js ===
+/**
+ * Utilidades para manejo de Cookies y localStorage
+ */
+
+// Manejo de Cookies
+export function obtenerCookie(nombre) {
+  const coincidencias = document.cookie.match(
+    new RegExp("(?:^|; )" + nombre.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, "\\$1") + "=([^;]*)")
+  );
+  return coincidencias ? decodeURIComponent(coincidencias[1]) : null;
+}
+
+export function guardarCookie(nombre, valor, dias = 7) {
+  const fecha = new Date();
+  fecha.setTime(fecha.getTime() + dias * 24 * 60 * 60 * 1000);
+  document.cookie = `${nombre}=${encodeURIComponent(valor)}; expires=${fecha.toUTCString()}; path=/; SameSite=Lax`;
+}
+
+export function borrarCookie(nombre) {
+  document.cookie = `${nombre}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+}
+
+// Manejo de localStorage para el Carrito
+export function obtenerCarritoStorage() {
+  try {
+    const guardado = localStorage.getItem("avrill_carrito");
+    return guardado ? JSON.parse(guardado) : [];
+  } catch {
+    return [];
+  }
+}
+
+export function guardarCarritoStorage(carrito) {
+  try {
+    localStorage.setItem("avrill_carrito", JSON.stringify(carrito));
+  } catch (error) {
+    console.error("Error al guardar el carrito en localStorage:", error);
+  }
 }
 
 
@@ -7966,63 +8199,25 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     {
       "id": 1,
       "usuario": "admin",
-      "clave": "admin123",
+      "clave": "$2b$10$p.KfR8qhuLJsVUrRbcLP/.QGupe37Z8iy0h3hQ1pq6oxztF8gMwH2",
       "rol": "admin",
       "nombre": "Administrador Avrill",
       "correo": "admin@avrill.com",
       "telefono": "62848105",
       "direccion": "San JosÃ©, Costa Rica",
-      "token": null
+      "token": "NDJpczR0anRzaHYubXU3Y3lyZDkuWVRLQkJhYUE",
+      "codigoDescuento": "AVRILL7X44Q",
+      "codigoDescuentoHash": "$2b$10$xxUQpOdmaxuh6wMVvvVjDOLtcKBSKOTIN.Y0/S/gYtWvzot0S64Vi"
     },
     {
       "id": 2,
       "usuario": "prueba",
-      "clave": "prueba123",
+      "clave": "$2b$10$b9.CzgBC5Kn1eBxYqUlB7u05ap3xJ8EzPtJLaNkWewRwWOVAATQ0u",
       "rol": "cliente",
       "nombre": "Cliente Avrill",
       "correo": "cliente@avrill.com",
       "telefono": "60123456",
       "direccion": "EscazÃº, San JosÃ©, Costa Rica",
-      "token": null
-    },
-    {
-      "usuario": "Ale",
-      "clave": "1234",
-      "nombre": "Alexa Zarate",
-      "correo": "alexa@gmail.com",
-      "telefono": "60606060",
-      "rol": "cliente",
-      "id": 3,
-      "token": null
-    },
-    {
-      "usuario": "Victor",
-      "clave": "1234",
-      "nombre": "Victor Madrigal",
-      "correo": "vicmadrigal@gmail.com",
-      "telefono": "780707070",
-      "rol": "cliente",
-      "id": 4,
-      "token": null
-    },
-    {
-      "usuario": "j",
-      "clave": "1",
-      "nombre": "j",
-      "correo": "j@gmail.com",
-      "telefono": "2",
-      "rol": "admin",
-      "id": 5,
-      "token": "NDJpczR0anRzaHYubXU3Y3lyZDkuWVRLQkJhYUE"
-    },
-    {
-      "usuario": "0",
-      "clave": "0",
-      "nombre": "oo",
-      "correo": "bryangomezfwd@gmail.com",
-      "telefono": "2",
-      "rol": "cliente",
-      "id": 6,
       "token": null
     }
   ],
@@ -8066,113 +8261,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       "disponible": false,
       "etiqueta": "Celebraciones",
       "imagen": "https://lh3.googleusercontent.com/aida-public/AB6AXuBISCj7EhN-NpRbtEUmp_Q3-wf6Qfcp8Q4Ip-dQDk0SgG2yXu8F42kusb6lykAhm4gdgu-5wmBH48pShPwAcC6rtCToFATjDCRjYWQlRCPX1DsDZtOZfJIC-lMPAIZeSb6aIhrnhOpLmFyiVJykyhN6C5isp7Xeic-8mnmo_mw4HRgcqQYKIGqeMj8aQnxnaeOEE_LXUWhhIxSlMy3vHCvEqYwHeSFeLX1Z7Zl3CbRWgcpKegSjeKqbWA"
-    },
-    {
-      "nombre": "Agua de coconut",
-      "categoria": "jabones",
-      "detalle": "agua de coco",
-      "precio": 1000,
-      "disponible": true,
-      "etiqueta": "Nuevo",
-      "imagen": "https://azalagourmet.com/cdn/shop/files/ChatGPTImage18ago2026_09_46_55.png?v=1787039278&width=480",
-      "id": 5
     }
   ],
-  "pedidos": [
-    {
-      "id": 999,
-      "numeroFactura": "PF-2026-00099",
-      "fecha": "2026-09-28T10:00:00Z",
-      "cliente": {
-        "nombre": "Ana Mora",
-        "correo": "ana.mora@example.com",
-        "telefono": "88888888",
-        "direccion": "San JosÃ©, Costa Rica",
-        "identificacion": "1-2345-6789"
-      },
-      "productos": [
-        {
-          "id": 1,
-          "nombre": "JabÃ³n BotÃ¡nico Nutritivo",
-          "cantidad": 2,
-          "precio": 3500
-        },
-        {
-          "id": 3,
-          "nombre": "Body Splash Floral & CÃ­trico",
-          "cantidad": 1,
-          "precio": 5200
-        }
-      ],
-      "total": 12200,
-      "estado": "nuevo",
-      "factura": {
-        "numero": "PF-2026-00099",
-        "total": 12200,
-        "lineas": [
-          {
-            "nombre": "JabÃ³n BotÃ¡nico Nutritivo",
-            "cantidad": 2,
-            "precio": 3500
-          },
-          {
-            "nombre": "Body Splash Floral & CÃ­trico",
-            "cantidad": 1,
-            "precio": 5200
-          }
-        ]
-      }
-    },
-    {
-      "id": 1001,
-      "usuario": "prueba",
-      "cliente": {
-        "nombre": "Cliente de prueba",
-        "correo": "cliente.prueba@example.com",
-        "telefono": "88881234",
-        "direccion": "EscazÃº, San JosÃ©, Costa Rica",
-        "identificacion": "1-2345-6789",
-        "coordenadas": null
-      },
-      "productos": [
-        {
-          "id": 2,
-          "nombre": "Sales de BaÃ±o & Relax",
-          "cantidad": 2,
-          "precio": 4800
-        }
-      ],
-      "total": 9600,
-      "estado": "pendiente",
-      "fecha": "2026-09-28T12:00:00.000Z",
-      "factura": {
-        "numero": "PF-2026-00100",
-        "moneda": "CRC",
-        "porcentajeIva": 13,
-        "fechaEmision": "2026-09-28T12:00:00.000Z",
-        "receptor": {
-          "nombre": "Cliente de prueba",
-          "identificacion": "1-2345-6789",
-          "correo": "cliente.prueba@example.com",
-          "telefono": "88881234",
-          "direccion": "EscazÃº, San JosÃ©, Costa Rica",
-          "coordenadas": null
-        },
-        "lineas": [
-          {
-            "codigo": "2",
-            "descripcion": "Sales de BaÃ±o & Relax",
-            "cantidad": 2,
-            "precioUnitario": 4800,
-            "monto": 9600
-          }
-        ],
-        "subtotal": 8494.69,
-        "iva": 1105.31,
-        "total": 9600
-      }
-    }
-  ]
+  "pedidos": [],
+  "solicitudes": []
 }
 
 

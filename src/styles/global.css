@@ -726,6 +726,36 @@ button:disabled {
   gap: 10px;
 }
 
+.campo-contrasena {
+  position: relative;
+  width: 100%;
+}
+
+.campo-contrasena input {
+  padding-right: 48px;
+}
+
+.alternar-visibilidad-clave {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  color: var(--muted);
+  display: inline-flex;
+  height: 40px;
+  justify-content: center;
+  padding: 0;
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+}
+
+.alternar-visibilidad-clave svg {
+  height: 18px;
+  width: 18px;
+}
+
 .formulario input, .editor-producto input, .editor-producto select, .pedidos-lista select {
   width: 100%;
   padding: 12px;
@@ -2492,4 +2522,43 @@ body.modo-oscuro .panel-grafico-contenedor {
   background-color: var(--blanco);
   color: var(--texto);
   border-color: var(--borde);
+}
+/* ============================================================
+   SOLUCIÓN PARPADEO DE NAVBAR EN SCROLL
+   ============================================================ */
+
+/* 1. Mantener posición fija limpia */
+.encabezado {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: var(--crema, #fdfbf7);
+  transition: background-color 0.3s ease;
+}
+
+/* 2. Evitar contracción del flujo añadiendo un margen compensatorio en el main */
+main,
+.pagina,
+.login-contenedor,
+.catalogo-contenedor,
+.carrito-contenedor,
+.dashboard-contenedor,
+.usuario-contenedor {
+  padding-top: 140px !important; /* Compensa la altura total inicial del navbar */
+  min-height: 100vh;
+}
+
+/* 3. Transición suave de la topbar sin afectar el cálculo del scroll */
+.topbar {
+  max-height: 40px;
+  opacity: 1;
+  overflow: hidden;
+  transition: max-height 0.3s ease, opacity 0.2s ease;
+}
+
+.topbar.topbar-oculta {
+  max-height: 0;
+  opacity: 0;
 }

@@ -1,65 +1,47 @@
-import { useEffect, useState } from "react";
+import { useEffect, useEffectEvent, useState } from "react";
 import { useAppContext } from "./Routing"; // Importa el contexto desde la misma carpeta
 import { apiSesion } from "../services/api";
 
 export default function PrivateRoutes({ children, soloAdmin = false }) {
-  const { usuarioActivo, token, cerrarSesion, navigate } = useAppContext();
+  const { usuarioActivo, cerrarSesion, navigate, rutaActual } = useAppContext();
   const [validando, setValidando] = useState(true);
   const [permitido, setPermitido] = useState(false);
 
+  const verificarAcceso = useEffectEvent(async (estaCancelado) => {
+    try {
+      const sesion = await apiSesion.validar();
+      if (estaCancelado()) return;
+
+      const usuarioVerificado = sesion?.usuario;
+      if (!usuarioVerificado || String(usuarioVerificado.id) !== String(usuarioActivo?.id)) {
+        setPermitido(false);
+        cerrarSesion();
+        navigate("/login");
+      } else if (soloAdmin && usuarioVerificado.rol !== "admin") {
+        setPermitido(false);
+        navigate("/");
+      } else {
+        setPermitido(true);
+      }
+    } catch {
+      if (!estaCancelado()) {
+        setPermitido(false);
+        navigate("/login");
+      }
+    } finally {
+      if (!estaCancelado()) setValidando(false);
+    }
+  });
+
   useEffect(() => {
     let cancelado = false;
-
-    const verificarAcceso = async () => {
-      if (!token || !usuarioActivo?.id) {
-        if (!cancelado) {
-          setPermitido(false);
-          setValidando(false);
-          cerrarSesion();
-          navigate("/login");
-        }
-        return;
-      }
-
-      if (soloAdmin && usuarioActivo.rol !== "admin") {
-        if (!cancelado) {
-          setPermitido(false);
-          setValidando(false);
-          navigate("/");
-        }
-        return;
-      }
-
-      try {
-        const sesionValida = await apiSesion.validar(usuarioActivo.id, token);
-        if (!cancelado) {
-          if (sesionValida) {
-            setPermitido(true);
-          } else {
-            setPermitido(false);
-            cerrarSesion();
-            navigate("/login");
-          }
-        }
-      } catch {
-        if (!cancelado) {
-          setPermitido(false);
-          cerrarSesion();
-          navigate("/login");
-        }
-      } finally {
-        if (!cancelado) {
-          setValidando(false);
-        }
-      }
-    };
-
-    verificarAcceso();
-
+    queueMicrotask(() => {
+      if (!cancelado) verificarAcceso(() => cancelado);
+    });
     return () => {
       cancelado = true;
     };
-  }, []);
+  }, [rutaActual, usuarioActivo?.id, soloAdmin]);
 
   if (validando) {
     return (
