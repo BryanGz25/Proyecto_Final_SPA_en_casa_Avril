@@ -3,63 +3,25 @@
     {
       "id": 1,
       "usuario": "admin",
-      "clave": "admin123",
+      "clave": "$2b$10$p.KfR8qhuLJsVUrRbcLP/.QGupe37Z8iy0h3hQ1pq6oxztF8gMwH2",
       "rol": "admin",
       "nombre": "Administrador Avrill",
       "correo": "admin@avrill.com",
       "telefono": "62848105",
       "direccion": "San José, Costa Rica",
-      "token": null
+      "token": "NDJpczR0anRzaHYubXU3Y3lyZDkuWVRLQkJhYUE",
+      "codigoDescuento": "AVRILL7X44Q",
+      "codigoDescuentoHash": "$2b$10$xxUQpOdmaxuh6wMVvvVjDOLtcKBSKOTIN.Y0/S/gYtWvzot0S64Vi"
     },
     {
       "id": 2,
       "usuario": "prueba",
-      "clave": "prueba123",
+      "clave": "$2b$10$b9.CzgBC5Kn1eBxYqUlB7u05ap3xJ8EzPtJLaNkWewRwWOVAATQ0u",
       "rol": "cliente",
       "nombre": "Cliente Avrill",
       "correo": "cliente@avrill.com",
       "telefono": "60123456",
       "direccion": "Escazú, San José, Costa Rica",
-      "token": null
-    },
-    {
-      "usuario": "Ale",
-      "clave": "1234",
-      "nombre": "Alexa Zarate",
-      "correo": "alexa@gmail.com",
-      "telefono": "60606060",
-      "rol": "cliente",
-      "id": 3,
-      "token": null
-    },
-    {
-      "usuario": "Victor",
-      "clave": "1234",
-      "nombre": "Victor Madrigal",
-      "correo": "vicmadrigal@gmail.com",
-      "telefono": "780707070",
-      "rol": "cliente",
-      "id": 4,
-      "token": null
-    },
-    {
-      "usuario": "j",
-      "clave": "1",
-      "nombre": "j",
-      "correo": "j@gmail.com",
-      "telefono": "2",
-      "rol": "admin",
-      "id": 5,
-      "token": "NDJpczR0anRzaHYubXU3Y3lyZDkuWVRLQkJhYUE"
-    },
-    {
-      "usuario": "0",
-      "clave": "0",
-      "nombre": "oo",
-      "correo": "bryangomezfwd@gmail.com",
-      "telefono": "2",
-      "rol": "cliente",
-      "id": 6,
       "token": null
     }
   ],
@@ -103,111 +65,8 @@
       "disponible": false,
       "etiqueta": "Celebraciones",
       "imagen": "https://lh3.googleusercontent.com/aida-public/AB6AXuBISCj7EhN-NpRbtEUmp_Q3-wf6Qfcp8Q4Ip-dQDk0SgG2yXu8F42kusb6lykAhm4gdgu-5wmBH48pShPwAcC6rtCToFATjDCRjYWQlRCPX1DsDZtOZfJIC-lMPAIZeSb6aIhrnhOpLmFyiVJykyhN6C5isp7Xeic-8mnmo_mw4HRgcqQYKIGqeMj8aQnxnaeOEE_LXUWhhIxSlMy3vHCvEqYwHeSFeLX1Z7Zl3CbRWgcpKegSjeKqbWA"
-    },
-    {
-      "nombre": "Agua de coconut",
-      "categoria": "jabones",
-      "detalle": "agua de coco",
-      "precio": 1000,
-      "disponible": true,
-      "etiqueta": "Nuevo",
-      "imagen": "https://azalagourmet.com/cdn/shop/files/ChatGPTImage18ago2026_09_46_55.png?v=1787039278&width=480",
-      "id": 5
     }
   ],
-  "pedidos": [
-    {
-      "id": 999,
-      "numeroFactura": "PF-2026-00099",
-      "fecha": "2026-09-28T10:00:00Z",
-      "cliente": {
-        "nombre": "Ana Mora",
-        "correo": "ana.mora@example.com",
-        "telefono": "88888888",
-        "direccion": "San José, Costa Rica",
-        "identificacion": "1-2345-6789"
-      },
-      "productos": [
-        {
-          "id": 1,
-          "nombre": "Jabón Botánico Nutritivo",
-          "cantidad": 2,
-          "precio": 3500
-        },
-        {
-          "id": 3,
-          "nombre": "Body Splash Floral & Cítrico",
-          "cantidad": 1,
-          "precio": 5200
-        }
-      ],
-      "total": 12200,
-      "estado": "nuevo",
-      "factura": {
-        "numero": "PF-2026-00099",
-        "total": 12200,
-        "lineas": [
-          {
-            "nombre": "Jabón Botánico Nutritivo",
-            "cantidad": 2,
-            "precio": 3500
-          },
-          {
-            "nombre": "Body Splash Floral & Cítrico",
-            "cantidad": 1,
-            "precio": 5200
-          }
-        ]
-      }
-    },
-    {
-      "id": 1001,
-      "usuario": "prueba",
-      "cliente": {
-        "nombre": "Cliente de prueba",
-        "correo": "cliente.prueba@example.com",
-        "telefono": "88881234",
-        "direccion": "Escazú, San José, Costa Rica",
-        "identificacion": "1-2345-6789",
-        "coordenadas": null
-      },
-      "productos": [
-        {
-          "id": 2,
-          "nombre": "Sales de Baño & Relax",
-          "cantidad": 2,
-          "precio": 4800
-        }
-      ],
-      "total": 9600,
-      "estado": "pendiente",
-      "fecha": "2026-09-28T12:00:00.000Z",
-      "factura": {
-        "numero": "PF-2026-00100",
-        "moneda": "CRC",
-        "porcentajeIva": 13,
-        "fechaEmision": "2026-09-28T12:00:00.000Z",
-        "receptor": {
-          "nombre": "Cliente de prueba",
-          "identificacion": "1-2345-6789",
-          "correo": "cliente.prueba@example.com",
-          "telefono": "88881234",
-          "direccion": "Escazú, San José, Costa Rica",
-          "coordenadas": null
-        },
-        "lineas": [
-          {
-            "codigo": "2",
-            "descripcion": "Sales de Baño & Relax",
-            "cantidad": 2,
-            "precioUnitario": 4800,
-            "monto": 9600
-          }
-        ],
-        "subtotal": 8494.69,
-        "iva": 1105.31,
-        "total": 9600
-      }
-    }
-  ]
+  "pedidos": [],
+  "solicitudes": []
 }

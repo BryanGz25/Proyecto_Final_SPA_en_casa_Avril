@@ -32,16 +32,16 @@ export default function Dashboard() {
   });
 
   const opciones = [
-    { id: "inventario", nombre: "Inventario", icono: "📦" },
-    { id: "pedidos", nombre: "Pedidos pendientes", icono: "📋" },
-    { id: "clientes", nombre: "Clientes", icono: "👥" },
-    { id: "ingresos", nombre: "Ingresos & Gráficos", icono: "📊" },
+    { id: "inventario", nombre: "Inventario", icono: "­ƒôª" },
+    { id: "pedidos", nombre: "Pedidos pendientes", icono: "­ƒôï" },
+    { id: "clientes", nombre: "Clientes", icono: "­ƒæÑ" },
+    { id: "ingresos", nombre: "Ingresos & Gr├íficos", icono: "­ƒôè" },
   ];
 
   const pedidosPendientes = pedidos.filter((pedido) => pedido.estado === "pendiente");
   const ingresosTotales = pedidos.reduce((total, pedido) => total + pedido.total, 0);
 
-  // Datos agregados para el gráfico de categorías
+  // Datos agregados para el gr├ífico de categor├¡as
   const ventasPorCategoria = productos.reduce((acc, prod) => {
     acc[prod.categoria] = (acc[prod.categoria] || 0) + 1;
     return acc;
@@ -68,7 +68,7 @@ export default function Dashboard() {
 
       <main className="layout-privado">
         <Sidebar
-          titulo="Administración"
+          titulo="Administraci├│n"
           opciones={opciones}
           activa={seccion}
           onCambiar={setSeccion}
@@ -76,7 +76,7 @@ export default function Dashboard() {
 
         <section className="contenido-privado">
           <div className="seccion-introduccion">
-            <span className="eyebrow">Administración</span>
+            <span className="eyebrow">Administraci├│n</span>
             <h1>Panel Avrill</h1>
             <p>Gestiona productos, pedidos e inventario de la tienda.</p>
           </div>
@@ -160,9 +160,9 @@ export default function Dashboard() {
                     <article className="pedido-card" key={pedido.id}>
                       <h3>Pedido #{pedido.id}</h3>
                       <p>Cliente: {pedido.cliente?.nombre || pedido.usuario}</p>
-                      <p>Correo: {pedido.cliente?.correo || "—"}</p>
-                      <p>Teléfono: {pedido.cliente?.telefono || "—"}</p>
-                      <p>Dirección: {pedido.cliente?.direccion || "—"}</p>
+                      <p>Correo: {pedido.cliente?.correo || "ÔÇö"}</p>
+                      <p>Tel├®fono: {pedido.cliente?.telefono || "ÔÇö"}</p>
+                      <p>Direcci├│n: {pedido.cliente?.direccion || "ÔÇö"}</p>
                       <p>Total: CRC {pedido.total.toLocaleString("es-CR")}</p>
 
                       <div className="pedido-acciones">
@@ -176,7 +176,7 @@ export default function Dashboard() {
                         >
                           <option value="pendiente">Pendiente</option>
                           <option value="confirmado">Confirmado</option>
-                          <option value="en preparacion">En preparación</option>
+                          <option value="en preparacion">En preparaci├│n</option>
                           <option value="entregado">Entregado</option>
                           <option value="cancelado">Cancelado</option>
                         </select>
@@ -196,8 +196,8 @@ export default function Dashboard() {
                   <article className="usuario-card" key={usuario.id}>
                     <div className="usuario-info">
                       <h3>{usuario.nombre}</h3>
-                      <p>@{usuario.usuario} · {usuario.correo}</p>
-                      <p>Teléfono: {usuario.telefono}</p>
+                      <p>@{usuario.usuario} ┬À {usuario.correo}</p>
+                      <p>Tel├®fono: {usuario.telefono}</p>
                     </div>
 
                     <div className="usuario-acciones">
@@ -214,7 +214,7 @@ export default function Dashboard() {
                       <button
                         className="btn-peligro"
                         onClick={() => {
-                          if (window.confirm(`¿Eliminar a ${usuario.usuario}?`)) {
+                          if (window.confirm(`┬┐Eliminar a ${usuario.usuario}?`)) {
                             eliminarUsuario(usuario.id);
                           }
                         }}
@@ -230,10 +230,10 @@ export default function Dashboard() {
 
           {seccion === "ingresos" && (
             <section>
-              <h2>Ingresos y Analítica Visual</h2>
+              <h2>Ingresos y Anal├¡tica Visual</h2>
               <div className="panel-grafico-contenedor">
-                <h3>Distribución del Inventario por Categoría</h3>
-                {/* Gráfico de barras interactivo generado mediante SVG */}
+                <h3>Distribuci├│n del Inventario por Categor├¡a</h3>
+                {/* Gr├ífico de barras interactivo generado mediante SVG */}
                 <div className="grafico-barras">
                   {Object.entries(ventasPorCategoria).map(([cat, cant]) => (
                     <div key={cat} className="columna-grafico">

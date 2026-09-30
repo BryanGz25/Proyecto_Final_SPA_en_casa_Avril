@@ -11,8 +11,10 @@ import {
 } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
 
-// Importación de logo compatible con la estructura de archivos
-import logoAvrill from "../img/logo-avrill.jpeg.svg";
+// Rutas estáticas servidas desde la carpeta /public
+const logoJpg = "/logo-avrill.jpeg";
+const logoSvg = "/LogoN.svg";
+
 const numeroWhatsApp = "50662848105";
 const enlaceWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(
   "Hola Avrill Cosmética, deseo consultar sobre sus productos artesanales"
@@ -32,6 +34,7 @@ export default function Encabezado() {
   } = useAppContext();
 
   const [desplazado, setDesplazado] = useState(false);
+  const [logoActual, setLogoActual] = useState(logoJpg);
 
   useEffect(() => {
     const manejarDesplazamiento = () => {
@@ -68,7 +71,8 @@ export default function Encabezado() {
   return (
     <>
       <style>{`
-        .logo-avrill {
+        /* Botón Contenedor del Logo */
+        .logo-avrill-btn {
           display: inline-flex;
           align-items: center;
           justify-content: center;
@@ -77,26 +81,35 @@ export default function Encabezado() {
           padding: 0;
           margin: 0;
           cursor: pointer;
-          text-align: center;
-          min-width: 0;
         }
 
-        .logo-avrill .logo-avrill-img {
+        /* Dimensiones del Logo Agrandado y Responsive */
+        .logo-avrill-img {
           display: block;
           width: auto;
-          height: clamp(50px, 7vw, 70px);
-          flex-shrink: 0;
+          height: clamp(56px, 7.5vw, 86px);
+          max-height: 86px;
           max-width: 100%;
           object-fit: contain;
-          border-radius: 10px;
+          transition: transform 0.25s ease, filter 0.3s ease;
           user-select: none;
         }
 
+        .logo-avrill-btn:hover .logo-avrill-img {
+          transform: scale(1.04);
+        }
+
+        /* Soporte para Modo Oscuro en el Logo */
+        body.modo-oscuro .logo-avrill-img {
+          filter: drop-shadow(0px 2px 8px rgba(255, 255, 255, 0.2)) brightness(1.15);
+        }
+
+        /* Switch de Modo Oscuro */
         .switch-modo-nav {
           width: 46px;
           height: 26px;
-          background-color: var(--arena);
-          border: 1px solid var(--borde);
+          background-color: var(--arena, #e2dacd);
+          border: 1px solid var(--borde, #d4cbbe);
           border-radius: 999px;
           padding: 2px;
           cursor: pointer;
@@ -106,38 +119,39 @@ export default function Encabezado() {
         }
 
         .switch-modo-nav.modo-activo {
-          background-color: var(--verde-oscuro);
+          background-color: var(--verde-oscuro, #334537);
         }
 
         .switch-circulo-nav {
           width: 20px;
           height: 20px;
-          background-color: var(--blanco);
+          background-color: #ffffff;
           border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
           transition: transform 0.3s ease;
           box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-          color: var(--verde-oscuro);
+          color: var(--verde-oscuro, #334537);
         }
 
         .switch-modo-nav.modo-activo .switch-circulo-nav {
           transform: translateX(20px);
-          background-color: var(--crema);
+          background-color: #fdfbf7;
           color: #f1c40f;
         }
 
+        /* Control de Zoom */
         .btn-zoom-nav {
           background: transparent;
-          border: 1px solid var(--borde);
+          border: 1px solid var(--borde, #d4cbbe);
           border-radius: 8px;
           padding: 6px 10px;
           display: flex;
           align-items: center;
           gap: 6px;
           cursor: pointer;
-          color: var(--verde-oscuro);
+          color: var(--verde-oscuro, #334537);
           font-weight: 600;
           font-size: 13px;
           transition: background 0.2s ease;
@@ -145,6 +159,16 @@ export default function Encabezado() {
 
         .btn-zoom-nav:hover {
           background: rgba(74, 93, 78, 0.08);
+        }
+
+        body.modo-oscuro .btn-zoom-nav {
+          color: var(--texto, #f2f5f3);
+        }
+
+        @media (max-width: 600px) {
+          .logo-avrill-img {
+            height: clamp(48px, 11vw, 60px);
+          }
         }
       `}</style>
 
@@ -157,16 +181,22 @@ export default function Encabezado() {
         </div>
 
         <div className="encabezado-contenido">
+          {/* Logo con fallback automático */}
           <button
-            className="logo logo-avrill"
+            className="logo-avrill-btn"
             onClick={() => navigate("/")}
             aria-label="Ir al inicio de Avrill"
             type="button"
           >
             <img
-              src={logoAvrill}
+              src={logoActual}
               alt="Avrill un spa en casa"
               className="logo-avrill-img"
+              onError={() => {
+                if (logoActual !== logoSvg) {
+                  setLogoActual(logoSvg);
+                }
+              }}
             />
           </button>
 
@@ -189,6 +219,7 @@ export default function Encabezado() {
           </nav>
 
           <div className="encabezado-acciones">
+            {/* Switch Modo Oscuro */}
             <button
               type="button"
               className={`switch-modo-nav ${modoOscuro ? "modo-activo" : ""}`}
@@ -201,6 +232,7 @@ export default function Encabezado() {
               </span>
             </button>
 
+            {/* Control Zoom */}
             <button
               type="button"
               className="btn-zoom-nav"

@@ -1,60 +1,27 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useEffect, useState } from "react";
 import { productosIniciales } from "../data/productos";
-
 import Home from "../pages/Home";
-import Login from "../pages/Login";
 import Catalogo from "../pages/Catalogo";
 import DetalleProducto from "../pages/DetalleProducto";
 import Carrito from "../pages/Carrito";
-import Dashboard from "../pages/Dashboard";
+import Login from "../pages/Login";
 import VistaUsuario from "../pages/VistaUsuario";
+import Dashboard from "../pages/Dashboard";
+import PrivateRoutes from "./PrivateRoutes"; // 👈 Importación correcta desde la misma carpeta /routes/
 import WhatsAppFlotante from "../components/WhatsAppFlotante";
 import AsistenteIA from "../components/AsistenteIA";
 import NotificacionBienvenida from "../components/NotificacionBienvenida";
-import PrivateRoutes from "../routes/PrivateRoutes";
-import { apiUsuarios, apiSesion, apiProductos } from "../services/api";
-import { construirFactura } from "../utils/factura";
+import { apiSesion, apiUsuarios } from "../services/api";
 import {
-  NOMBRE_COOKIE_TOKEN,
-  NOMBRE_COOKIE_USUARIO,
+  obtenerCookie,
+  guardarCookie,
   borrarCookie,
-  escribirCookie,
-  leerCookie,
-} from "../services/cookies";
-
-const usuariosIniciales = [
-  {
-    id: 1,
-    usuario: "admin",
-    clave: "admin123",
-    rol: "admin",
-    nombre: "Administrador Avrill",
-    correo: "admin@avrill.com",
-    telefono: "62848105",
-    direccion: "San José, Costa Rica",
-  },
-  {
-    id: 2,
-    usuario: "prueba",
-    clave: "prueba123",
-    rol: "cliente",
-    nombre: "Cliente Avrill",
-    correo: "cliente@avrill.com",
-    telefono: "60123456",
-    direccion: "Escazú, San José, Costa Rica",
-  },
-];
+  obtenerCarritoStorage,
+  guardarCarritoStorage,
+} from "../utils/storage";
 
 const NavegacionContexto = createContext(null);
-
-const leerStorage = (clave, valorInicial) => {
-  try {
-    const guardado = localStorage.getItem(clave);
-    return guardado ? JSON.parse(guardado) : valorInicial;
-  } catch {
-    return valorInicial;
-  }
-};
 
 export function useAppContext() {
   return useContext(NavegacionContexto);
@@ -67,284 +34,159 @@ export function useNavigate() {
 
 export default function Routing() {
   const [rutaActual, setRutaActual] = useState(window.location.pathname || "/");
-  const [usuarioActivo, setUsuarioActivo] = useState(() => leerStorage("avrill_usuario", null));
-  const [productos, setProductos] = useState(() => leerStorage("avrill_productos", productosIniciales));
-  const [carrito, setCarrito] = useState(() => leerStorage("avrill_carrito", []));
-  const [pedidos, setPedidos] = useState(() => leerStorage("avrill_pedidos", []));
-  const [usuarios, setUsuarios] = useState(usuariosIniciales);
+  const [productos, setProductos] = useState(productosIniciales);
+  const [carrito, setCarrito] = useState(obtenerCarritoStorage());
+  const [usuarioActivo, setUsuarioActivo] = useState(null);
+  const [token, setToken] = useState(obtenerCookie("avrill_token") || "");
+  const [cargandoInicial, setCargandoInicial] = useState(true);
   const [bienvenidaNombre, setBienvenidaNombre] = useState(null);
 
-  // Estados de Accesibilidad
-  const [modoOscuro, setModoOscuro] = useState(() => leerStorage("avrill_modo_oscuro", false));
-  const [tamanoTexto, setTamanoTexto] = useState(() => leerStorage("avrill_tamano_texto", "normal"));
+  // Accesibilidad y Modo Oscuro
+  const [modoOscuro, setModoOscuro] = useState(() => {
+    return localStorage.getItem("avrill_modo_oscuro") === "true";
+  });
+  const [tamanoTexto, setTamanoTexto] = useState(() => {
+    return localStorage.getItem("avrill_tamano_texto") || "normal";
+  });
 
   useEffect(() => {
-    let activo = true;
-    apiUsuarios.listar().then((lista) => {
-      if (activo && Array.isArray(lista) && lista.length > 0) setUsuarios(lista);
-    }).catch(() => {});
-
-    apiProductos.listar().then((lista) => {
-      if (activo && Array.isArray(lista)) setProductos(lista);
-    }).catch(() => {});
-
-    return () => { activo = false; };
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("avrill_usuario", JSON.stringify(usuarioActivo));
-  }, [usuarioActivo]);
-
-  useEffect(() => {
-    localStorage.setItem("avrill_productos", JSON.stringify(productos));
-  }, [productos]);
-
-  useEffect(() => {
-    localStorage.setItem("avrill_carrito", JSON.stringify(carrito));
-  }, [carrito]);
-
-  useEffect(() => {
-    localStorage.setItem("avrill_pedidos", JSON.stringify(pedidos));
-  }, [pedidos]);
-
-  useEffect(() => {
-    localStorage.setItem("avrill_modo_oscuro", JSON.stringify(modoOscuro));
-    document.body.classList.toggle("modo-oscuro", modoOscuro);
+    if (modoOscuro) {
+      document.body.classList.add("modo-oscuro");
+    } else {
+      document.body.classList.remove("modo-oscuro");
+    }
+    localStorage.setItem("avrill_modo_oscuro", modoOscuro);
   }, [modoOscuro]);
 
   useEffect(() => {
-    localStorage.setItem("avrill_tamano_texto", JSON.stringify(tamanoTexto));
-    document.body.classList.remove("txt-normal", "txt-grande", "txt-extra");
-    document.body.classList.add(`txt-${tamanoTexto}`);
+    const html = document.documentElement;
+    html.classList.remove("txt-normal", "txt-grande", "txt-extra");
+    html.classList.add(`txt-${tamanoTexto}`);
+    localStorage.setItem("avrill_tamano_texto", tamanoTexto);
   }, [tamanoTexto]);
-
-  useEffect(() => {
-    const escucharNavegacion = () => setRutaActual(window.location.pathname);
-    window.addEventListener("popstate", escucharNavegacion);
-    return () => window.removeEventListener("popstate", escucharNavegacion);
-  }, []);
-
-  const navigate = (ruta) => {
-    if (ruta === rutaActual) return;
-    window.history.pushState({}, "", ruta);
-    setRutaActual(ruta);
-  };
-
-  const crearSesionConToken = async (usuario) => {
-    const { usuario: conToken, token } = await apiSesion.iniciar(usuario);
-    escribirCookie(NOMBRE_COOKIE_TOKEN, token);
-    escribirCookie(NOMBRE_COOKIE_USUARIO, String(conToken.id));
-    localStorage.setItem("avrill_ultima_actividad", Date.now().toString());
-
-    const usuarioLimpio = { ...conToken };
-    delete usuarioLimpio.token;
-    setUsuarioActivo(usuarioLimpio);
-    return usuarioLimpio;
-  };
-
-  const iniciarSesion = async (usuario) => crearSesionConToken(usuario);
-  const restaurarSesion = (usuario) => setUsuarioActivo(usuario);
-
-  const cerrarSesion = async () => {
-    const idCookie = leerCookie(NOMBRE_COOKIE_USUARIO);
-    const id = usuarioActivo?.id || (idCookie ? Number(idCookie) : null);
-    if (id) await apiSesion.cerrar(id);
-
-    borrarCookie(NOMBRE_COOKIE_TOKEN);
-    borrarCookie(NOMBRE_COOKIE_USUARIO);
-    localStorage.removeItem("avrill_ultima_actividad");
-    setUsuarioActivo(null);
-    navigate("/login");
-  };
-
-  const registrarUsuario = async (datos) => {
-    const creado = await apiUsuarios.crear({ ...datos, rol: "cliente" });
-    setUsuarios((actuales) => [...actuales, creado]);
-    const usuarioSesion = await crearSesionConToken(creado);
-    setBienvenidaNombre(usuarioSesion.nombre);
-    return usuarioSesion;
-  };
-
-  const actualizarUsuario = async (id, datos) => {
-    const actualizado = await apiUsuarios.actualizar(id, datos);
-    setUsuarios((actuales) => actuales.map((u) => (u.id === id ? actualizado : u)));
-    if (usuarioActivo?.id === id) setUsuarioActivo(actualizado);
-    return actualizado;
-  };
-
-  const eliminarUsuario = async (id) => {
-    await apiUsuarios.eliminar(id);
-    setUsuarios((actuales) => actuales.filter((u) => u.id !== id));
-    if (usuarioActivo?.id === id) setUsuarioActivo(null);
-  };
-
-  const agregarAlCarrito = (producto) => {
-    if (!producto.disponible) return;
-    setCarrito((actual) => {
-      const existente = actual.find((item) => item.id === producto.id);
-      if (existente) {
-        return actual.map((item) =>
-          item.id === producto.id ? { ...item, cantidad: item.cantidad + 1 } : item
-        );
-      }
-      return [...actual, { ...producto, cantidad: 1 }];
-    });
-  };
-
-  const cambiarCantidad = (id, cantidad) => {
-    if (cantidad <= 0) {
-      eliminarDelCarrito(id);
-      return;
-    }
-    setCarrito((actual) =>
-      actual.map((item) => (item.id === id ? { ...item, cantidad } : item))
-    );
-  };
-
-  const eliminarDelCarrito = (id) => {
-    setCarrito((actual) => actual.filter((item) => item.id !== id));
-  };
-
-  const vaciarCarrito = () => setCarrito([]);
-
-  const totalCarrito = carrito.reduce(
-    (total, producto) => total + producto.precio * producto.cantidad,
-    0
-  );
-
-  const crearPedido = (datosEntrega) => {
-    if (!usuarioActivo || carrito.length === 0) return null;
-
-    const id = Date.now();
-    const fecha = new Date().toISOString();
-    const numero = `PF-${new Date().getFullYear()}-${String(pedidos.length + 1).padStart(4, "0")}`;
-
-    const cliente = {
-      nombre: datosEntrega?.nombre || usuarioActivo.nombre,
-      correo: datosEntrega?.correo || usuarioActivo.correo || "",
-      telefono: datosEntrega?.telefono || usuarioActivo.telefono || "",
-      direccion: datosEntrega?.direccion || usuarioActivo.direccion || "",
-      identificacion: datosEntrega?.identificacion || usuarioActivo.identificacion || "",
-      coordenadas:
-        datosEntrega?.lat != null && datosEntrega?.lng != null
-          ? { lat: datosEntrega.lat, lng: datosEntrega.lng }
-          : null,
-    };
-
-    const pedidoBase = {
-      id,
-      usuario: usuarioActivo.usuario,
-      cliente,
-      productos: carrito,
-      total: totalCarrito,
-      estado: "pendiente",
-      fecha,
-      factura: construirFactura({ id, numero, fecha, cliente, productos: carrito }),
-    };
-
-    setPedidos((actuales) => [...actuales, pedidoBase]);
-    vaciarCarrito();
-    return pedidoBase;
-  };
-
-  const actualizarEstadoPedido = (id, estado) => {
-    setPedidos((actuales) =>
-      actuales.map((pedido) => (pedido.id === id ? { ...pedido, estado } : pedido))
-    );
-  };
-
-  const agregarProducto = async (producto) => {
-    try {
-      const creado = await apiProductos.crear(producto);
-      setProductos((actuales) => [...actuales, creado]);
-      return creado;
-    } catch {
-      const creado = { ...producto, id: Date.now() };
-      setProductos((actuales) => [...actuales, creado]);
-      return creado;
-    }
-  };
-
-  const actualizarProducto = async (id, cambios) => {
-    try {
-      const actualizado = await apiProductos.actualizar(id, cambios);
-      setProductos((actuales) => actuales.map((p) => (p.id === id ? actualizado : p)));
-      return actualizado;
-    } catch {
-      setProductos((actuales) =>
-        actuales.map((p) => (p.id === id ? { ...p, ...cambios } : p))
-      );
-      return null;
-    }
-  };
-
-  const eliminarProducto = async (id) => {
-    try {
-      await apiProductos.eliminar(id);
-    } catch {
-      // Ignorar error de red si json-server no responde
-    }
-    setProductos((actuales) => actuales.filter((p) => p.id !== id));
-  };
 
   const toggleModoOscuro = () => setModoOscuro((prev) => !prev);
   const cambiarTamanoTexto = (tamano) => setTamanoTexto(tamano);
 
-  const contexto = {
-    rutaActual,
-    usuarioActivo,
-    usuarios,
-    productos,
-    carrito,
-    pedidos,
-    totalCarrito,
-    modoOscuro,
-    tamanoTexto,
-    toggleModoOscuro,
-    cambiarTamanoTexto,
-    navigate,
-    iniciarSesion,
-    cerrarSesion,
-    restaurarSesion,
-    registrarUsuario,
-    actualizarUsuario,
-    eliminarUsuario,
-    agregarAlCarrito,
-    cambiarCantidad,
-    eliminarDelCarrito,
-    vaciarCarrito,
-    crearPedido,
-    actualizarEstadoPedido,
-    agregarProducto,
-    actualizarProducto,
-    eliminarProducto,
+  // Navegación SPA
+  const navigate = (ruta) => {
+    window.history.pushState({}, "", ruta);
+    setRutaActual(ruta);
+    window.scrollTo(0, 0);
   };
 
-  let pagina;
-  if (rutaActual === "/") pagina = <Home />;
-  else if (rutaActual === "/login") pagina = <Login />;
-  else if (rutaActual === "/catalogo") pagina = <Catalogo />;
+  useEffect(() => {
+    const manejarPopState = () => setRutaActual(window.location.pathname);
+    window.addEventListener("popstate", manejarPopState);
+    return () => window.removeEventListener("popstate", manejarPopState);
+  }, []);
+
+  useEffect(() => {
+    guardarCarritoStorage(carrito);
+  }, [carrito]);
+
+  useEffect(() => {
+    const restaurarSesion = async () => {
+      const idGuardado = obtenerCookie("avrill_id");
+      const tokenGuardado = obtenerCookie("avrill_token");
+
+      if (idGuardado && tokenGuardado) {
+        try {
+          const esValida = await apiSesion.validar(idGuardado, tokenGuardado);
+          if (esValida) {
+            const usuarioBD = await apiUsuarios.obtenerPorId(idGuardado);
+            setUsuarioActivo(usuarioBD);
+            setToken(tokenGuardado);
+          } else {
+            cerrarSesion();
+          }
+        } catch {
+          cerrarSesion();
+        }
+      }
+      setCargandoInicial(false);
+    };
+
+    restaurarSesion();
+  }, []);
+
+  const iniciarSesion = (usuario, tokenRecibido) => {
+    setUsuarioActivo(usuario);
+    setToken(tokenRecibido);
+    guardarCookie("avrill_id", usuario.id);
+    guardarCookie("avrill_token", tokenRecibido);
+  };
+
+  const cerrarSesion = () => {
+    setUsuarioActivo(null);
+    setToken("");
+    borrarCookie("avrill_id");
+    borrarCookie("avrill_token");
+  };
+
+  const agregarAlCarrito = (producto, cantidad = 1) => {
+    setCarrito((prev) => {
+      const existe = prev.find((item) => item.id === producto.id);
+      if (existe) {
+        return prev.map((item) =>
+          item.id === producto.id
+            ? { ...item, cantidad: item.cantidad + cantidad }
+            : item
+        );
+      }
+      return [...prev, { ...producto, cantidad }];
+    });
+  };
+
+  const contexto = {
+    rutaActual,
+    navigate,
+    productos,
+    setProductos,
+    carrito,
+    setCarrito,
+    agregarAlCarrito,
+    usuarioActivo,
+    token,
+    iniciarSesion,
+    cerrarSesion,
+    modoOscuro,
+    toggleModoOscuro,
+    tamanoTexto,
+    cambiarTamanoTexto,
+  };
+
+  if (cargandoInicial) {
+    return (
+      <main className="pagina paginas-cargando">
+        <p>Cargando aplicación...</p>
+      </main>
+    );
+  }
+
+  let pagina = <Home />;
+  if (rutaActual === "/catalogo") pagina = <Catalogo />;
   else if (rutaActual.startsWith("/producto/")) pagina = <DetalleProducto />;
   else if (rutaActual === "/carrito") pagina = <Carrito />;
-  else if (rutaActual === "/dashboard")
-    pagina = (
-      <PrivateRoutes soloAdmin>
-        <Dashboard />
-      </PrivateRoutes>
-    );
+  else if (rutaActual === "/login") pagina = <Login />;
   else if (rutaActual === "/usuario")
     pagina = (
       <PrivateRoutes>
         <VistaUsuario />
       </PrivateRoutes>
     );
-  else pagina = <Home />;
+  else if (rutaActual === "/dashboard")
+    pagina = (
+      <PrivateRoutes soloAdmin>
+        <Dashboard />
+      </PrivateRoutes>
+    );
 
   return (
     <NavegacionContexto.Provider value={contexto}>
       {pagina}
       <WhatsAppFlotante />
-      <AsistenteIA />
+      <AsistenteIA productos={productos} />
       {bienvenidaNombre && (
         <NotificacionBienvenida
           nombre={bienvenidaNombre}

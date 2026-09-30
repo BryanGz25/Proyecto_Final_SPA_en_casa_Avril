@@ -6,7 +6,7 @@ import { FiMinus, FiX, FiMaximize2 } from "react-icons/fi";
 
 export default function AsistenteIA({ productos = [] }) {
   const { usuarioActivo } = useAppContext();
-  const [estado, setEstado] = useState("cerrado"); // Estados posibles: "cerrado", "abierto", "minimizado"
+  const [estado, setEstado] = useState("cerrado"); // "cerrado", "abierto", "minimizado"
   const [mensajes, setMensajes] = useState([
     {
       autor: "ia",
@@ -46,7 +46,6 @@ export default function AsistenteIA({ productos = [] }) {
   return (
     <>
       <style>{`
-        /* Botón de IA Flotante (Cerrado) */
         .ia-flotante {
           align-items: center;
           background: var(--verde-oscuro, #334537);
@@ -72,7 +71,6 @@ export default function AsistenteIA({ productos = [] }) {
           box-shadow: 0 22px 36px -14px rgba(51, 69, 55, 0.9);
         }
 
-        /* Capa con Transparencia y Blur cuando el modal está abierto */
         .ia-backdrop-overlay {
           position: fixed;
           inset: 0;
@@ -91,7 +89,6 @@ export default function AsistenteIA({ productos = [] }) {
           to { opacity: 1; }
         }
 
-        /* Ventana del Modal Desplegado */
         .ia-modal-chat {
           width: min(380px, calc(100vw - 32px));
           height: 500px;
@@ -110,7 +107,6 @@ export default function AsistenteIA({ productos = [] }) {
           to { transform: translateY(0) scale(1); opacity: 1; }
         }
 
-        /* Estado Minimizado en Esquina Inferior */
         .ia-bar-minimizada {
           position: fixed;
           bottom: 1.6rem;
@@ -245,7 +241,7 @@ export default function AsistenteIA({ productos = [] }) {
         }
       `}</style>
 
-      {/* 1. Botón Flotante (Cuando está Cerrado) */}
+      {/* 1. Botón Flotante */}
       {estado === "cerrado" && (
         <button
           className="ia-flotante"
@@ -258,7 +254,7 @@ export default function AsistenteIA({ productos = [] }) {
         </button>
       )}
 
-      {/* 2. Barra Minimizada (Mantiene la conversación en memoria) */}
+      {/* 2. Barra Minimizada */}
       {estado === "minimizado" && (
         <div
           className="ia-bar-minimizada"
@@ -294,7 +290,7 @@ export default function AsistenteIA({ productos = [] }) {
         </div>
       )}
 
-      {/* 3. Modal Abierto (Con fondo transparente y difuminado) */}
+      {/* 3. Modal Abierto */}
       {estado === "abierto" && (
         <div
           className="ia-backdrop-overlay"

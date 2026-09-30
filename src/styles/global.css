@@ -91,7 +91,7 @@ button:disabled {
   background: transparent;
   border: 0;
   color: var(--texto);
-  font-size: 14px;
+  font-size: calc(14px * var(--font-scale, 1));
   font-weight: 600;
   letter-spacing: 0.3px;
   padding: 10px 14px;
@@ -128,7 +128,7 @@ button:disabled {
   border-radius: 999px;
   color: #fff;
   display: inline-grid;
-  font-size: 12px;
+  font-size: calc(12px * var(--font-scale, 1));
   font-weight: 700;
   height: 20px;
   justify-items: center;
@@ -145,13 +145,13 @@ button:disabled {
   box-shadow: 0 16px 30px -14px rgba(37, 211, 102, 0.75);
   color: white;
   display: grid;
-  height: 3.8rem;
+  height: 61px;
   place-items: center;
   position: fixed;
   right: 1.6rem;
   text-decoration: none;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  width: 3.8rem;
+  width: 61px;
   z-index: 40;
 }
 
@@ -162,6 +162,8 @@ button:disabled {
 
 .whatsapp-flotante svg {
   display: block;
+  height: 32px;
+  width: 32px;
 }
 
 .pagina {
@@ -188,7 +190,7 @@ button:disabled {
 .hero h1 {
   color: var(--verde-oscuro);
   font-family: "Roboto", sans-serif;
-  font-size: clamp(38px, 6vw, 76px);
+  font-size: calc(clamp(38px, 6vw, 76px) * var(--font-scale, 1));
   line-height: 1.05;
   margin: 20px 0;
   letter-spacing: 0;
@@ -197,14 +199,14 @@ button:disabled {
 .hero p {
   max-width: 500px;
   line-height: 1.7;
-  font-size: 18px;
+  font-size: calc(18px * var(--font-scale, 1));
 }
 
 .eyebrow {
   color: var(--terracota);
   text-transform: uppercase;
   letter-spacing: 2px;
-  font-size: 12px;
+  font-size: calc(12px * var(--font-scale, 1));
   font-weight: 700;
 }
 
@@ -215,7 +217,7 @@ button:disabled {
 .seccion-introduccion h1, .seccion-introduccion h2 {
   color: var(--verde-oscuro);
   font-family: "Roboto", sans-serif;
-  font-size: clamp(30px, 4vw, 48px);
+  font-size: calc(clamp(30px, 4vw, 48px) * var(--font-scale, 1));
   margin: 12px 0;
   letter-spacing: 0;
 }
@@ -294,7 +296,7 @@ button:disabled {
 
 .producto-contenido h3 {
   margin: 0;
-  font-size: 20px;
+  font-size: calc(20px * var(--font-scale, 1));
 }
 
 .producto-contenido p {
@@ -304,18 +306,18 @@ button:disabled {
 
 .producto-etiqueta {
   color: var(--terracota);
-  font-size: 12px;
+  font-size: calc(12px * var(--font-scale, 1));
   font-weight: 700;
   text-transform: uppercase;
 }
 
 .producto-precio, .detalle-precio {
-  font-size: 24px;
+  font-size: calc(24px * var(--font-scale, 1));
   color: var(--verde);
 }
 
 .estado {
-  font-size: 13px;
+  font-size: calc(13px * var(--font-scale, 1));
 }
 
 .disponible {
@@ -367,7 +369,7 @@ button:disabled {
 }
 
 .detalle-contenido h1 {
-  font-size: clamp(32px, 5vw, 58px);
+  font-size: calc(clamp(32px, 5vw, 58px) * var(--font-scale, 1));
   color: var(--verde-oscuro);
 }
 
@@ -427,7 +429,7 @@ button:disabled {
 
 .resumen-carrito strong {
   display: block;
-  font-size: 30px;
+  font-size: calc(30px * var(--font-scale, 1));
   color: var(--verde);
   margin: 20px 0;
 }
@@ -541,7 +543,7 @@ button:disabled {
 
 .sugerencia-nombre {
   color: var(--texto);
-  font-size: 14px;
+  font-size: calc(14px * var(--font-scale, 1));
 }
 
 .sugerencia-etiqueta {
@@ -549,7 +551,7 @@ button:disabled {
   border-radius: 999px;
   color: var(--verde-oscuro);
   flex-shrink: 0;
-  font-size: 12px;
+  font-size: calc(12px * var(--font-scale, 1));
   font-weight: 600;
   padding: 3px 10px;
 }
@@ -565,12 +567,12 @@ button:disabled {
 .mapa-coordenadas {
   color: var(--muted);
   font-family: "Menlo", "Consolas", monospace;
-  font-size: 13px;
+  font-size: calc(13px * var(--font-scale, 1));
 }
 
 .mapa-direccion {
   color: var(--muted);
-  font-size: 14px;
+  font-size: calc(14px * var(--font-scale, 1));
   line-height: 1.5;
 }
 
@@ -638,7 +640,7 @@ button:disabled {
 
 .factura-panel h3 {
   border-bottom: 1px solid var(--borde);
-  font-size: 14px;
+  font-size: calc(14px * var(--font-scale, 1));
   margin: 0 0 8px;
   padding-bottom: 6px;
 }
@@ -659,7 +661,7 @@ button:disabled {
 .factura-tabla th {
   background: var(--verde);
   color: var(--blanco);
-  font-size: 12px;
+  font-size: calc(12px * var(--font-scale, 1));
   padding: 8px;
   text-align: left;
   text-transform: uppercase;
@@ -692,7 +694,7 @@ button:disabled {
 
 .factura-montos .factura-total {
   border-top: 2px solid var(--verde);
-  font-size: 16px;
+  font-size: calc(16px * var(--font-scale, 1));
   font-weight: 700;
   padding-top: 8px;
 }
@@ -701,7 +703,7 @@ button:disabled {
   background: var(--crema-suave);
   border-left: 4px solid var(--terracota);
   color: var(--muted);
-  font-size: 12px;
+  font-size: calc(12px * var(--font-scale, 1));
   padding: 10px 12px;
 }
 
@@ -946,7 +948,7 @@ button:disabled {
 
 .sidebar h2 {
   font-family: "Roboto", sans-serif;
-  font-size: 28px;
+  font-size: calc(28px * var(--font-scale, 1));
   font-weight: 500;
   margin: 0 0 24px;
 }
@@ -1009,13 +1011,13 @@ button:disabled {
 .metricas strong {
   color: var(--verde);
   display: block;
-  font-size: 26px;
+  font-size: calc(26px * var(--font-scale, 1));
   margin-bottom: 4px;
 }
 
 .metricas span {
   color: var(--muted);
-  font-size: 14px;
+  font-size: calc(14px * var(--font-scale, 1));
 }
 
 .editor-producto-nuevo {
@@ -1053,7 +1055,7 @@ button:disabled {
 
 .topbar p {
   color: var(--verde);
-  font-size: 11px;
+  font-size: calc(11px * var(--font-scale, 1));
   font-weight: 600;
   letter-spacing: 0.12em;
   line-height: 1.6;
@@ -1088,14 +1090,14 @@ button:disabled {
 .wordmark-titulo {
   color: var(--verde-oscuro);
   font-family: "Roboto", sans-serif;
-  font-size: 22px;
+  font-size: calc(22px * var(--font-scale, 1));
   font-weight: 600;
   letter-spacing: -0.01em;
 }
 
 .wordmark-sub {
   color: var(--acento);
-  font-size: 10.5px;
+  font-size: calc(10.5px * var(--font-scale, 1));
   font-weight: 600;
   letter-spacing: 0.14em;
   margin-top: 3px;
@@ -1108,7 +1110,7 @@ button:disabled {
 
 .navegacion button {
   font-weight: 600;
-  font-size: 14px;
+  font-size: calc(14px * var(--font-scale, 1));
   padding: 9px 14px;
 }
 
@@ -1136,7 +1138,7 @@ button:disabled {
   border-radius: 8px;
   color: var(--verde-oscuro);
   display: inline-flex;
-  font-size: 12px;
+  font-size: calc(12px * var(--font-scale, 1));
   font-weight: 600;
   gap: 7px;
   letter-spacing: 0.08em;
@@ -1193,7 +1195,7 @@ button:disabled {
   border-radius: 8px;
   color: var(--texto-suave);
   display: inline-flex;
-  font-size: 14px;
+  font-size: calc(14px * var(--font-scale, 1));
   font-weight: 600;
   gap: 7px;
   padding: 9px 12px;
@@ -1236,7 +1238,7 @@ button:disabled {
   box-shadow: var(--sombra-suave);
   color: var(--verde-oscuro);
   display: inline-flex;
-  font-size: 12px;
+  font-size: calc(12px * var(--font-scale, 1));
   font-weight: 600;
   gap: 10px;
   letter-spacing: 0.12em;
@@ -1258,7 +1260,7 @@ button:disabled {
 }
 
 .hero h1 {
-  font-size: clamp(40px, 5.5vw, 62px);
+  font-size: calc(clamp(40px, 5.5vw, 62px) * var(--font-scale, 1));
   letter-spacing: -0.02em;
   line-height: 1.08;
   margin: 24px 0 18px;
@@ -1271,7 +1273,7 @@ button:disabled {
 }
 
 .hero p {
-  font-size: 18px;
+  font-size: calc(18px * var(--font-scale, 1));
   line-height: 1.75;
   margin: 0;
   max-width: 620px;
@@ -1292,7 +1294,7 @@ button:disabled {
   color: #fff;
   cursor: pointer;
   display: inline-flex;
-  font-size: 14px;
+  font-size: calc(14px * var(--font-scale, 1));
   font-weight: 600;
   gap: 8px;
   justify-content: center;
@@ -1315,7 +1317,7 @@ button:disabled {
   border-radius: 8px;
   color: var(--verde-oscuro);
   display: inline-flex;
-  font-size: 14px;
+  font-size: calc(14px * var(--font-scale, 1));
   font-weight: 600;
   gap: 8px;
   justify-content: center;
@@ -1335,7 +1337,7 @@ button:disabled {
   color: var(--texto-suave);
   display: flex;
   flex-wrap: wrap;
-  font-size: 14px;
+  font-size: calc(14px * var(--font-scale, 1));
   font-weight: 500;
   gap: 8px;
   margin-top: 34px;
@@ -1383,14 +1385,14 @@ button:disabled {
 
 .stat-card strong {
   font-family: "Roboto", sans-serif;
-  font-size: 24px;
+  font-size: calc(24px * var(--font-scale, 1));
   font-weight: 600;
   line-height: 1.2;
 }
 
 .stat-card span {
   color: var(--texto-suave);
-  font-size: 14px;
+  font-size: calc(14px * var(--font-scale, 1));
   line-height: 1.5;
 }
 
@@ -1421,7 +1423,7 @@ button:disabled {
 .encabezado-seccion h2 {
   color: var(--verde-oscuro);
   font-family: "Roboto", sans-serif;
-  font-size: clamp(28px, 3.4vw, 40px);
+  font-size: calc(clamp(28px, 3.4vw, 40px) * var(--font-scale, 1));
   font-weight: 500;
   letter-spacing: -0.01em;
   line-height: 1.2;
@@ -1430,7 +1432,7 @@ button:disabled {
 
 .encabezado-seccion p {
   color: var(--texto-suave);
-  font-size: 16px;
+  font-size: calc(16px * var(--font-scale, 1));
   line-height: 1.7;
   margin: 0;
   max-width: 480px;
@@ -1481,7 +1483,7 @@ button:disabled {
 .pilar-cabecera h3 {
   color: var(--verde-oscuro);
   font-family: "Roboto", sans-serif;
-  font-size: 19px;
+  font-size: calc(19px * var(--font-scale, 1));
   font-weight: 600;
   line-height: 1.3;
   margin: 0;
@@ -1490,14 +1492,14 @@ button:disabled {
 .pilar-mas {
   color: var(--acento);
   flex-shrink: 0;
-  font-size: 20px;
+  font-size: calc(20px * var(--font-scale, 1));
   font-weight: 600;
   line-height: 1;
 }
 
 .pilar-card p {
   color: var(--texto-suave);
-  font-size: 14px;
+  font-size: calc(14px * var(--font-scale, 1));
   line-height: 1.65;
   margin: 0;
 }
@@ -1505,7 +1507,7 @@ button:disabled {
 .pilar-detalle {
   border-top: 1px solid var(--borde);
   color: var(--verde);
-  font-size: 13px;
+  font-size: calc(13px * var(--font-scale, 1));
   font-weight: 500;
   line-height: 1.6;
   padding-top: 12px;
@@ -1528,7 +1530,7 @@ button:disabled {
   border-radius: 8px;
   color: var(--texto-suave);
   cursor: pointer;
-  font-size: 14px;
+  font-size: calc(14px * var(--font-scale, 1));
   font-weight: 600;
   padding: 9px 16px;
   transition: background 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
@@ -1587,7 +1589,7 @@ button:disabled {
   border-radius: 999px;
   box-shadow: var(--sombra-suave);
   color: var(--verde);
-  font-size: 11px;
+  font-size: calc(11px * var(--font-scale, 1));
   font-weight: 600;
   letter-spacing: 0.1em;
   padding: 6px 12px;
@@ -1604,7 +1606,7 @@ button:disabled {
 
 .producto-sub {
   color: var(--acento);
-  font-size: 11px;
+  font-size: calc(11px * var(--font-scale, 1));
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -1613,7 +1615,7 @@ button:disabled {
 .producto-contenido h3 {
   color: var(--verde-oscuro);
   font-family: "Roboto", sans-serif;
-  font-size: 20px;
+  font-size: calc(20px * var(--font-scale, 1));
   font-weight: 600;
   letter-spacing: -0.01em;
   line-height: 1.3;
@@ -1623,7 +1625,7 @@ button:disabled {
 .producto-contenido p {
   color: var(--texto-suave);
   display: -webkit-box;
-  font-size: 14px;
+  font-size: calc(14px * var(--font-scale, 1));
   line-height: 1.6;
   margin: 0;
   overflow: hidden;
@@ -1642,11 +1644,11 @@ button:disabled {
 .producto-precio {
   color: var(--verde);
   font-family: "Roboto", sans-serif;
-  font-size: 22px;
+  font-size: calc(22px * var(--font-scale, 1));
 }
 
 .estado {
-  font-size: 13px;
+  font-size: calc(13px * var(--font-scale, 1));
   font-weight: 600;
 }
 
@@ -1661,7 +1663,7 @@ button:disabled {
   border-radius: 8px;
   color: var(--verde);
   cursor: pointer;
-  font-size: 14px;
+  font-size: calc(14px * var(--font-scale, 1));
   font-weight: 600;
   padding: 10px 14px;
   transition: background 0.2s ease;
@@ -1680,7 +1682,7 @@ button:disabled {
   cursor: pointer;
   display: inline-flex;
   flex: 1;
-  font-size: 14px;
+  font-size: calc(14px * var(--font-scale, 1));
   font-weight: 600;
   gap: 8px;
   justify-content: center;
@@ -1752,7 +1754,7 @@ button:disabled {
 .historia-texto h2 {
   color: #fdfbf7;
   font-family: "Roboto", sans-serif;
-  font-size: clamp(30px, 4vw, 46px);
+  font-size: calc(clamp(30px, 4vw, 46px) * var(--font-scale, 1));
   font-weight: 500;
   letter-spacing: -0.01em;
   line-height: 1.15;
@@ -1768,7 +1770,7 @@ button:disabled {
   border-left: 2px solid #fdba9d;
   color: #e9eeea;
   font-family: "Roboto", sans-serif;
-  font-size: 19px;
+  font-size: calc(19px * var(--font-scale, 1));
   font-style: italic;
   font-weight: 400;
   line-height: 1.65;
@@ -1778,7 +1780,7 @@ button:disabled {
 
 .historia-parrafo {
   color: #d9dfdb;
-  font-size: 16px;
+  font-size: calc(16px * var(--font-scale, 1));
   line-height: 1.75;
   margin: 0;
   max-width: 620px;
@@ -1805,13 +1807,13 @@ button:disabled {
 .historia-sellos strong {
   color: #fdba9d;
   font-family: "Roboto", sans-serif;
-  font-size: 24px;
+  font-size: calc(24px * var(--font-scale, 1));
   font-weight: 600;
 }
 
 .historia-sellos span {
   color: #d9dfdb;
-  font-size: 13px;
+  font-size: calc(13px * var(--font-scale, 1));
   line-height: 1.4;
 }
 
@@ -1839,7 +1841,7 @@ button:disabled {
   display: flex;
   flex-shrink: 0;
   font-family: "Roboto", sans-serif;
-  font-size: 20px;
+  font-size: calc(20px * var(--font-scale, 1));
   font-weight: 600;
   height: 60px;
   justify-content: center;
@@ -1849,7 +1851,7 @@ button:disabled {
 .perfil-cabecera h3 {
   color: var(--verde-oscuro);
   font-family: "Roboto", sans-serif;
-  font-size: 20px;
+  font-size: calc(20px * var(--font-scale, 1));
   font-weight: 600;
   margin: 0 0 4px;
 }
@@ -1857,7 +1859,7 @@ button:disabled {
 .perfil-rol {
   color: var(--acento);
   display: block;
-  font-size: 11px;
+  font-size: calc(11px * var(--font-scale, 1));
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -1866,7 +1868,7 @@ button:disabled {
 .perfil-ubicacion {
   color: var(--texto-suave);
   display: block;
-  font-size: 13px;
+  font-size: calc(13px * var(--font-scale, 1));
   margin-top: 5px;
 }
 
@@ -1882,7 +1884,7 @@ button:disabled {
   align-items: flex-start;
   color: var(--texto-suave);
   display: flex;
-  font-size: 14px;
+  font-size: calc(14px * var(--font-scale, 1));
   gap: 10px;
   line-height: 1.6;
   margin: 0;
@@ -1904,7 +1906,7 @@ button:disabled {
   border-radius: 8px;
   color: var(--verde-oscuro);
   display: flex;
-  font-size: 14px;
+  font-size: calc(14px * var(--font-scale, 1));
   font-weight: 600;
   gap: 8px;
   justify-content: center;
@@ -1929,7 +1931,7 @@ button:disabled {
 .taller-info h2 {
   color: var(--verde-oscuro);
   font-family: "Roboto", sans-serif;
-  font-size: clamp(28px, 3.4vw, 40px);
+  font-size: calc(clamp(28px, 3.4vw, 40px) * var(--font-scale, 1));
   font-weight: 500;
   letter-spacing: -0.01em;
   line-height: 1.2;
@@ -1938,7 +1940,7 @@ button:disabled {
 
 .taller-intro {
   color: var(--texto-suave);
-  font-size: 16px;
+  font-size: calc(16px * var(--font-scale, 1));
   line-height: 1.75;
   margin: 0 0 28px;
   max-width: 560px;
@@ -1969,7 +1971,7 @@ button:disabled {
 
 .info-suave {
   color: var(--muted);
-  font-size: 13px !important;
+  font-size: calc(13px * var(--font-scale, 1)) !important;
   margin-top: 3px !important;
 }
 
@@ -2007,7 +2009,7 @@ button:disabled {
   box-shadow: var(--sombra-suave);
   color: var(--verde-oscuro);
   display: flex;
-  font-size: 12px;
+  font-size: calc(12px * var(--font-scale, 1));
   font-weight: 600;
   gap: 8px;
   letter-spacing: 0.04em;
@@ -2020,27 +2022,28 @@ button:disabled {
 
 /* ---- Formulario taller ---- */
 .cartilla-formulario {
+  align-self: start;
   background: var(--blanco);
   border: 1px solid var(--borde);
   border-radius: 16px;
   box-shadow: var(--sombra-media);
   display: flex;
   flex-direction: column;
-  height: 100%;
-  padding: 28px;
+  height: auto;
+  padding: 28px 28px 20px;
 }
 
 .cartilla-cabecera h3 {
   color: var(--verde-oscuro);
   font-family: "Roboto", sans-serif;
-  font-size: 24px;
+  font-size: calc(24px * var(--font-scale, 1));
   font-weight: 600;
   margin: 6px 0 10px;
 }
 
 .cartilla-cabecera p {
   color: var(--texto-suave);
-  font-size: 15px;
+  font-size: calc(15px * var(--font-scale, 1));
   line-height: 1.65;
   margin: 0 0 22px;
 }
@@ -2055,7 +2058,7 @@ button:disabled {
   color: var(--verde-oscuro);
   display: flex;
   flex-direction: column;
-  font-size: 14px;
+  font-size: calc(14px * var(--font-scale, 1));
   font-weight: 600;
   gap: 7px;
 }
@@ -2065,7 +2068,7 @@ button:disabled {
   border: 1px solid var(--borde);
   border-radius: 8px;
   color: var(--texto);
-  font-size: 15px;
+  font-size: calc(15px * var(--font-scale, 1));
   font-weight: 400;
   padding: 11px 15px;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -2096,7 +2099,7 @@ button:disabled {
   color: #fff;
   cursor: pointer;
   display: flex;
-  font-size: 14px;
+  font-size: calc(14px * var(--font-scale, 1));
   font-weight: 600;
   gap: 8px;
   justify-content: center;
@@ -2131,14 +2134,14 @@ button:disabled {
 .footer-titulo {
   color: var(--verde-oscuro);
   font-family: "Roboto", sans-serif;
-  font-size: 24px;
+  font-size: calc(24px * var(--font-scale, 1));
   font-weight: 600;
   letter-spacing: -0.01em;
 }
 
 .footer-sub {
   color: var(--acento);
-  font-size: 11px;
+  font-size: calc(11px * var(--font-scale, 1));
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -2146,7 +2149,7 @@ button:disabled {
 
 .footer-marca p {
   color: var(--texto-suave);
-  font-size: 14px;
+  font-size: calc(14px * var(--font-scale, 1));
   line-height: 1.7;
   margin: 0;
   max-width: 300px;
@@ -2155,14 +2158,14 @@ button:disabled {
 .footer-columna h3 {
   color: var(--verde-oscuro);
   font-family: "Roboto", sans-serif;
-  font-size: 17px;
+  font-size: calc(17px * var(--font-scale, 1));
   font-weight: 600;
   margin: 0 0 14px;
 }
 
 .footer-columna p {
   color: var(--texto-suave);
-  font-size: 13px;
+  font-size: calc(13px * var(--font-scale, 1));
   line-height: 1.7;
   margin: 0 0 10px;
 }
@@ -2170,7 +2173,7 @@ button:disabled {
 .footer-enlace {
   color: var(--verde);
   display: inline-block;
-  font-size: 14px;
+  font-size: calc(14px * var(--font-scale, 1));
   font-weight: 600;
   margin-top: 4px;
   text-decoration: none;
@@ -2188,7 +2191,7 @@ button:disabled {
 
 .footer-lista a {
   color: var(--texto-suave);
-  font-size: 14px;
+  font-size: calc(14px * var(--font-scale, 1));
   line-height: 1.5;
   text-decoration: none;
   transition: color 0.2s ease;
@@ -2238,13 +2241,13 @@ button:disabled {
 
 .footer-final p {
   color: var(--texto-suave);
-  font-size: 13px;
+  font-size: calc(13px * var(--font-scale, 1));
   margin: 0;
 }
 
 .footer-whatsapp {
   color: var(--texto-suave);
-  font-size: 13px;
+  font-size: calc(13px * var(--font-scale, 1));
   font-weight: 600;
   text-decoration: none;
   transition: color 0.2s ease;
@@ -2267,23 +2270,23 @@ button:disabled {
 }
 
 @media (max-width: 767px) {
-  .topbar p { font-size: 10px; letter-spacing: 0.08em; }
+  .topbar p { font-size: calc(10px * var(--font-scale, 1)); letter-spacing: 0.08em; }
   .encabezado-contenido { padding: 8px 16px; gap: 10px; }
   .logo img { height: 44px; }
   .wordmark-sub { display: none; }
-  .navegacion button { font-size: 13px; padding: 7px 10px; }
-  .navegacion-cuenta { padding: 8px 9px; font-size: 13px; }
+  .navegacion button { font-size: calc(13px * var(--font-scale, 1)); padding: 7px 10px; }
+  .navegacion-cuenta { padding: 8px 9px; font-size: calc(13px * var(--font-scale, 1)); }
   .navegacion-cuenta span { display: none; }
   .hero { min-height: 560px; }
   .hero-contenido { padding: 60px 16px; }
-  .hero h1 { font-size: clamp(32px, 9vw, 44px); }
-  .hero p { font-size: 16px; }
+  .hero h1 { font-size: calc(clamp(32px, 9vw, 44px) * var(--font-scale, 1)); }
+  .hero p { font-size: calc(16px * var(--font-scale, 1)); }
   .stats-grid { grid-template-columns: 1fr 1fr; padding: 24px 16px; gap: 12px; }
   .stat-card { padding: 14px 16px; }
   .home-seccion { padding: 52px 16px; }
   .encabezado-seccion { flex-direction: column; align-items: flex-start; }
   .catalogo-tabs { width: 100%; }
-  .catalogo-tabs button { flex: 1; padding: 8px 6px; font-size: 13px; text-align: center; }
+  .catalogo-tabs button { flex: 1; padding: 8px 6px; font-size: calc(13px * var(--font-scale, 1)); text-align: center; }
   .productos-grid { grid-template-columns: 1fr; }
   .lote-banner { flex-direction: column; padding: 20px; }
   .historia { padding: 60px 16px; }
@@ -2294,11 +2297,6 @@ button:disabled {
   .footer-contenido { gap: 32px; grid-template-columns: 1fr; }
   .footer-final { justify-content: center; text-align: center; }
 }
-/* Escalas de Zoom de Texto Accesible */
-body.txt-normal { font-size: 16px; }
-body.txt-grande { font-size: 18px; }
-body.txt-extra { font-size: 20px; }
-
 /* Modo Oscuro Global */
 body.modo-oscuro {
   --crema: #1a1d1a;
@@ -2324,6 +2322,174 @@ body.modo-oscuro .asistente-ia-modal {
 }
 /* Posicionamiento vertical de botones flotantes a la derecha */
 .whatsapp-flotante {
-  bottom: 6rem !important; /* WhatsApp queda arriba */
-  right: 1.6rem !important;
+  bottom: 96px !important;
+  right: 26px !important;
+}
+
+/* Zoom Global de Texto Accesible y Responsive para Toda la Página */
+html {
+  --font-scale: 1;
+  transition: font-size 0.2s ease;
+}
+
+html.txt-normal {
+  --font-scale: 1;
+  font-size: 100%; /* Base 16px */
+}
+
+html.txt-grande {
+  --font-scale: 1.25;
+  font-size: 125%; /* ~20px: Incremento evidente en toda la interfaz */
+}
+
+html.txt-extra {
+  --font-scale: 1.45;
+  font-size: 145%;
+}
+
+.ia-flotante {
+  bottom: 26px !important;
+  height: 61px !important;
+  right: 26px !important;
+  width: 61px !important;
+}
+
+.ia-flotante svg {
+  height: 22px !important;
+  width: 22px !important;
+}
+
+.ia-chat-header strong { font-size: calc(14px * var(--font-scale, 1)) !important; }
+.ia-chat-header small { font-size: calc(11px * var(--font-scale, 1)) !important; }
+.ia-bubble { font-size: calc(13.5px * var(--font-scale, 1)) !important; }
+.ia-chat-form input { font-size: calc(13.5px * var(--font-scale, 1)) !important; }
+.ia-chat-form button { font-size: calc(13px * var(--font-scale, 1)) !important; }
+.ia-cargando { font-size: calc(12px * var(--font-scale, 1)) !important; }
+.ia-bar-minimizada > span { font-size: calc(13.5px * var(--font-scale, 1)) !important; }
+
+/* ============================================================
+   ACCESIBILIDAD, ZOOM RESPONSIVE Y MODO OSCURO GLOBAL
+   ============================================================ */
+
+/* Escala de Zoom Accesible y Responsive en toda la página */
+html {
+  transition: font-size 0.25s ease;
+}
+
+html.txt-normal {
+  font-size: 100%; /* 16px por defecto */
+}
+
+html.txt-grande {
+  font-size: 112.5%; /* Aumento a 18px proporcional */
+}
+
+html.txt-extra {
+  font-size: 125%; /* Aumento a 20px proporcional */
+}
+
+@media (max-width: 600px) {
+  html.txt-grande {
+    font-size: 106.25%;
+  }
+  html.txt-extra {
+    font-size: 115%;
+  }
+}
+
+/* Modo Oscuro Variable CSS */
+body.modo-oscuro {
+  --crema: #1a1d1a;
+  --crema-suave: #242825;
+  --arena: #343a35;
+  --texto: #f2f5f3;
+  --texto-suave: #c0c7c2;
+  --muted: #a0a8a2;
+  --verde-oscuro: #85a38a;
+  --blanco: #232724;
+  --borde: #3a423c;
+  background-color: var(--crema);
+  color: var(--texto);
+}
+
+body.modo-oscuro .encabezado,
+body.modo-oscuro .producto-card,
+body.modo-oscuro .cartilla-formulario,
+body.modo-oscuro .panel-vacio,
+body.modo-oscuro .factura-modal,
+body.modo-oscuro .asistente-ia-modal,
+body.modo-oscuro .pilar-card,
+body.modo-oscuro .info-card,
+body.modo-oscuro .carrito-lista,
+body.modo-oscuro .resumen-carrito,
+body.modo-oscuro .pedido-card,
+body.modo-oscuro .editor-producto,
+body.modo-oscuro .metricas article,
+body.modo-oscuro .panel-grafico-contenedor {
+  background-color: var(--blanco);
+  color: var(--texto);
+  border-color: var(--borde);
+}
+/* ============================================================
+   ACCESIBILIDAD Y MODO OSCURO GLOBAL (RESPONSIVE)
+   ============================================================ */
+
+/* 1. Zoom de Texto Responsive para Toda la Página */
+html {
+  transition: font-size 0.25s ease;
+}
+
+html.txt-normal {
+  font-size: 100%;
+}
+
+html.txt-grande {
+  font-size: 112.5%;
+}
+
+html.txt-extra {
+  font-size: 125%;
+}
+
+@media (max-width: 600px) {
+  html.txt-grande {
+    font-size: 106.25%;
+  }
+  html.txt-extra {
+    font-size: 115%;
+  }
+}
+
+/* 2. Variables y Estilos de Modo Oscuro */
+body.modo-oscuro {
+  --crema: #1a1d1a;
+  --crema-suave: #242825;
+  --arena: #343a35;
+  --texto: #f2f5f3;
+  --texto-suave: #c0c7c2;
+  --muted: #a0a8a2;
+  --verde-oscuro: #85a38a;
+  --blanco: #232724;
+  --borde: #3a423c;
+  background-color: var(--crema);
+  color: var(--texto);
+}
+
+body.modo-oscuro .encabezado,
+body.modo-oscuro .producto-card,
+body.modo-oscuro .cartilla-formulario,
+body.modo-oscuro .panel-vacio,
+body.modo-oscuro .factura-modal,
+body.modo-oscuro .asistente-ia-modal,
+body.modo-oscuro .pilar-card,
+body.modo-oscuro .info-card,
+body.modo-oscuro .carrito-lista,
+body.modo-oscuro .resumen-carrito,
+body.modo-oscuro .pedido-card,
+body.modo-oscuro .editor-producto,
+body.modo-oscuro .metricas article,
+body.modo-oscuro .panel-grafico-contenedor {
+  background-color: var(--blanco);
+  color: var(--texto);
+  border-color: var(--borde);
 }
