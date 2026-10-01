@@ -53,7 +53,7 @@ export default function Dashboard() {
     0
   );
 
-  // Paginación de Productos (Máximo 4 productos por vista)
+  // Paginación de Productos (Máximo 4 por página)
   const totalPaginasProductos =
     Math.ceil(productos.length / PRODUCTOS_POR_PAGINA) || 1;
   const indiceInicialProd = (paginaProductosActual - 1) * PRODUCTOS_POR_PAGINA;
@@ -184,7 +184,7 @@ export default function Dashboard() {
                 </form>
               )}
 
-              {/* Grid de Productos paginado (Máximo 4 por vista) */}
+              {/* Grid de Productos paginado a máximo 4 por página */}
               <div className="dashboard-grid">
                 {productosPaginados.map((producto) => (
                   <EditorProducto
@@ -196,7 +196,7 @@ export default function Dashboard() {
                 ))}
               </div>
 
-              {/* Paginación de Productos */}
+              {/* Controles de Paginación */}
               {totalPaginasProductos > 1 && (
                 <div
                   className="paginacion-inventario"

@@ -1,10 +1,5 @@
 import { useState } from "react";
-import {
-  construirFactura,
-  descargarFactura,
-  facturaHtml,
-  formatoCRC,
-} from "../utils/factura";
+import { construirFactura, facturaHtml, formatoCRC } from "../utils/factura";
 import { enviarFacturaPorCorreo } from "../services/correo";
 
 export default function FacturaProforma({ pedido, onCerrar }) {
@@ -13,13 +8,11 @@ export default function FacturaProforma({ pedido, onCerrar }) {
   const [enviando, setEnviando] = useState(false);
   const [mensaje, setMensaje] = useState("");
 
-  const fechaResultado = new Date(factura.fechaEmision).toLocaleString(
-    "es-CR"
-  );
+  const fechaResultado = new Date(factura.fechaEmision).toLocaleString("es-CR");
 
-  const imprimirFactura = () => {
+  // Función que activa el diálogo de impresión / guardado directo a PDF
+  const descargarEnPDF = () => {
     const marco = document.createElement("iframe");
-
     marco.setAttribute("aria-hidden", "true");
     marco.style.cssText =
       "position:fixed;right:0;bottom:0;width:0;height:0;border:0;visibility:hidden;";
@@ -32,10 +25,7 @@ export default function FacturaProforma({ pedido, onCerrar }) {
     documento.write(facturaHtml(factura));
     documento.close();
 
-    marco.contentWindow.addEventListener(
-      "afterprint",
-      () => marco.remove()
-    );
+    marco.contentWindow.addEventListener("afterprint", () => marco.remove());
 
     marco.contentWindow.focus();
     marco.contentWindow.print();
@@ -49,7 +39,6 @@ export default function FacturaProforma({ pedido, onCerrar }) {
 
     try {
       const resultado = await enviarFacturaPorCorreo(pedido);
-
       setMensaje(`Factura enviada a ${resultado.destinatario}.`);
     } catch (error) {
       setMensaje(error.message);
@@ -60,43 +49,56 @@ export default function FacturaProforma({ pedido, onCerrar }) {
 
   return (
     <div className="factura-overlay" role="dialog" aria-modal="true">
-      <div className="factura-modal">
+      <div className="factura-modal" style={{ position: "relative" }}>
+        {/* Botón X posicionado en la esquina superior derecha */}
+        <button
+          type="button"
+          onClick={onCerrar}
+          aria-label="Cerrar factura"
+          title="Cerrar factura"
+          style={{
+            position: "absolute",
+            top: "14px",
+            right: "14px",
+            background: "#f0f0f0",
+            border: "1px solid #ccc",
+            borderRadius: "50%",
+            width: "32px",
+            height: "32px",
+            fontSize: "18px",
+            fontWeight: "bold",
+            cursor: "pointer",
+            color: "#333",
+            zIndex: 10,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            lineHeight: 1,
+          }}
+        >
+          ✕
+        </button>
+
         <div className="dashboard-titulo factura-titulo">
-          <div>
+          <div style={{ paddingRight: "40px" }}>
             <span className="eyebrow">Avrill</span>
             <h2>Factura Proforma {factura.numero}</h2>
             <p className="factura-fecha">{fechaResultado}</p>
           </div>
 
           <div className="factura-acciones">
-            <button
-              className="btn-secundario"
-              onClick={imprimirFactura}
-            >
-              Imprimir / PDF
-            </button>
-
-            <button
-              className="btn-secundario"
-              onClick={() => descargarFactura(factura)}
-            >
+            {/* Botón de Descargar en PDF */}
+            <button className="btn-secundario" onClick={descargarEnPDF}>
               Descargar
             </button>
 
+            {/* Botón de Enviar por correo */}
             <button
               className="btn-principal"
               onClick={enviarCorreo}
               disabled={enviando}
             >
               {enviando ? "Enviando…" : "Enviar por correo"}
-            </button>
-
-            <button
-              className="btn-texto"
-              onClick={onCerrar}
-              aria-label="Cerrar factura"
-            >
-              Cerrar
             </button>
           </div>
         </div>
@@ -112,9 +114,7 @@ export default function FacturaProforma({ pedido, onCerrar }) {
               <p>Teléfono: {factura.emisor.telefono}</p>
               <p>Correo: {factura.emisor.correo}</p>
               <p>Dirección: {factura.emisor.direccion}</p>
-              <small>
-                Actividad económica: {factura.emisor.actividad}
-              </small>
+              <small>Actividad económica: {factura.emisor.actividad}</small>
             </div>
 
             <div className="factura-panel">
@@ -139,15 +139,14 @@ export default function FacturaProforma({ pedido, onCerrar }) {
             <div className="factura-panel">
               <h3>Condiciones</h3>
               <p>
-                Venta: {factura.condicionVenta} · Pago:{" "}
-                {factura.medioPago} · Plazo: {factura.plazoCredito}
+                Venta: {factura.condicionVenta} · Pago: {factura.medioPago} · Plazo:{" "}
+                {factura.plazoCredito}
               </p>
             </div>
             <div className="factura-panel">
               <h3>Moneda e impuesto</h3>
               <p>
-                {factura.moneda} · IVA {factura.porcentajeIva}%
-                incluido
+                {factura.moneda} · IVA {factura.porcentajeIva}% incluido
               </p>
             </div>
           </div>
@@ -191,17 +190,15 @@ export default function FacturaProforma({ pedido, onCerrar }) {
           </div>
 
           <div className="factura-nota">
-            Documento sin validez fiscal ante el Ministerio de Hacienda
-            de Costa Rica. Corresponde a una factura proforma sujeta a
-            cambio hasta la confirmación del pedido. Precios con IVA (
-            {factura.porcentajeIva}%) incluido.
+            Documento sin validez fiscal ante el Ministerio de Hacienda de Costa
+            Rica. Corresponde a una factura proforma sujeta a cambio hasta la
+            confirmación del pedido. Precios con IVA ({factura.porcentajeIva}%)
+            incluido.
           </div>
 
-          {mensaje && (
-            <p className="factura-mensaje">{mensaje}</p>
-          )}
+          {mensaje && <p className="factura-mensaje">{mensaje}</p>}
         </div>
       </div>
     </div>
   );
-}
+} 

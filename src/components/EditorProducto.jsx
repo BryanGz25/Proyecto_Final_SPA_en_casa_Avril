@@ -35,8 +35,8 @@ export default function EditorProducto({ producto, onGuardar, onEliminar }) {
   };
 
   return (
-    <form className="editor-producto position-relative" onSubmit={guardar}>
-      {/* Botón X posicionado en la esquina superior izquierda para cancelar la edición */}
+    <form className="editor-producto position-relative" onSubmit={guardar} style={{ position: "relative" }}>
+      {/* Botón X posicionado en la ESQUINA SUPERIOR DERECHA para cancelar edición */}
       {editando && (
         <button
           type="button"
@@ -46,24 +46,29 @@ export default function EditorProducto({ producto, onGuardar, onEliminar }) {
           aria-label="Cancelar edición"
           style={{
             position: "absolute",
-            top: "12px",
-            left: "12px",
-            background: "transparent",
-            border: "none",
-            fontSize: "20px",
+            top: "10px",
+            right: "10px",
+            background: "#f0f0f0",
+            border: "1px solid #ccc",
+            borderRadius: "50%",
+            width: "28px",
+            height: "28px",
+            fontSize: "16px",
             fontWeight: "bold",
             cursor: "pointer",
-            color: "#68746d",
+            color: "#333",
             zIndex: 10,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
             lineHeight: 1,
-            padding: "2px 6px",
           }}
         >
           ✕
         </button>
       )}
 
-      <h3>{producto.nombre}</h3>
+      <h3 style={{ marginTop: "10px" }}>{producto.nombre}</h3>
 
       <label>Nombre</label>
       <input
@@ -104,7 +109,7 @@ export default function EditorProducto({ producto, onGuardar, onEliminar }) {
         Producto disponible
       </label>
 
-      <div className="producto-acciones" style={{ marginTop: "15px" }}>
+      <div className="producto-acciones" style={{ marginTop: "15px", display: "flex", gap: "10px" }}>
         {!editando ? (
           <button
             type="button"
