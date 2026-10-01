@@ -1,10 +1,28 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import MapaMapbox from "./MapaMapbox";
+import {
+  buscarEnMapbox,
+  buscarEnNominatim,
+  direccionDesdeMapbox,
+  direccionDesdeNominatim,
+  LIMITES_COSTA_RICA,
+  obtenerTokenMapbox,
+  soportaWebGL,
+  validarTokenMapbox,
+} from "../utils/geocodificacion";
 
 const CENTRO_INICIAL = { lat: 9.8893, lng: -84.0657 };
 
-const NOMINATIM = "https://nominatim.openstreetmap.org";
+const TILES = {
+  url: "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
+  atribucion:
+    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+};
+
+const esCoordenadaValida = (lat, lng) =>
+  Number.isFinite(lat) && Number.isFinite(lng);
 
 const iconoPuntero = L.divIcon({
   className: "puntero-mapa",
@@ -22,149 +40,70 @@ const iconoPuntero = L.divIcon({
   iconAnchor: [17, 44],
 });
 
-const formatearDireccion = (resultado) => {
-  const partes = [];
+const mismoPunto = (a, b) =>
+  Boolean(a) &&
+  Boolean(b) &&
+  Math.abs(a.lat - b.lat) < 1e-7 &&
+  Math.abs(a.lng - b.lng) < 1e-7;
 
-  if (resultado.name) partes.push(resultado.name);
-
-  const a = resultado.address || {};
-  const via = a.road || a.pedestrian || a.footway || a.path;
-
-  if (via) {
-    partes.push(
-      a.house_number ? `${a.house_number}, ${via}` : via
-    );
-  } else if (a.house_number) {
-    partes.push(a.house_number);
-  }
-
-  if (a.neighbourhood) partes.push(a.neighbourhood);
-
-  const poblado =
-    a.town || a.village || a.city || a.county || a.municipality;
-
-  if (poblado && !partes.includes(poblado)) partes.push(poblado);
-  if (a.state && !partes.includes(a.state)) partes.push(a.state);
-
-  if (partes.length === 0) partes.push(resultado.display_name);
-
-  return partes.slice(0, 5).join(", ");
-};
-
-const obtenerCoordenadas = async (direccion) => {
-  const respuesta = await fetch(
-    `${NOMINATIM}/search?format=jsonv2&q=${encodeURIComponent(direccion)}&limit=1&accept-language=es`,
-    { headers: { Accept: "application/json" } }
-  );
-
-  if (!respuesta.ok) throw new Error("No se pudo buscar");
-
-  const resultados = await respuesta.json();
-  const primero = resultados?.[0];
-
-  if (!primero) throw new Error("Sin resultados");
-
-  return { lat: Number(primero.lat), lng: Number(primero.lon) };
-};
-
-const obtenerDireccion = async (lat, lng) => {
-  const respuesta = await fetch(
-    `${NOMINATIM}/reverse?format=jsonv2&lat=${lat}&lon=${lng}&addressdetails=1&accept-language=es`,
-    { headers: { Accept: "application/json" } }
-  );
-
-  if (!respuesta.ok) throw new Error("No se pudo obtener la dirección");
-
-  const resultado = await respuesta.json();
-
-  return formatearDireccion(resultado);
-};
-
-const etiquetaSugerencia = (resultado) => {
-  const negocios = [
-    "shop",
-    "cafe",
-    "restaurant",
-    "tourism",
-    "office",
-    "amenity",
-    "leisure",
-  ];
-
-  if (negocios.includes(resultado.class)) return "Negocio";
-
-  return "Referencia";
-};
-
-const colocarPuntero = (marcador, mapa, lat, lng) => {
-  marcador.setLatLng([lat, lng]);
-  mapa.panTo([lat, lng]);
-};
-
-export default function MapaPuntero({ valor, onUbicar }) {
+function MapaLeaflet({ punto, onElegirPunto }) {
   const contenedorRef = useRef(null);
   const mapaRef = useRef(null);
   const marcadorRef = useRef(null);
-  const onUbicarRef = useRef(onUbicar);
-
-  const [direccion, setDireccion] = useState("");
-  const [coordenadas, setCoordenadas] = useState(null);
-  const [busqueda, setBusqueda] = useState("");
-  const [sugerencias, setSugerencias] = useState([]);
-  const [buscando, setBuscando] = useState(false);
+  const puntoRef = useRef(punto);
+  const onElegirPuntoRef = useRef(onElegirPunto);
 
   useEffect(() => {
-    onUbicarRef.current = onUbicar;
+    puntoRef.current = punto;
+  }, [punto]);
+
+  useEffect(() => {
+    onElegirPuntoRef.current = onElegirPunto;
   });
 
   useEffect(() => {
     const mapa = L.map(contenedorRef.current, {
       scrollWheelZoom: false,
-    }).setView(
-      [CENTRO_INICIAL.lat, CENTRO_INICIAL.lng],
-      14
+    });
+
+    const inicial = puntoRef.current || CENTRO_INICIAL;
+
+    mapa.setView([inicial.lat, inicial.lng], 14);
+
+    mapa.setMaxBounds(
+      L.latLngBounds(
+        L.latLng(LIMITES_COSTA_RICA.sur, LIMITES_COSTA_RICA.oeste),
+        L.latLng(LIMITES_COSTA_RICA.norte, LIMITES_COSTA_RICA.este)
+      )
     );
 
-    L.tileLayer(
-      "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
-      {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-        maxZoom: 19,
-      }
-    ).addTo(mapa);
+    L.tileLayer(TILES.url, {
+      attribution: TILES.atribucion,
+      maxZoom: 19,
+    }).addTo(mapa);
 
-    const marcador = L.marker(
-      [CENTRO_INICIAL.lat, CENTRO_INICIAL.lng],
-      { draggable: true, icon: iconoPuntero }
-    ).addTo(mapa);
+    const marcador = L.marker([inicial.lat, inicial.lng], {
+      draggable: true,
+      icon: iconoPuntero,
+    }).addTo(mapa);
 
     mapaRef.current = mapa;
     marcadorRef.current = marcador;
 
-    const aplicarPunto = (lat, lng) => {
-      colocarPuntero(marcador, mapa, lat, lng);
-      setCoordenadas({ lat, lng });
-
-      obtenerDireccion(lat, lng)
-        .then((texto) => {
-          setDireccion(texto);
-          onUbicarRef.current?.({ direccion: texto, lat, lng });
-        })
-        .catch(() => {
-          const texto = `Coordenadas: ${lat.toFixed(6)}, ${lng.toFixed(6)}`;
-          setDireccion(texto);
-          onUbicarRef.current?.({ direccion: texto, lat, lng });
-        });
-    };
-
     mapa.on("click", (evento) => {
-      aplicarPunto(evento.latlng.lat, evento.latlng.lng);
+      onElegirPuntoRef.current?.({
+        lat: evento.latlng.lat,
+        lng: evento.latlng.lng,
+      });
     });
 
     marcador.on("dragend", () => {
       const posicion = marcador.getLatLng();
-      aplicarPunto(posicion.lat, posicion.lng);
+
+      onElegirPuntoRef.current?.({
+        lat: posicion.lat,
+        lng: posicion.lng,
+      });
     });
 
     return () => {
@@ -175,187 +114,164 @@ export default function MapaPuntero({ valor, onUbicar }) {
   }, []);
 
   useEffect(() => {
-    if (!valor || !mapaRef.current) return;
+    const mapa = mapaRef.current;
+    const marcador = marcadorRef.current;
+
+    if (!mapa || !marcador || !punto) return;
+    if (!esCoordenadaValida(punto.lat, punto.lng)) return;
+    if (mismoPunto(marcador.getLatLng(), punto)) return;
+
+    marcador.setLatLng([punto.lat, punto.lng]);
+    mapa.panTo([punto.lat, punto.lng]);
+  }, [punto]);
+
+  return <div className="mapa-puntero" ref={contenedorRef} />;
+}
+
+export default function MapaPuntero({ valor, onUbicar }) {
+  const token = obtenerTokenMapbox();
+
+  const [proveedor, setProveedor] = useState(null);
+  const [punto, setPunto] = useState(null);
+  const [direccion, setDireccion] = useState("");
+
+  const onUbicarRef = useRef(onUbicar);
+
+  useEffect(() => {
+    onUbicarRef.current = onUbicar;
+  });
+
+  useEffect(() => {
+    let cancelado = false;
+
+    const decidir = async () => {
+      if (!token || !soportaWebGL()) {
+        setProveedor("leaflet");
+        return;
+      }
+
+      const valido = await validarTokenMapbox(token);
+
+      if (!cancelado) setProveedor(valido ? "mapbox" : "leaflet");
+    };
+
+    decidir();
+
+    return () => {
+      cancelado = true;
+    };
+  }, [token]);
+
+  const usarMapbox = proveedor === "mapbox";
+
+  const obtenerDireccion = useCallback(
+    (lat, lng) =>
+      usarMapbox
+        ? direccionDesdeMapbox(lat, lng, token)
+        : direccionDesdeNominatim(lat, lng),
+    [usarMapbox, token]
+  );
+
+  const elegirPunto = useCallback(
+    ({ lat, lng, nombre }) => {
+      if (!esCoordenadaValida(lat, lng)) return;
+
+      setPunto({ lat, lng });
+
+      const aviso = (texto) => {
+        setDireccion(texto);
+        onUbicarRef.current?.({ direccion: texto, lat, lng });
+      };
+
+      obtenerDireccion(lat, lng)
+        .then((texto) => {
+          if (texto) aviso(texto);
+          else aviso(nombre || `Coordenadas: ${lat.toFixed(6)}, ${lng.toFixed(6)}`);
+        })
+        .catch(() => {
+          aviso(nombre || `Coordenadas: ${lat.toFixed(6)}, ${lng.toFixed(6)}`);
+        });
+    },
+    [obtenerDireccion]
+  );
+
+  useEffect(() => {
+    if (!valor || !proveedor) return;
 
     let cancelado = false;
-    let puntoSeleccionado = null;
 
-    obtenerCoordenadas(valor)
-      .then((punto) => {
-        if (cancelado || !mapaRef.current || !marcadorRef.current) {
-          return "";
-        }
+    const consultar = usarMapbox
+      ? buscarEnMapbox(valor, token, 1)
+      : buscarEnNominatim(valor, 1);
 
-        puntoSeleccionado = punto;
+    consultar
+      .then((lugares) => {
+        if (cancelado) return;
 
-        colocarPuntero(
-          marcadorRef.current,
-          mapaRef.current,
-          punto.lat,
-          punto.lng
-        );
-        setCoordenadas(punto);
+        const lugar = lugares[0];
 
-        return obtenerDireccion(punto.lat, punto.lng);
-      })
-      .then((texto) => {
-        if (cancelado || !texto || !puntoSeleccionado) return;
+        if (!lugar) return;
 
-        setDireccion(texto);
-        onUbicarRef.current?.({
-          direccion: texto,
-          lat: puntoSeleccionado.lat,
-          lng: puntoSeleccionado.lng,
-        });
+        elegirPunto({ lat: lugar.lat, lng: lugar.lng, nombre: lugar.name });
       })
       .catch(() => {});
 
     return () => {
       cancelado = true;
     };
-  }, [valor]);
-
-  const buscarLugar = async () => {
-    const consulta = busqueda.trim();
-
-    if (!consulta) {
-      setSugerencias([]);
-      return;
-    }
-
-    setBuscando(true);
-
-    try {
-      const respuesta = await fetch(
-        `${NOMINATIM}/search?format=jsonv2&q=${encodeURIComponent(consulta)}&limit=6&addressdetails=1&accept-language=es`,
-        { headers: { Accept: "application/json" } }
-      );
-
-      if (!respuesta.ok) throw new Error("No se pudo buscar");
-
-      const resultados = await respuesta.json();
-
-      setSugerencias(
-        resultados.map((resultado) => ({
-          name: resultado.display_name,
-          lat: Number(resultado.lat),
-          lng: Number(resultado.lon),
-          etiqueta: etiquetaSugerencia(resultado),
-        }))
-      );
-    } catch {
-      setSugerencias([]);
-    } finally {
-      setBuscando(false);
-    }
-  };
-
-  const seleccionarLugar = async (lugar) => {
-    setBusqueda("");
-    setSugerencias([]);
-
-    if (!mapaRef.current || !marcadorRef.current) return;
-
-    colocarPuntero(marcadorRef.current, mapaRef.current, lugar.lat, lugar.lng);
-    setCoordenadas({
-      lat: lugar.lat,
-      lng: lugar.lng,
-    });
-
-    const texto = await obtenerDireccion(lugar.lat, lugar.lng).catch(
-      () => lugar.name
-    );
-
-    setDireccion(texto);
-    onUbicarRef.current?.({
-      direccion: texto,
-      lat: lugar.lat,
-      lng: lugar.lng,
-    });
-  };
+  }, [valor, proveedor, usarMapbox, token, elegirPunto]);
 
   const redondear = (numero) => Number(numero.toFixed(6));
 
+  const enlaceExterno = punto
+    ? usarMapbox
+      ? `https://www.mapbox.com/directions/?destination=${redondear(punto.lng)},${redondear(punto.lat)}&profile=driving`
+      : `https://www.openstreetmap.org/?mlat=${redondear(punto.lat)}&mlon=${redondear(punto.lng)}#map=17/${redondear(punto.lat)}/${redondear(punto.lng)}`
+    : "";
+
   return (
     <div className="mapa-entrega-contenido">
-      <div className="busqueda-mapa">
-        <input
-          value={busqueda}
-          onChange={(evento) => {
-            setBusqueda(evento.target.value);
-            if (!evento.target.value) setSugerencias([]);
-          }}
-          onKeyDown={(evento) => {
-            if (evento.key === "Enter") {
-              evento.preventDefault();
-              buscarLugar();
-            }
-          }}
-          placeholder="Busca un negocio o punto de referencia…"
-          aria-label="Buscar negocio o punto de referencia"
+      {!proveedor && <div className="mapa-puntero mapa-cargando" />}
+
+      {proveedor === "mapbox" && (
+        <MapaMapbox
+          token={token}
+          punto={punto}
+          onElegirPunto={elegirPunto}
         />
-
-        <button
-          type="button"
-          className="btn-secundario"
-          onClick={buscarLugar}
-          disabled={buscando}
-        >
-          {buscando ? "Buscando…" : "Buscar"}
-        </button>
-      </div>
-
-      {sugerencias.length > 0 && (
-        <ul className="sugerencias-mapa">
-          {sugerencias.map((sugerencia, indice) => (
-            <li key={`${sugerencia.lat}-${sugerencia.lng}-${indice}`}>
-              <button
-                type="button"
-                onClick={() => seleccionarLugar(sugerencia)}
-              >
-                <span className="sugerencia-nombre">
-                  {sugerencia.name}
-                </span>
-                <span className="sugerencia-etiqueta">
-                  {sugerencia.etiqueta}
-                </span>
-              </button>
-            </li>
-          ))}
-        </ul>
       )}
 
-      <div className="mapa-puntero" ref={contenedorRef} />
+      {proveedor === "leaflet" && (
+        <MapaLeaflet punto={punto} onElegirPunto={elegirPunto} />
+      )}
+
+      <span className="mapa-coordenadas">
+        {punto
+          ? `${redondear(punto.lat)}, ${redondear(punto.lng)}`
+          : "Toca el mapa para marcar tu ubicación"}
+      </span>
 
       {direccion && (
-        <span className="mapa-direccion">
-          Dirección: {direccion}
-        </span>
+        <span className="mapa-direccion">Dirección: {direccion}</span>
       )}
 
-      <div className="mapa-pie">
-        <span className="mapa-coordenadas">
-          {coordenadas
-            ? `${redondear(coordenadas.lat)}, ${redondear(coordenadas.lng)}`
-            : "Mueve el puntero o haz clic en el mapa"}
-        </span>
-
-        {coordenadas && (
-          <a
-            className="btn-secundario mapa-enlace"
-            href={`https://www.google.com/maps/search/?api=1&query=${redondear(coordenadas.lat)},${redondear(coordenadas.lng)}`}
-            rel="noreferrer"
-            target="_blank"
-          >
-            Abrir en Google Maps
-          </a>
-        )}
-      </div>
+      {punto && (
+        <a
+          className="btn-secundario mapa-enlace"
+          href={enlaceExterno}
+          rel="noreferrer"
+          target="_blank"
+        >
+          {usarMapbox ? "Abrir en Mapbox" : "Abrir en OpenStreetMap"}
+        </a>
+      )}
 
       <small>
-        Arrastra o haz clic en el mapa para afinar el punto de
-        entrega. Al elegir una ubicación, la dirección con
-        coordenadas se copia al formulario.
+        Toca el mapa o arrastra el puntero para elegir el punto de entrega. La
+        dirección se escribe sola en el formulario.{" "}
+        {usarMapbox
+          ? "Mapa satelital de Mapbox, limitado a Costa Rica."
+          : "Mapa de respaldo con OpenStreetMap, limitado a Costa Rica."}
       </small>
     </div>
   );

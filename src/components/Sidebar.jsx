@@ -8,8 +8,7 @@ import {
 } from "react-icons/fi";
 
 export default function Sidebar({ titulo, opciones, activa, onCambiar }) {
-  // Mapeo automático de íconos vectoriales según el ID de la opción
-  const obtenerIcono = (id, iconoPorDefecto) => {
+  const obtenerIcono = (id) => {
     switch (id) {
       case "inventario":
         return <FiPackage size={18} />;
@@ -22,7 +21,7 @@ export default function Sidebar({ titulo, opciones, activa, onCambiar }) {
       case "solicitudes":
         return <FiMessageSquare size={18} />;
       default:
-        return iconoPorDefecto || <FiPackage size={18} />;
+        return <FiPackage size={18} />;
     }
   };
 
@@ -38,7 +37,7 @@ export default function Sidebar({ titulo, opciones, activa, onCambiar }) {
             onClick={() => onCambiar(opcion.id)}
           >
             <span className="sidebar-icono">
-              {obtenerIcono(opcion.id, opcion.icono)}
+              {obtenerIcono(opcion.id)}
             </span>
             <span className="sidebar-nombre">{opcion.nombre}</span>
           </button>

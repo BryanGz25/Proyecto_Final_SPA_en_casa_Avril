@@ -1,32 +1,64 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
-
-:root {
-  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-  color: #191c1a;
-  background: #fdfbf7;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
+/* Notificación Flotante Nativa para Compras y Acciones */
+.notificacion-flotante {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  background: var(--verde-oscuro, #2C3E35);
+  color: var(--blanco, #ffffff);
+  border: 1px solid var(--acento, #C5A059);
+  padding: 16px 20px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  z-index: 9999;
+  animation: deslizarNotificacion 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  max-width: 420px;
 }
 
-* {
-  box-sizing: border-box;
+.notificacion-flotante-icono {
+  font-size: 20px;
+  background: rgba(197, 160, 89, 0.2);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--acento, #C5A059);
+  flex-shrink: 0;
 }
 
-body {
+.notificacion-flotante-texto h4 {
+  margin: 0 0 2px 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.notificacion-flotante-texto p {
   margin: 0;
-  min-width: 320px;
-  background: #fdfbf7;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.4;
 }
 
-button,
-input {
-  font: inherit;
+@keyframes deslizarNotificacion {
+  from {
+    transform: translateY(100%) scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
 }
 
-button {
-  cursor: pointer;
-}
-
-img {
-  max-width: 100%;
+@media (max-width: 600px) {
+  .notificacion-flotante {
+    left: 16px;
+    right: 16px;
+    bottom: 20px;
+  }
 }

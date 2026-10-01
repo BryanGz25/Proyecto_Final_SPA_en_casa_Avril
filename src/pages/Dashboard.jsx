@@ -5,6 +5,9 @@ import EditorProducto from "../components/EditorProducto";
 import Sidebar from "../components/Sidebar";
 import FacturaProforma from "../components/FacturaProforma";
 
+const PRODUCTOS_POR_PAGINA = 4;
+const ELEMENTOS_POR_PAGINA = 4;
+
 export default function Dashboard() {
   const {
     productos,
@@ -21,6 +24,10 @@ export default function Dashboard() {
   const [seccion, setSeccion] = useState("inventario");
   const [mostrarNuevo, setMostrarNuevo] = useState(false);
   const [facturaSeleccionada, setFacturaSeleccionada] = useState(null);
+  const [paginaProductosActual, setPaginaProductosActual] = useState(1);
+  const [paginaPedidosActual, setPaginaPedidosActual] = useState(1);
+  const [paginaClientesActual, setPaginaClientesActual] = useState(1);
+
   const [nuevo, setNuevo] = useState({
     nombre: "",
     categoria: "jabones",
@@ -32,20 +39,44 @@ export default function Dashboard() {
   });
 
   const opciones = [
-    { id: "inventario", nombre: "Inventario", icono: "­ƒôª" },
-    { id: "pedidos", nombre: "Pedidos pendientes", icono: "­ƒôï" },
-    { id: "clientes", nombre: "Clientes", icono: "­ƒæÑ" },
-    { id: "ingresos", nombre: "Ingresos & Gr├íficos", icono: "­ƒôè" },
+    { id: "inventario", nombre: "Inventario", icono: "📦" },
+    { id: "pedidos", nombre: "Pedidos pendientes", icono: "📋" },
+    { id: "clientes", nombre: "Clientes", icono: "👥" },
+    { id: "ingresos", nombre: "Ingresos & Gráficos", icono: "📊" },
   ];
 
-  const pedidosPendientes = pedidos.filter((pedido) => pedido.estado === "pendiente");
-  const ingresosTotales = pedidos.reduce((total, pedido) => total + pedido.total, 0);
+  const pedidosPendientes = pedidos.filter(
+    (pedido) => pedido.estado === "pendiente"
+  );
+  const ingresosTotales = pedidos.reduce(
+    (total, pedido) => total + pedido.total,
+    0
+  );
 
-  // Datos agregados para el gr├ífico de categor├¡as
-  const ventasPorCategoria = productos.reduce((acc, prod) => {
-    acc[prod.categoria] = (acc[prod.categoria] || 0) + 1;
-    return acc;
-  }, {});
+  // Paginación de Productos (Máximo 4 productos por vista)
+  const totalPaginasProductos =
+    Math.ceil(productos.length / PRODUCTOS_POR_PAGINA) || 1;
+  const indiceInicialProd = (paginaProductosActual - 1) * PRODUCTOS_POR_PAGINA;
+  const productosPaginados = productos.slice(
+    indiceInicialProd,
+    indiceInicialProd + PRODUCTOS_POR_PAGINA
+  );
+
+  // Paginación de Pedidos
+  const totalPaginasPedidos =
+    Math.ceil(pedidos.length / ELEMENTOS_POR_PAGINA) || 1;
+  const pedidosPaginados = pedidos.slice(
+    (paginaPedidosActual - 1) * ELEMENTOS_POR_PAGINA,
+    paginaPedidosActual * ELEMENTOS_POR_PAGINA
+  );
+
+  // Paginación de Clientes
+  const totalPaginasClientes =
+    Math.ceil(usuarios.length / ELEMENTOS_POR_PAGINA) || 1;
+  const clientesPaginados = usuarios.slice(
+    (paginaClientesActual - 1) * ELEMENTOS_POR_PAGINA,
+    paginaClientesActual * ELEMENTOS_POR_PAGINA
+  );
 
   const guardarNuevo = (event) => {
     event.preventDefault();
@@ -68,7 +99,7 @@ export default function Dashboard() {
 
       <main className="layout-privado">
         <Sidebar
-          titulo="Administraci├│n"
+          titulo="Administración"
           opciones={opciones}
           activa={seccion}
           onCambiar={setSeccion}
@@ -76,7 +107,7 @@ export default function Dashboard() {
 
         <section className="contenido-privado">
           <div className="seccion-introduccion">
-            <span className="eyebrow">Administraci├│n</span>
+            <span className="eyebrow">Administración</span>
             <h1>Panel Avrill</h1>
             <p>Gestiona productos, pedidos e inventario de la tienda.</p>
           </div>
@@ -84,7 +115,7 @@ export default function Dashboard() {
           <div className="metricas">
             <article>
               <strong>{productos.length}</strong>
-              <span>Productos totales</span>
+              <span>Productos</span>
             </article>
             <article>
               <strong>{pedidosPendientes.length}</strong>
@@ -92,7 +123,7 @@ export default function Dashboard() {
             </article>
             <article>
               <strong>CRC {ingresosTotales.toLocaleString("es-CR")}</strong>
-              <span>Ingresos Totales</span>
+              <span>Ingresos</span>
             </article>
           </div>
 
@@ -100,44 +131,62 @@ export default function Dashboard() {
             <section>
               <div className="dashboard-titulo">
                 <h2>Productos</h2>
-                <button className="btn-principal" onClick={() => setMostrarNuevo(!mostrarNuevo)}>
+                <button
+                  className="btn-principal"
+                  onClick={() => setMostrarNuevo(!mostrarNuevo)}
+                >
                   {mostrarNuevo ? "Cancelar" : "Nuevo producto"}
                 </button>
               </div>
 
               {mostrarNuevo && (
-                <form className="editor-producto editor-producto-nuevo" onSubmit={guardarNuevo}>
+                <form
+                  className="editor-producto editor-producto-nuevo"
+                  onSubmit={guardarNuevo}
+                >
                   <h3>Crear producto</h3>
                   <input
                     placeholder="Nombre"
                     value={nuevo.nombre}
-                    onChange={(e) => setNuevo({ ...nuevo, nombre: e.target.value })}
+                    onChange={(event) =>
+                      setNuevo({ ...nuevo, nombre: event.target.value })
+                    }
                     required
                   />
                   <input
                     placeholder="Detalle"
                     value={nuevo.detalle}
-                    onChange={(e) => setNuevo({ ...nuevo, detalle: e.target.value })}
+                    onChange={(event) =>
+                      setNuevo({ ...nuevo, detalle: event.target.value })
+                    }
                     required
                   />
                   <input
                     type="number"
                     placeholder="Precio"
                     value={nuevo.precio}
-                    onChange={(e) => setNuevo({ ...nuevo, precio: Number(e.target.value) })}
+                    onChange={(event) =>
+                      setNuevo({
+                        ...nuevo,
+                        precio: Number(event.target.value),
+                      })
+                    }
                     required
                   />
                   <input
                     placeholder="URL de imagen"
                     value={nuevo.imagen}
-                    onChange={(e) => setNuevo({ ...nuevo, imagen: e.target.value })}
+                    onChange={(event) =>
+                      setNuevo({ ...nuevo, imagen: event.target.value })
+                    }
                   />
                   <button className="btn-principal">Crear producto</button>
                 </form>
               )}
 
+              {/* Grid de Productos paginado (Máximo 4 por vista) */}
               <div className="dashboard-grid">
-                {productos.map((producto) => (
+                {productosPaginados.map((producto) => (
                   <EditorProducto
                     key={producto.id}
                     producto={producto}
@@ -146,6 +195,66 @@ export default function Dashboard() {
                   />
                 ))}
               </div>
+
+              {/* Paginación de Productos */}
+              {totalPaginasProductos > 1 && (
+                <div
+                  className="paginacion-inventario"
+                  style={{
+                    display: "flex",
+                    gap: "8px",
+                    marginTop: "20px",
+                    justifyContent: "center",
+                  }}
+                >
+                  <button
+                    type="button"
+                    className="btn-secundario"
+                    disabled={paginaProductosActual === 1}
+                    onClick={() =>
+                      setPaginaProductosActual(
+                        Math.max(1, paginaProductosActual - 1)
+                      )
+                    }
+                  >
+                    Anterior
+                  </button>
+
+                  {Array.from({ length: totalPaginasProductos }, (_, idx) => {
+                    const numPag = idx + 1;
+                    return (
+                      <button
+                        key={numPag}
+                        type="button"
+                        className={
+                          numPag === paginaProductosActual
+                            ? "btn-principal pagina-activa"
+                            : "btn-secundario"
+                        }
+                        onClick={() => setPaginaProductosActual(numPag)}
+                      >
+                        {numPag}
+                      </button>
+                    );
+                  })}
+
+                  <button
+                    type="button"
+                    className="btn-secundario"
+                    disabled={paginaProductosActual === totalPaginasProductos}
+                    onClick={() =>
+                      setPaginaProductosActual(
+                        Math.min(
+                          totalPaginasProductos,
+                          paginaProductosActual + 1
+                        )
+                      )
+                    }
+                  >
+                    Siguiente
+                  </button>
+                </div>
+              )}
             </section>
           )}
 
@@ -155,35 +264,110 @@ export default function Dashboard() {
               {pedidos.length === 0 ? (
                 <div className="panel-vacio">No hay pedidos registrados.</div>
               ) : (
-                <div className="pedidos-lista">
-                  {pedidos.map((pedido) => (
-                    <article className="pedido-card" key={pedido.id}>
-                      <h3>Pedido #{pedido.id}</h3>
-                      <p>Cliente: {pedido.cliente?.nombre || pedido.usuario}</p>
-                      <p>Correo: {pedido.cliente?.correo || "ÔÇö"}</p>
-                      <p>Tel├®fono: {pedido.cliente?.telefono || "ÔÇö"}</p>
-                      <p>Direcci├│n: {pedido.cliente?.direccion || "ÔÇö"}</p>
-                      <p>Total: CRC {pedido.total.toLocaleString("es-CR")}</p>
+                <>
+                  <div className="pedidos-lista">
+                    {pedidosPaginados.map((pedido) => (
+                      <article className="pedido-card" key={pedido.id}>
+                        <h3>Pedido #{pedido.id}</h3>
+                        <p>
+                          Cliente: {pedido.cliente?.nombre || pedido.usuario}
+                        </p>
+                        <p>Correo: {pedido.cliente?.correo || "—"}</p>
+                        <p>Teléfono: {pedido.cliente?.telefono || "—"}</p>
+                        <p>Dirección: {pedido.cliente?.direccion || "—"}</p>
+                        <p>
+                          Total: CRC {pedido.total.toLocaleString("es-CR")}
+                        </p>
 
-                      <div className="pedido-acciones">
-                        <button className="btn-secundario" onClick={() => setFacturaSeleccionada(pedido)}>
-                          Ver factura proforma
-                        </button>
+                        <div className="pedido-acciones">
+                          <button
+                            className="btn-secundario"
+                            onClick={() => setFacturaSeleccionada(pedido)}
+                          >
+                            Ver factura proforma
+                          </button>
 
-                        <select
-                          value={pedido.estado}
-                          onChange={(e) => actualizarEstadoPedido(pedido.id, e.target.value)}
-                        >
-                          <option value="pendiente">Pendiente</option>
-                          <option value="confirmado">Confirmado</option>
-                          <option value="en preparacion">En preparaci├│n</option>
-                          <option value="entregado">Entregado</option>
-                          <option value="cancelado">Cancelado</option>
-                        </select>
-                      </div>
-                    </article>
-                  ))}
-                </div>
+                          <select
+                            value={pedido.estado}
+                            onChange={(event) =>
+                              actualizarEstadoPedido(
+                                pedido.id,
+                                event.target.value
+                              )
+                            }
+                          >
+                            <option value="pendiente">Pendiente</option>
+                            <option value="confirmado">Confirmado</option>
+                            <option value="en preparacion">
+                              En preparación
+                            </option>
+                            <option value="entregado">Entregado</option>
+                            <option value="cancelado">Cancelado</option>
+                          </select>
+                        </div>
+                      </article>
+                    ))}
+                  </div>
+
+                  {totalPaginasPedidos > 1 && (
+                    <div
+                      className="paginacion-inventario"
+                      style={{
+                        display: "flex",
+                        gap: "8px",
+                        marginTop: "20px",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <button
+                        type="button"
+                        className="btn-secundario"
+                        disabled={paginaPedidosActual === 1}
+                        onClick={() =>
+                          setPaginaPedidosActual(
+                            Math.max(1, paginaPedidosActual - 1)
+                          )
+                        }
+                      >
+                        Anterior
+                      </button>
+
+                      {Array.from({ length: totalPaginasPedidos }, (_, idx) => {
+                        const numPag = idx + 1;
+                        return (
+                          <button
+                            key={numPag}
+                            type="button"
+                            className={
+                              numPag === paginaPedidosActual
+                                ? "btn-principal pagina-activa"
+                                : "btn-secundario"
+                            }
+                            onClick={() => setPaginaPedidosActual(numPag)}
+                          >
+                            {numPag}
+                          </button>
+                        );
+                      })}
+
+                      <button
+                        type="button"
+                        className="btn-secundario"
+                        disabled={paginaPedidosActual === totalPaginasPedidos}
+                        onClick={() =>
+                          setPaginaPedidosActual(
+                            Math.min(
+                              totalPaginasPedidos,
+                              paginaPedidosActual + 1
+                            )
+                          )
+                        }
+                      >
+                        Siguiente
+                      </button>
+                    </div>
+                  )}
+                </>
               )}
             </section>
           )}
@@ -192,19 +376,24 @@ export default function Dashboard() {
             <section>
               <h2>Usuarios registrados</h2>
               <div className="usuarios-lista">
-                {usuarios.map((usuario) => (
+                {clientesPaginados.map((usuario) => (
                   <article className="usuario-card" key={usuario.id}>
                     <div className="usuario-info">
                       <h3>{usuario.nombre}</h3>
-                      <p>@{usuario.usuario} ┬À {usuario.correo}</p>
-                      <p>Tel├®fono: {usuario.telefono}</p>
+                      <p>
+                        @{usuario.usuario} · {usuario.correo}
+                      </p>
+                      <p>Teléfono: {usuario.telefono}</p>
                     </div>
 
                     <div className="usuario-acciones">
                       <select
                         value={usuario.rol}
-                        onChange={(e) =>
-                          actualizarUsuario(usuario.id, { ...usuario, rol: e.target.value })
+                        onChange={(event) =>
+                          actualizarUsuario(usuario.id, {
+                            ...usuario,
+                            rol: event.target.value,
+                          })
                         }
                       >
                         <option value="cliente">Cliente</option>
@@ -214,7 +403,9 @@ export default function Dashboard() {
                       <button
                         className="btn-peligro"
                         onClick={() => {
-                          if (window.confirm(`┬┐Eliminar a ${usuario.usuario}?`)) {
+                          if (
+                            window.confirm(`¿Eliminar a ${usuario.usuario}?`)
+                          ) {
                             eliminarUsuario(usuario.id);
                           }
                         }}
@@ -225,29 +416,77 @@ export default function Dashboard() {
                   </article>
                 ))}
               </div>
+
+              {totalPaginasClientes > 1 && (
+                <div
+                  className="paginacion-inventario"
+                  style={{
+                    display: "flex",
+                    gap: "8px",
+                    marginTop: "20px",
+                    justifyContent: "center",
+                  }}
+                >
+                  <button
+                    type="button"
+                    className="btn-secundario"
+                    disabled={paginaClientesActual === 1}
+                    onClick={() =>
+                      setPaginaClientesActual(
+                        Math.max(1, paginaClientesActual - 1)
+                      )
+                    }
+                  >
+                    Anterior
+                  </button>
+
+                  {Array.from({ length: totalPaginasClientes }, (_, idx) => {
+                    const numPag = idx + 1;
+                    return (
+                      <button
+                        key={numPag}
+                        type="button"
+                        className={
+                          numPag === paginaClientesActual
+                            ? "btn-principal pagina-activa"
+                            : "btn-secundario"
+                        }
+                        onClick={() => setPaginaClientesActual(numPag)}
+                      >
+                        {numPag}
+                      </button>
+                    );
+                  })}
+
+                  <button
+                    type="button"
+                    className="btn-secundario"
+                    disabled={paginaClientesActual === totalPaginasClientes}
+                    onClick={() =>
+                      setPaginaClientesActual(
+                        Math.min(
+                          totalPaginasClientes,
+                          paginaClientesActual + 1
+                        )
+                      )
+                    }
+                  >
+                    Siguiente
+                  </button>
+                </div>
+              )}
             </section>
           )}
 
           {seccion === "ingresos" && (
             <section>
-              <h2>Ingresos y Anal├¡tica Visual</h2>
-              <div className="panel-grafico-contenedor">
-                <h3>Distribuci├│n del Inventario por Categor├¡a</h3>
-                {/* Gr├ífico de barras interactivo generado mediante SVG */}
-                <div className="grafico-barras">
-                  {Object.entries(ventasPorCategoria).map(([cat, cant]) => (
-                    <div key={cat} className="columna-grafico">
-                      <div
-                        className="barra"
-                        style={{ height: `${cant * 40}px` }}
-                        title={`${cant} productos`}
-                      >
-                        <span>{cant}</span>
-                      </div>
-                      <span className="etiqueta-columna">{cat}</span>
-                    </div>
-                  ))}
-                </div>
+              <h2>Ingresos</h2>
+              <div className="panel-vacio">
+                <h3>Resumen de ventas</h3>
+                <p>
+                  Total registrado: CRC {ingresosTotales.toLocaleString("es-CR")}
+                </p>
+                <p>Pedidos procesados: {pedidos.length}</p>
               </div>
             </section>
           )}
