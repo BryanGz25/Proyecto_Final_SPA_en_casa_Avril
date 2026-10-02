@@ -16,6 +16,7 @@ export default function Carrito() {
     crearPedido,
     usuarioActivo,
     navigate,
+    mostrarNotificacion,
   } = useAppContext();
 
   const [formulario, setFormulario] = useState({
@@ -33,7 +34,6 @@ export default function Carrito() {
   );
 
   const [error, setError] = useState("");
-  const [mensajeFactura, setMensajeFactura] = useState("");
   const [enviando, setEnviando] = useState(false);
 
   const formato = (valor) =>
@@ -124,10 +124,21 @@ export default function Carrito() {
     }
 
     setError("");
-    setMensajeFactura("");
     setEnviando(true);
 
-    const pedido = await crearPedido(formulario);
+    let pedido;
+
+    try {
+      pedido = await crearPedido(formulario);
+    } catch (pedidoError) {
+      setEnviando(false);
+      setError(
+        pedidoError.status === 401
+          ? "Tu sesión expiró. Inicia sesión de nuevo para confirmar el pedido."
+            : `No se pudo crear el pedido. ${pedidoError.message || "Inténtalo de nuevo."}`
+      );
+      return;
+    }
 
     if (!pedido) {
       setEnviando(false);
@@ -135,7 +146,14 @@ export default function Carrito() {
       return;
     }
 
-    let aviso = `Pedido creado correctamente. Factura proforma ${pedido.factura?.numero}.`;
+    const numeroFactura = pedido.factura?.numero;
+    let aviso = numeroFactura
+      ? `Pedido ${numeroFactura} confirmado.`
+      : "Pedido confirmado.";
+
+    setEnviando(false);
+    mostrarNotificacion(`${aviso} La factura se está enviando por correo.`);
+    navigate("/usuario");
 
     try {
       const resultado = await enviarFacturaPorCorreo(
@@ -143,18 +161,12 @@ export default function Carrito() {
         CORREO_FACTURA
       );
 
-      aviso = `Pedido creado correctamente. La factura proforma fue enviada a ${resultado.destinatario}.`;
-      setMensajeFactura(
-        `La factura proforma fue enviada a ${resultado.destinatario}.`
-      );
+      aviso += ` La factura fue enviada a ${resultado.destinatario}.`;
     } catch (correoError) {
-      aviso = `${aviso}\nAviso del correo: ${correoError.message}`;
-      setMensajeFactura(correoError.message);
-    } finally {
-      setEnviando(false);
-      alert(aviso);
-      navigate("/usuario");
+      aviso += ` El pedido quedó guardado, pero no se pudo enviar la factura por correo: ${correoError.message}`;
     }
+
+    mostrarNotificacion(aviso);
   };
 
   return (
@@ -343,12 +355,6 @@ export default function Carrito() {
                     <p className="mensaje-exito">
                       Generando factura proforma y enviándola por
                       correo…
-                    </p>
-                  )}
-
-                  {mensajeFactura && (
-                    <p className="mensaje-exito">
-                      {mensajeFactura}
                     </p>
                   )}
 

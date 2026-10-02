@@ -190,10 +190,10 @@ servidor.post("/auth/register", async (solicitud, respuesta) => {
     rol: "cliente",
     token: null,
   };
-  const usuariosActualizados = usuarios.insert(nuevo).write();
-  const usuarioCreado = usuariosActualizados.find(
+  usuarios.insert(nuevo).write();
+  const usuarioCreado = usuarios.find(
     (registro) => registro.usuario === nombreUsuario
-  );
+  ).value();
   if (!usuarioCreado) return responderError(respuesta, 500, "No se pudo crear la cuenta.");
 
   const publicUser = crearSesion(respuesta, usuarioCreado);
@@ -352,6 +352,13 @@ servidor.use((solicitud, respuesta, siguiente) => {
 
       const total = lineas.reduce((suma, producto) => suma + Number(producto.precio) * producto.cantidad, 0);
       const datosCliente = solicitud.body?.cliente || {};
+      const lat = Number(datosCliente.coordenadas?.lat);
+      const lng = Number(datosCliente.coordenadas?.lng);
+      const coordenadas = datosCliente.coordenadas
+        && Number.isFinite(lat) && Number.isFinite(lng)
+        && Math.abs(lat) <= 90 && Math.abs(lng) <= 180
+        ? { lat, lng }
+        : null;
       const pedido = {
         id: Date.now(),
         usuario: sesion.usuario.usuario,
@@ -361,7 +368,7 @@ servidor.use((solicitud, respuesta, siguiente) => {
           telefono: String(datosCliente.telefono || sesion.usuario.telefono || "").replace(/\D/g, "").slice(0, 30),
           direccion: String(datosCliente.direccion || "").trim().slice(0, 300),
           identificacion: String(datosCliente.identificacion || "").trim().slice(0, 40),
-          coordenadas: null,
+          coordenadas,
         },
         productos: lineas,
         total,

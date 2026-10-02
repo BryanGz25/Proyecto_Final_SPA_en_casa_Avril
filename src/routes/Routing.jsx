@@ -12,6 +12,7 @@ import PrivateRoutes from "./PrivateRoutes"; // 👈 Importación correcta desde
 import WhatsAppFlotante from "../components/WhatsAppFlotante";
 import AsistenteIA from "../components/AsistenteIA";
 import NotificacionBienvenida from "../components/NotificacionBienvenida";
+import NotificacionCompra from "../components/NotificacionCompra";
 import { apiPedidos, apiProductos, apiSesion, apiUsuarios } from "../services/api";
 import { construirFactura } from "../utils/factura";
 import {
@@ -39,6 +40,7 @@ export default function Routing() {
   const [usuarioActivo, setUsuarioActivo] = useState(null);
   const [cargandoInicial, setCargandoInicial] = useState(true);
   const [bienvenidaNombre, setBienvenidaNombre] = useState(null);
+  const [notificacionCompra, setNotificacionCompra] = useState(null);
 
   // Accesibilidad y Modo Oscuro
   const [modoOscuro, setModoOscuro] = useState(() => {
@@ -299,6 +301,7 @@ export default function Routing() {
     eliminarProducto,
     actualizarEstadoPedido,
     crearPedido,
+    mostrarNotificacion: setNotificacionCompra,
     modoOscuro,
     toggleModoOscuro,
     tamanoTexto,
@@ -316,7 +319,12 @@ export default function Routing() {
   let pagina = <Home />;
   if (rutaActual === "/catalogo") pagina = <Catalogo />;
   else if (rutaActual.startsWith("/producto/")) pagina = <DetalleProducto />;
-  else if (rutaActual === "/carrito") pagina = <Carrito />;
+  else if (rutaActual === "/carrito")
+    pagina = (
+      <PrivateRoutes>
+        <Carrito />
+      </PrivateRoutes>
+    );
   else if (rutaActual === "/login") pagina = <Login />;
   else if (rutaActual === "/usuario")
     pagina = (
@@ -340,6 +348,12 @@ export default function Routing() {
         <NotificacionBienvenida
           nombre={bienvenidaNombre}
           onCerrar={() => setBienvenidaNombre(null)}
+        />
+      )}
+      {notificacionCompra && (
+        <NotificacionCompra
+          mensaje={notificacionCompra}
+          onCerrar={() => setNotificacionCompra(null)}
         />
       )}
     </NavegacionContexto.Provider>
